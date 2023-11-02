@@ -9,7 +9,9 @@ $routes->get('/', 'Home::index');
 $routes->get('/getData','MainController::getData');
 $routes->post('/save','MainController::save');
 $routes->post('/del','MainController::del');
-$routes->post('update/(:num)', 'UpdateRecord::update/$1');
+$routes->post('update/(:num)', 'MainController::update/$1');
+$routes->get('/login', 'MainController::login');
+
 
 
 

@@ -1,4 +1,6 @@
 <template>
+    <navbar/>
+
     <div class="table-container">
       <insert @data-saved="getInfo" /> 
       <table class="styled-table">
@@ -24,12 +26,14 @@
   </template>
   
   <script>
+    import navbar from '@/components/navbar.vue';
   import insert from '@/components/insert.vue';
   import axios from 'axios';
   
   export default {
     components: {
       insert,
+      navbar
     },
     data() {
   return {

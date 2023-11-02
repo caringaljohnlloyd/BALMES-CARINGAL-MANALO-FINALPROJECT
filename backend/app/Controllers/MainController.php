@@ -6,6 +6,8 @@ use App\Controllers\BaseController;
 use CodeIgniter\RestFul\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\MainModel;
+use App\Models\UserModel;
+
 class MainController extends ResourceController
 {
     public function index()
@@ -20,6 +22,27 @@ class MainController extends ResourceController
 
         return $this->response->setJSON(['message' => 'Record updated successfully']);
     }*/
+    public function login()
+    {
+        $request = service('request');
+        $response = service('response');
+        $userModel = new UserModel();
+
+        $username = $request->getVar('username');
+        $password = $request->getVar('password');
+
+        $user = $userModel->getUserByUsername($username);
+
+        if ($user && password_verify($password, $user['password'])) {
+            $data = [
+                'username' => $user['username'],
+                'password' => 'password',
+            ];
+            return $response->setJSON($data);
+        } else {
+            return $response->setJSON(['error' => 'Authentication failed'])->setStatusCode(401);
+        }
+    }
     public function del(){
         $json = $this->request->getJSON();
         $id= $json->id;
