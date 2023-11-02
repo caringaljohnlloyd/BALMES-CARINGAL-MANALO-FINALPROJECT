@@ -1,5 +1,5 @@
 <template>
   <div class="about">
-    <h1>Ganda mo po</h1>
+    <h1>aboutpage</h1>
   </div>
 </template>
