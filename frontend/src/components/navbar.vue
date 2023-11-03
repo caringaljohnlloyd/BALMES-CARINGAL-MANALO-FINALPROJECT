@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
-                        <a href="/table" class="navbar-brand d-block d-lg-none">
+                        <a href="/insert" class="navbar-brand d-block d-lg-none">
                             <h1 class="m-0 text-primary text-uppercase">Hotelier</h1>
                         </a>
                         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -38,10 +38,10 @@
                         </button>
                         <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                             <div class="navbar-nav mr-auto py-0">
-                              <a href="/table" class="nav-item nav-link active">Home</a>
+                              <a href="/insert" class="nav-item nav-link active">Home</a>
                               <a href="/about" class="nav-item nav-link">About</a>
                               <a href="/service" class="nav-item nav-link">Services</a>
-                              <a href="/room" class="nav-item nav-link">Rooms</a>
+                              <a href="/table" class="nav-item nav-link">Rooms</a>
                               <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="#dropdownMenu">Pages</a>
                                   <div class="dropdown-menu rounded-0 m-0" id="dropdownMenu">

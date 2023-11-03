@@ -1,28 +1,9 @@
 <template>
     <navbar/>
 
-    <div class="table-container">
+
       <insert @data-saved="getInfo" /> 
-      <table class="styled-table">
-        <tr>
-          <th>Artist</th>
-          <th>Title</th>
-          <th>Release Date</th>
-          <th>Genre</th>
-          <th>Action</th>
-        </tr>
-        <tr v-for="info in info">
-          <td>{{ info.artist }}</td>
-          <td>{{ info.title }}</td>
-          <td>{{ info.release_date }}</td>
-          <td>{{ info.genre }}</td>
-            <td>
-                <button @click="deleteRec(info.id)">Delete</button>
-                <button @click="showUpdateForm(info)">Update</button>
-            </td>
-        </tr>
-      </table>
-    </div>
+      
   </template>
   
   <script>
@@ -44,15 +25,7 @@
       this.getInfo();
     },
     methods: {
-      async deleteRec(recId) {
-        const confirm = window.confirm("Do you want to DELETE this item?");
-        if (confirm) {
-          await axios.post("del", {
-            id: recId,
-          });
-          this.getInfo();
-        }
-      },
+      
       async getInfo() {
         try {
           const inf = await axios.get('getData');

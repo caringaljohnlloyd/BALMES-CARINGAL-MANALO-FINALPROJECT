@@ -14,7 +14,7 @@ const routes = [
     component: LoginForm
   },
   {
-    path: '/table',
+    path: '/insert',
     component: IndexPage
   },
   {
@@ -28,7 +28,7 @@ const routes = [
 
   },
   {
-  path: '/room',
+  path: '/table',
   component: Room,
 
 }
