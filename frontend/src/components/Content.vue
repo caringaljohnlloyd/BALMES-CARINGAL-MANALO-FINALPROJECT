@@ -4,7 +4,7 @@
         <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="w-100" src="img/carousel-1.jpg" alt="Image">
+                    <img :src="require('../assets/img/carousel-1.jpg')" class="w-100" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 700px;">
                             <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">Luxury Living</h6>
@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img class="w-100" src="img/carousel-2.jpg" alt="Image">
+                    <img :src="require('../assets/img/carousel-1.jpg')" class="w-100" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 700px;">
                             <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">Luxury Living</h6>
@@ -129,16 +129,16 @@
                 <div class="col-lg-6">
                     <div class="row g-3">
                         <div class="col-6 text-end">
-                            <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.1s" src="img/about-1.jpg" style="margin-top: 25%;">
+                            <img :src="require('../assets/img/about-1.jpg')" alt="" class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.1s" style="margin-top: 25%;"> 
                         </div>
                         <div class="col-6 text-start">
-                            <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.3s" src="img/about-2.jpg">
+                            <img :src="require('../assets/img/about-2.jpg')" alt="" class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.3s">
                         </div>
                         <div class="col-6 text-end">
-                            <img class="img-fluid rounded w-50 wow zoomIn" data-wow-delay="0.5s" src="img/about-3.jpg">
+                            <img :src="require('../assets/img/about-3.jpg')" alt="" class="img-fluid rounded w-50 wow zoomIn" data-wow-delay="0.5s">
                         </div>
                         <div class="col-6 text-start">
-                            <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.7s" src="img/about-4.jpg">
+                            <img :src="require('../assets/img/about-4.jpg')" alt="" class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.7s">
                         </div>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="room-item shadow rounded overflow-hidden">
                         <div class="position-relative">
-                            <img class="img-fluid" src="img/room-1.jpg" alt="">
+                            <img :src="require('../assets/img/room-1.jpg')" class="img-fluid" alt="">
                             <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">$100/Night</small>
                         </div>
                         <div class="p-4 mt-2">
@@ -189,7 +189,7 @@
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                     <div class="room-item shadow rounded overflow-hidden">
                         <div class="position-relative">
-                            <img class="img-fluid" src="img/room-2.jpg" alt="">
+                            <img :src="require('../assets/img/room-2.jpg')" class="img-fluid" alt="">
                             <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">$100/Night</small>
                         </div>
                         <div class="p-4 mt-2">
@@ -219,7 +219,7 @@
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
                     <div class="room-item shadow rounded overflow-hidden">
                         <div class="position-relative">
-                            <img class="img-fluid" src="img/room-3.jpg" alt="">
+                            <img :src="require('../assets/img/room-3.jpg')" class="img-fluid" alt="">
                             <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">$100/Night</small>
                         </div>
                         <div class="p-4 mt-2">
@@ -381,7 +381,7 @@
                 <div class="testimonial-item position-relative bg-white rounded overflow-hidden">
                     <p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd kasd et erat magna eos</p>
                     <div class="d-flex align-items-center">
-                        <img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-1.jpg" style="width: 45px; height: 45px;">
+                        <img :src="require('../assets/img/testimonial-1.jpg')" class="img-fluid flex-shrink-0 rounded"  style="width: 45px; height: 45px;">
                         <div class="ps-3">
                             <h6 class="fw-bold mb-1">Client Name</h6>
                             <small>Profession</small>
@@ -392,7 +392,7 @@
                 <div class="testimonial-item position-relative bg-white rounded overflow-hidden">
                     <p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd kasd et erat magna eos</p>
                     <div class="d-flex align-items-center">
-                        <img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-2.jpg" style="width: 45px; height: 45px;">
+                        <img :src="require('../assets/img/testimonial-2.jpg')" class="img-fluid flex-shrink-0 rounded"  style="width: 45px; height: 45px;">
                         <div class="ps-3">
                             <h6 class="fw-bold mb-1">Client Name</h6>
                             <small>Profession</small>
@@ -403,7 +403,7 @@
                 <div class="testimonial-item position-relative bg-white rounded overflow-hidden">
                     <p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd kasd et erat magna eos</p>
                     <div class="d-flex align-items-center">
-                        <img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-3.jpg" style="width: 45px; height: 45px;">
+                        <img :src="require('../assets/img/testimonial-3.jpg')" class="img-fluid flex-shrink-0 rounded"  style="width: 45px; height: 45px;">
                         <div class="ps-3">
                             <h6 class="fw-bold mb-1">Client Name</h6>
                             <small>Profession</small>
@@ -417,81 +417,96 @@
     <!-- Testimonial End -->
 
 
-    <!-- Team Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="section-title text-center text-primary text-uppercase">Our Team</h6>
-                <h1 class="mb-5">Explore Our <span class="text-primary text-uppercase">Staffs</span></h1>
-            </div>
-            <div class="row g-4">
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="rounded shadow overflow-hidden">
-                        <div class="position-relative">
-                            <img class="img-fluid" src="img/team-1.jpg" alt="">
-                            <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+     <!-- Team Start -->
+     <div class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title text-center text-primary text-uppercase">Our Team</h6>
+                    <h1 class="mb-5">Explore Our <span class="text-primary text-uppercase">Staffs</span></h1>
+                </div>
+                <div class="row g-4">
+                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="rounded shadow overflow-hidden">
+                            <div class="position-relative">
+                                <img :src="require('../assets/img/team-1.jpg')" class="img-fluid" alt="">
+                                <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
+                                    <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="text-center p-4 mt-3">
-                            <h5 class="fw-bold mb-0">Full Name</h5>
-                            <small>Designation</small>
+                            <div class="text-center p-4 mt-3">
+                                <h5 class="fw-bold mb-0">Full Name</h5>
+                                <small>Designation</small>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="rounded shadow overflow-hidden">
-                        <div class="position-relative">
-                            <img class="img-fluid" src="img/team-2.jpg" alt="">
-                            <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="rounded shadow overflow-hidden">
+                            <div class="position-relative">
+                              <img :src="require('../assets/img/team-2.jpg')" class="img-fluid" alt="">
+                                <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
+                                    <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="text-center p-4 mt-3">
-                            <h5 class="fw-bold mb-0">Full Name</h5>
-                            <small>Designation</small>
+                            <div class="text-center p-4 mt-3">
+                                <h5 class="fw-bold mb-0">Full Name</h5>
+                                <small>Designation</small>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="rounded shadow overflow-hidden">
-                        <div class="position-relative">
-                            <img class="img-fluid" src="img/team-3.jpg" alt="">
-                            <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                        <div class="rounded shadow overflow-hidden">
+                            <div class="position-relative">
+                              <img :src="require('../assets/img/team-3.jpg')" class="img-fluid" alt="">
+                                <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
+                                    <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="text-center p-4 mt-3">
-                            <h5 class="fw-bold mb-0">Full Name</h5>
-                            <small>Designation</small>
+                            <div class="text-center p-4 mt-3">
+                                <h5 class="fw-bold mb-0">Full Name</h5>
+                                <small>Designation</small>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
-                    <div class="rounded shadow overflow-hidden">
-                        <div class="position-relative">
-                            <img class="img-fluid" src="img/team-4.jpg" alt="">
-                            <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
+                        <div class="rounded shadow overflow-hidden">
+                            <div class="position-relative">
+                              <img :src="require('../assets/img/team-4.jpg')" class="img-fluid" alt="">
+                                <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
+                                    <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="text-center p-4 mt-3">
-                            <h5 class="fw-bold mb-0">Full Name</h5>
-                            <small>Designation</small>
+                            <div class="text-center p-4 mt-3">
+                                <h5 class="fw-bold mb-0">Full Name</h5>
+                                <small>Designation</small>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="container newsletter mt-5 wow fadeIn" data-wow-delay="0.1s">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 border rounded p-1">
+                    <div class="border rounded text-center p-1">
+                        <div class="bg-white rounded text-center p-5">
+                            <h4 class="mb-4">Subscribe Our <span class="text-primary text-uppercase">Newsletter</span></h4>
+                            <div class="position-relative mx-auto" style="max-width: 400px;">
+                                <input class="form-control w-100 py-3 ps-4 pe-5" type="text" placeholder="Enter your email">
+                                <button type="button" class="btn btn-primary py-2 px-3 position-absolute top-0 end-0 mt-2 me-2">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     <!-- Team End -->
   </template> 
 <style>

@@ -1,10 +1,11 @@
 <template>
+      <Top/>
 <!-- Header Start -->
 <div class="container-fluid bg-dark px-0">
             <div class="row gx-0">
                 <div class="col-lg-3 bg-dark d-none d-lg-block">
-                    <a href="index.html" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
-                        <h1 class="m-0 text-primary text-uppercase">Hotelier</h1>
+                    <a href="/user" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
+                        <h1 class="m-0 text-primary text-uppercase">Eduardo's</h1>
                     </a>
                 </div>
                 <div class="col-lg-9">
@@ -73,12 +74,11 @@
 
   </style>
 <script>
+import Top from '@/components/Top.vue';
   import{FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
   export default{
     components:{
-        FontAwesomeIcon
+        Top, FontAwesomeIcon
     }
   }
 </script>
- 
- 
