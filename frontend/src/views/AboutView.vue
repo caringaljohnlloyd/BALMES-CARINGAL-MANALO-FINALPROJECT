@@ -15,7 +15,9 @@
         </div>
       </div>
     </div>
-  </div>
+  </div><br>
+  <br>
+  
           <!-- Booking Start -->
           <div class="container-fluid booking pb-5 wow fadeIn" data-wow-delay="0.1s">
             <div class="container">
@@ -70,7 +72,7 @@
   background-repeat: no-repeat; 
   background-position: center center; 
   width: 100%; 
-  height: 300px; 
+  height: 338px; 
 }
 </style>
 
