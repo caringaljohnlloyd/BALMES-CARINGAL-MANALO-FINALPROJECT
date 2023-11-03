@@ -25,7 +25,6 @@
   
   <script>
     import navbar from '@/components/navbar.vue';
-    import insert from '@/components/insert.vue';
   import axios from 'axios';
   
   export default {

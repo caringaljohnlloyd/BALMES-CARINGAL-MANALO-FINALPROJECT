@@ -20,13 +20,14 @@
                             </div>
                         </div>
                         <div class="col-lg-5 px-5 text-end">
-                            <div class="d-inline-flex align-items-center py-2">
-                                <a class="me-3" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="me-3" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="me-3" href=""><i class="fab fa-linkedin-in"></i></a>
-                                <a class="me-3" href=""><i class="fab fa-instagram"></i></a>
-                                <a class="" href=""><i class="fab fa-youtube"></i></a>
+                            <button type="button" class="btn btn-link btn-floating mx-1" >
+                                <div class="icon-group">
+                                <font-awesome-icon :icon ="['fab','google']"/>
+                                <font-awesome-icon :icon ="['fab','facebook']"/>
+                                <font-awesome-icon :icon ="['fab','twitter']"/>
+        
                             </div>
+                            </button>
                         </div>
                     </div>
                     <nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
@@ -62,14 +63,21 @@
   </template>
   
   <style>
-
  @import '@/assets/css/bootstrap.min.css';
-
-   @import '@/assets/css/style.css';
-   
-   
-
+ @import '@/assets/css/style.css';
+ .icon-group {
+  display: flex;
+  gap: 10px; /* Adjust the gap value to control the space between icons */
+}
 
   </style>
+<script>
+  import{FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+  export default{
+    components:{
+        FontAwesomeIcon
+    }
+  }
+</script>
  
  
