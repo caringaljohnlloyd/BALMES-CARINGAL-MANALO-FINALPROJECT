@@ -3,6 +3,7 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import axios from 'axios'
+import 'bootstrap'
 
 axios.defaults.baseURL="http://localhost:8080/"
 
