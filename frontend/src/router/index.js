@@ -12,7 +12,7 @@ import Include from '../views/Include.vue'
 const routes = [
   {
     path: '/',
-    component: LoginForm
+    component: Include
   },
   {
     path: '/insert',

@@ -5,6 +5,9 @@
   <Content/>
   <End/>
 </template>
+<style>
+ @import '@/assets/css/bootstrap.min.css';
+ @import '@/assets/css/style.css';</style>
 
 <script>
     import Top from '@/components/Top.vue';
