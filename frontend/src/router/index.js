@@ -4,6 +4,7 @@ import AboutView from '../views/AboutView.vue'
 import HomeView from '../views/HomeView.vue'
 import LoginForm from '../views/LoginForm.vue'
 import Room from '../views/Room.vue'
+import Include from '../views/Include.vue'
 
 
 
@@ -31,7 +32,12 @@ const routes = [
   path: '/table',
   component: Room,
 
-}
+},
+{
+  path: '/user',
+  component: Include,
+
+},
 ]
 
 const router = createRouter({
