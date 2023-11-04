@@ -1,5 +1,7 @@
 <template>
       <Top/>
+      <div class="container-xxl bg-white p-0">
+
 <!-- Header Start -->
 <div class="container-fluid bg-dark px-0">
             <div class="row gx-0">
@@ -43,7 +45,7 @@
                               <a href="/user" class="nav-item nav-link active">Home</a>
                               <a href="/about" class="nav-item nav-link">About</a>
                               <a href="/service" class="nav-item nav-link">Services</a>
-                              <a href="/table" class="nav-item nav-link">Rooms</a>
+                              <a href="/room" class="nav-item nav-link">Rooms</a>
                               <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="#dropdownMenu">Pages</a>
                                   <div class="dropdown-menu rounded-0 m-0" id="dropdownMenu">
@@ -60,6 +62,8 @@
             </div>
         </div>
         <!-- Header End -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
     <router-view/>
   </template>
   

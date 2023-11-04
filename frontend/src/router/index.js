@@ -6,6 +6,8 @@ import LoginForm from '../views/LoginForm.vue'
 import Room from '../views/Room.vue'
 import Include from '../views/Include.vue'
 import ContactView from '../views/ContactView.vue'
+import Service from '../views/Service.vue'
+import Table from '../views/Table.vue'
 
 
 
@@ -26,11 +28,11 @@ const routes = [
   },
   {
     path: '/service',
-    component: HomeView
+    component: Service
 
   },
   {
-  path: '/table',
+  path: '/room',
   component: Room,
 
 },
@@ -42,6 +44,11 @@ const routes = [
 {
   path: '/contact',
   component: ContactView,
+
+},
+{
+  path: '/table',
+  component: Table,
 
 },
 ]

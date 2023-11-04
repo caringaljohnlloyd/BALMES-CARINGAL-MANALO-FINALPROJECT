@@ -80,4 +80,127 @@
 
 
  </style>
+  
+
+
+<script>
+export default {
+  mounted() {
+
+    const jQueryScript = document.createElement('script');
+    jQueryScript.src = 'https://code.jquery.com/jquery-3.4.1.min.js';
+    jQueryScript.onload = () => {
+
+      this.loadWaypointsScript();
+    };
+    document.head.appendChild(jQueryScript);
+  },
+  methods: {
+    loadEasingScript() {
+
+      const easingScript = document.createElement('script');
+      easingScript.src = 'lib/easing/easing.min.js';
+      easingScript.onload = () => {
+
+        this.loadWaypointsScript();
+      };
+      document.head.appendChild(easingScript);
+    },
+    loadMomentScript() {
+
+      const momentScript = document.createElement('script');
+      momentScript.src = 'lib/tempusdominus/js/moment.min.js';
+      momentScript.onload = () => {
+
+        this.loadMomentTimezoneScript();
+      };
+      document.head.appendChild(momentScript);
+    },
+    loadMomentTimezoneScript() {
+
+      const momentTimezoneScript = document.createElement('script');
+      momentTimezoneScript.src = 'lib/tempusdominus/js/moment-timezone.min.js';
+      momentTimezoneScript.onload = () => {
+
+        this.loadTempusDominusScript();
+      };
+      document.head.appendChild(momentTimezoneScript);
+    },
+    loadTempusDominusScript() {
+
+      const tempusDominusScript = document.createElement('script');
+      tempusDominusScript.src = 'lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js';
+      tempusDominusScript.onload = () => {
+
+        this.loadWaypointsScript();
+      };
+      document.head.appendChild(tempusDominusScript);
+    },
+    loadMainScript() {
+
+      const mainScript = document.createElement('script');
+      mainScript.src = 'js/main.js';
+      document.head.appendChild(mainScript);
+
+
+      this.loadWaypointsScript();
+    },
+    loadWaypointsScript() {
+
+      const waypointsScript = document.createElement('script');
+      waypointsScript.src = 'lib/waypoints/waypoints.min.js';
+      waypointsScript.onload = () => {
+
+        this.loadCounterUpScript();
+      };
+      document.head.appendChild(waypointsScript);
+    },
+    loadCounterUpScript() {
+ 
+      const counterUpScript = document.createElement('script');
+      counterUpScript.src = 'lib/counterup/counterup.min.js';
+      counterUpScript.onload = () => {
+  
+        $('.counter').counterUp({
+          delay: 10,
+          time: 1000
+        });
+      };
+      document.head.appendChild(counterUpScript);
+    
+  
+      const bootstrapScript = document.createElement('script');
+      bootstrapScript.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js';
+      document.head.appendChild(bootstrapScript);
+
+   
+      const wowScript = document.createElement('script');
+      wowScript.src = 'lib/wow/wow.min.js';
+      wowScript.onload = () => {
+
+        new WOW().init();
+      };
+      document.head.appendChild(wowScript);
+
+
+      const owlCarouselScript = document.createElement('script');
+      owlCarouselScript.src = 'lib/owlcarousel/owl.carousel.min.js';
+      owlCarouselScript.onload = () => {
+ 
+        this.initializeOwlCarousel();
+      };
+      document.head.appendChild(owlCarouselScript);
+    },
+    initializeOwlCarousel() {
+
+      $('.owl-carousel').owlCarousel({
+
+      });
+    }
+  }
+}
+</script>
+
+  
+  
 
