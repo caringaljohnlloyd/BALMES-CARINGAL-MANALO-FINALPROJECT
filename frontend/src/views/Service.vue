@@ -1,4 +1,5 @@
 <template>
+    <Top/>
  <navbar />
           <!-- Page Header Start -->
           <div class="service">
@@ -177,13 +178,14 @@
 </style>
 
 <script>
+ import Top from '@/components/Top.vue';
  import navbar from '@/components/navbar.vue';
 import End from '@/components/End.vue';
 
 export default {
   name: 'service',
   components: {
-    navbar,End
+    Top,navbar,End
   }
 }
 </script>

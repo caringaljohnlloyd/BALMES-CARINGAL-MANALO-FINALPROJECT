@@ -1,4 +1,5 @@
 <template>
+     <Top />
   <navbar />
   <div class="about">
     <div class="container-fluid page-header mb-5 p-0">
@@ -187,13 +188,14 @@
 </style>
 
 <script>
+import Top from '@/components/Top.vue';
 import navbar from '@/components/navbar.vue';
 import End from '@/components/End.vue';
 
 export default {
   name: 'about',
   components: {
-    navbar,End
+    Top,navbar,End
   }
 }
 </script>

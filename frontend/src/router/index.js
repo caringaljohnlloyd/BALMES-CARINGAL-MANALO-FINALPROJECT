@@ -8,6 +8,9 @@ import Include from '../views/Include.vue'
 import ContactView from '../views/ContactView.vue'
 import Service from '../views/Service.vue'
 import Table from '../views/Table.vue'
+import Booking from '../views/Booking.vue'
+import Team from '../views/Team.vue'
+import Testimonial from '../views/Testimonial.vue'
 
 
 
@@ -49,6 +52,21 @@ const routes = [
 {
   path: '/table',
   component: Table,
+
+},
+{
+  path: '/booking',
+  component: Booking,
+
+},
+{
+  path: '/team',
+  component: Team,
+
+},
+{
+  path: '/testimonial',
+  component: Testimonial,
 
 },
 ]
