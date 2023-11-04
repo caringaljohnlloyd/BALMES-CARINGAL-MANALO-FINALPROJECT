@@ -5,6 +5,7 @@ import HomeView from '../views/HomeView.vue'
 import LoginForm from '../views/LoginForm.vue'
 import Room from '../views/Room.vue'
 import Include from '../views/Include.vue'
+import ContactView from '../views/ContactView.vue'
 
 
 
@@ -12,7 +13,7 @@ import Include from '../views/Include.vue'
 const routes = [
   {
     path: '/',
-    component: Include
+    component: LoginForm
   },
   {
     path: '/insert',
@@ -36,6 +37,11 @@ const routes = [
 {
   path: '/user',
   component: Include,
+
+},
+{
+  path: '/contact',
+  component: ContactView,
 
 },
 ]

@@ -52,7 +52,7 @@
                                       <a href="testimonial.html" class="dropdown-item">Testimonial</a>
                                   </div>
                               </div>
-                                <a href="contact.html" class="nav-item nav-link">Contact</a>
+                                <a href="/contact" class="nav-item nav-link">Contact</a>
                             </div>
                         </div>
                     </nav>
@@ -66,6 +66,7 @@
   <style>
  @import '@/assets/css/bootstrap.min.css';
  @import '@/assets/css/style.css';
+
 
  .icon-group {
   display: flex;
