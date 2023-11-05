@@ -64,16 +64,16 @@
                 <div class="col-lg-6">
                     <div class="row g-3">
                         <div class="col-6 text-end">
-                            <img :src="require('../assets/img/about-1.jpg')" alt="" class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.1s" style="margin-top: 25%;"> 
+                            <img :src="require('../assets/img/pool3.jpg')" alt="" class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.1s" > 
                         </div>
                         <div class="col-6 text-start">
-                            <img :src="require('../assets/img/about-2.jpg')" alt="" class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.3s">
+                            <img :src="require('../assets/img/pool5.jpg')" alt="" class="img-fluid  w-100 wow zoomIn" data-wow-delay="0.3s">
                         </div>
                         <div class="col-6 text-end">
-                            <img :src="require('../assets/img/about-3.jpg')" alt="" class="img-fluid rounded w-50 wow zoomIn" data-wow-delay="0.5s">
+                            <img :src="require('../assets/img/band.jpg')" alt="" class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.5s">
                         </div>
                         <div class="col-6 text-start">
-                            <img :src="require('../assets/img/about-4.jpg')" alt="" class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.7s">
+                            <img :src="require('../assets/img/pool2.jpg')" alt="" class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.7s">
                         </div>
                     </div>
                 </div>
@@ -178,7 +178,7 @@
  @import '@/assets/css/bootstrap.min.css';
  @import '@/assets/css/style.css';
 .about {
-  background-image: url('~@/assets/img/carousel-1.jpg'); 
+  background-image: url('~@/assets/img/pool4.jpg'); 
   background-size: cover; 
   background-repeat: no-repeat; 
   background-position: center center; 

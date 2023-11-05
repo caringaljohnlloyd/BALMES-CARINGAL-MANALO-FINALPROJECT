@@ -9,7 +9,7 @@
                     <h1 class="display-3 text-white mb-3 animated slideInDown">Booking</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center text-uppercase">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li  class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item"><a href="#">Pages</a></li>
                             <li class="breadcrumb-item text-white active" aria-current="page">Booking</li>
                         </ol>
@@ -31,17 +31,17 @@
                     <div class="col-lg-6">
                         <div class="row g-3">
                             <div class="col-6 text-end">
-                                <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.1s" :src="require('../assets/img/about-1.jpg')" style="margin-top: 25%;">
-                            </div>
-                            <div class="col-6 text-start">
-                                <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.3s" :src="require('../assets/img/about-2.jpg')">
-                            </div>
-                            <div class="col-6 text-end">
-                                <img class="img-fluid rounded w-50 wow zoomIn" data-wow-delay="0.5s" :src="require('../assets/img/about-3.jpg')">
-                            </div>
-                            <div class="col-6 text-start">
-                                <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.7s" :src="require('../assets/img/about-4.jpg')">
-                            </div>
+                            <img :src="require('../assets/img/pool3.jpg')" alt="" class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.1s" > 
+                        </div>
+                        <div class="col-6 text-start">
+                            <img :src="require('../assets/img/pool5.jpg')" alt="" class="img-fluid  w-100 wow zoomIn" data-wow-delay="0.3s">
+                        </div>
+                        <div class="col-6 text-end">
+                            <img :src="require('../assets/img/band.jpg')" alt="" class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.5s">
+                        </div>
+                        <div class="col-6 text-start">
+                            <img :src="require('../assets/img/pool2.jpg')" alt="" class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.7s">
+                        </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -145,7 +145,7 @@
 @import '@/assets/css/bootstrap.min.css';
  @import '@/assets/css/style.css';
 .Booking {
-  background-image: url('~@/assets/img/carousel-1.jpg'); 
+  background-image: url('~@/assets/img/pool4.jpg'); 
   background-size: cover; 
   background-repeat: no-repeat; 
   background-position: center center; 

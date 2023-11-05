@@ -281,7 +281,7 @@
  @import '@/assets/css/bootstrap.min.css';
  @import '@/assets/css/style.css';
 .room {
-  background-image: url('~@/assets/img/carousel-1.jpg'); 
+  background-image: url('~@/assets/img/pool4.jpg'); 
   background-size: cover; 
   background-repeat: no-repeat; 
   background-position: center center; 
