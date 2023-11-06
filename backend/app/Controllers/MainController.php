@@ -17,14 +17,7 @@ class MainController extends ResourceController
     {
         //
     }
-    /*public function update($id)
-    {
-        // Your update logic here
-        $request = $this->request->getJSON(); // Assuming you are sending JSON data from Vue
-        // Perform the update based on the $id and $request data
-
-        return $this->response->setJSON(['message' => 'Record updated successfully']);
-    }*/
+   
     public function del(){
         $json = $this->request->getJSON();
         $id= $json->id;
