@@ -4,7 +4,6 @@ import './registerServiceWorker'
 import router from './router'
 import axios from 'axios'
 import 'bootstrap'
-//import '../public/js/main.js'
 import{library} from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {faFacebook, faGoogle,faTwitter} from '@fortawesome/free-brands-svg-icons';
