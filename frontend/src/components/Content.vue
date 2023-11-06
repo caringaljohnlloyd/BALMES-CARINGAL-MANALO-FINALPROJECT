@@ -4,24 +4,24 @@
         <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img :src="require('../assets/img/carousel-1.jpg')" class="w-100" alt="Image">
+                    <img :src="require('../assets/img/pool4.jpg')" class="w-100" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 700px;">
-                            <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">Luxury Living</h6>
-                            <h1 class="display-3 text-white mb-4 animated slideInDown">Discover A Brand Luxurious Hotel</h1>
-                            <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Our Rooms</a>
-                            <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Book A Room</a>
+                            <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">Your Escape to Paradise</h6>
+                            <h1 class="display-3 text-white mb-4 animated slideInDown">SAVING LIVES BUILDING COMPANIONS!</h1>
+                            <a href="/room" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Our Rooms</a>
+                            <a href="/booking" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Book A Room</a>
                         </div>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img :src="require('../assets/img/carousel-1.jpg')" class="w-100" alt="Image">
+                    <img :src="require('../assets/img/eagleview.jpg')" class="w-100" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 700px;">
-                            <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">Luxury Living</h6>
-                            <h1 class="display-3 text-white mb-4 animated slideInDown">Discover A Brand Luxurious Hotel</h1>
-                            <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Our Rooms</a>
-                            <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Book A Room</a>
+                            <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">Your Ultimate Getaway</h6>
+                            <h1 class="display-3 text-white mb-4 animated slideInDown">Enjoy, Relax & Have Fun in the Cool & Therapeutic Waters</h1>
+                            <a href="/room" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Our Rooms</a>
+                            <a href="/booking" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Book A Room</a>
                         </div>
                     </div>
                 </div>
@@ -93,8 +93,8 @@
             <div class="row g-5 align-items-center">
                 <div class="col-lg-6">
                     <h6 class="section-title text-start text-primary text-uppercase">About Us</h6>
-                    <h1 class="mb-4">Welcome to <span class="text-primary text-uppercase">Hotelier</span></h1>
-                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
+                    <h1 class="mb-4">Welcome to <span class="text-primary text-uppercase">Eduardo's</span></h1>
+                    <p class="mb-4">Eduardo's Resort promotes tourism in the province, provides employment to local residents, helps the farmers maximize product of agricultural crops and supports swimmers and athletes. </p>
                     <div class="row g-3 pb-4">
                         <div class="col-sm-4 wow fadeIn" data-wow-delay="0.1s">
                             <div class="border rounded p-1">
@@ -129,16 +129,16 @@
                 <div class="col-lg-6">
                     <div class="row g-3">
                         <div class="col-6 text-end">
-                            <img :src="require('../assets/img/about-1.jpg')" alt="" class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.1s" style="margin-top: 25%;"> 
+                            <img :src="require('../assets/img/pool3.jpg')" alt="" class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.1s" > 
                         </div>
                         <div class="col-6 text-start">
-                            <img :src="require('../assets/img/about-2.jpg')" alt="" class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.3s">
+                            <img :src="require('../assets/img/pool5.jpg')" alt="" class="img-fluid  w-100 wow zoomIn" data-wow-delay="0.3s">
                         </div>
                         <div class="col-6 text-end">
-                            <img :src="require('../assets/img/about-3.jpg')" alt="" class="img-fluid rounded w-50 wow zoomIn" data-wow-delay="0.5s">
+                            <img :src="require('../assets/img/band.jpg')" alt="" class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.5s">
                         </div>
                         <div class="col-6 text-start">
-                            <img :src="require('../assets/img/about-4.jpg')" alt="" class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.7s">
+                            <img :src="require('../assets/img/pool2.jpg')" alt="" class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.7s">
                         </div>
                     </div>
                 </div>
@@ -241,7 +241,7 @@
                             <p class="text-body mb-3">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
                             <div class="d-flex justify-content-between">
                                 <a class="btn btn-sm btn-primary rounded py-2 px-4" href="">View Detail</a>
-                                <a class="btn btn-sm btn-dark rounded py-2 px-4" href="">Book Now</a>
+                                <a class="btn btn-sm btn-dark rounded py-2 px-4" href="/booking">Book Now</a>
                             </div>
                         </div>
                     </div>
@@ -257,11 +257,11 @@
         <div class="row g-0">
             <div class="col-md-6 bg-dark d-flex align-items-center">
                 <div class="p-5">
-                    <h6 class="section-title text-start text-white text-uppercase mb-3">Luxury Living</h6>
-                    <h1 class="text-white mb-4">Discover A Brand Luxurious Hotel</h1>
-                    <p class="text-white mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
-                    <a href="" class="btn btn-primary py-md-3 px-md-5 me-3">Our Rooms</a>
-                    <a href="" class="btn btn-light py-md-3 px-md-5">Book A Room</a>
+                    <h6 class="section-title text-start text-white text-uppercase mb-3">Eduardo's Resort</h6>
+                    <h1 class="text-white mb-4">"Where Every Moment Becomes a Memory"</h1>
+                    <p class="text-white mb-4">"Eduardo's Resort is a tranquil paradise nestled in a breathtaking natural setting. With lush gardens, pristine pools, and luxurious accommodations, our resort offers the perfect escape from the hustle and bustle of daily life. Whether you're seeking a romantic getaway, a family vacation, or a venue for your special events, Eduardo's Resort provides a serene and memorable experience. Immerse yourself in comfort, adventure, and relaxation, all in one remarkable destination."</p>
+                    <a href="/room" class="btn btn-primary py-md-3 px-md-5 me-3">Our Rooms</a>
+                    <a href="/booking" class="btn btn-light py-md-3 px-md-5">Book A Room</a>
                 </div>
             </div>
             <div class="col-md-6">
@@ -302,7 +302,7 @@
                 <h1 class="mb-5">Explore Our <span class="text-primary text-uppercase">Services</span></h1>
             </div>
             <div class="row g-4">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <a class="service-item rounded" href="">
                         <div class="service-icon bg-transparent border rounded p-1">
                             <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
@@ -310,10 +310,10 @@
                             </div>
                         </div>
                         <h5 class="mb-3">Rooms & Appartment</h5>
-                        <p class="text-body mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
+                        <p class="text-body mb-0">"Welcome to our luxurious and comfortable Rooms & Apartments at Eduardo's Resort. Our carefully designed accommodations are the perfect haven for relaxation and rejuvenation. From spacious rooms with breathtaking views to well-appointed apartments that feel like a home away from home, we offer a range of options to suit your every need. "</p>
                     </a>
                 </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+                <div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
                     <a class="service-item rounded" href="">
                         <div class="service-icon bg-transparent border rounded p-1">
                             <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
@@ -321,32 +321,25 @@
                             </div>
                         </div>
                         <h5 class="mb-3">Food & Restaurant</h5>
-                        <p class="text-body mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
+                        <p class="text-body mb-0">
+"Indulge in a culinary journey at our resort's Food & Restaurant, where exceptional flavors and exquisite dining experiences await you. Our expert chefs artfully prepare a diverse range of dishes that tantalize your taste buds, from delectable international cuisine to locally inspired delicacies. "</p>
                     </a>
                 </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <a class="service-item rounded" href="">
-                        <div class="service-icon bg-transparent border rounded p-1">
-                            <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
-                                <i class="fa fa-spa fa-2x text-primary"></i>
-                            </div>
-                        </div>
-                        <h5 class="mb-3">Spa & Fitness</h5>
-                        <p class="text-body mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
+            </div>
+            <br>
+                <div class="row g-4">
+                <div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
                     <a class="service-item rounded" href="">
                         <div class="service-icon bg-transparent border rounded p-1">
                             <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
                                 <i class="fa fa-swimmer fa-2x text-primary"></i>
                             </div>
                         </div>
-                        <h5 class="mb-3">Sports & Gaming</h5>
-                        <p class="text-body mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
+                        <h5 class="mb-3">Swimming Lesson</h5>
+                        <p class="text-body mb-0">"Dive into a world of aqua adventures at our resort's Swimming Lessons! Whether you're a beginner looking to conquer the waters or an experienced swimmer seeking to refine your skills, our certified instructors are here to guide you through an exciting and educational journey. "</p>
                     </a>
                 </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                <div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
                     <a class="service-item rounded" href="">
                         <div class="service-icon bg-transparent border rounded p-1">
                             <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
@@ -354,18 +347,7 @@
                             </div>
                         </div>
                         <h5 class="mb-3">Event & Party</h5>
-                        <p class="text-body mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
-                    <a class="service-item rounded" href="">
-                        <div class="service-icon bg-transparent border rounded p-1">
-                            <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
-                                <i class="fa fa-dumbbell fa-2x text-primary"></i>
-                            </div>
-                        </div>
-                        <h5 class="mb-3">GYM & Yoga</h5>
-                        <p class="text-body mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
+                        <p class="text-body mb-0">"Experience unforgettable moments at our resort's Events and Party offerings. Whether you're celebrating a special occasion, hosting a corporate event, or simply looking for a place to unwind with friends and family, our resort provides the perfect backdrop for your gatherings. "</p>
                     </a>
                 </div>
             </div>
