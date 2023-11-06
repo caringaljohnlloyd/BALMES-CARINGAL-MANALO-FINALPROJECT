@@ -7,10 +7,10 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('/getData','MainController::getData');
-$routes->post('/save','MainController::save');
+$routes->post('/register','MainController::register');
 $routes->post('/del','MainController::del');
 $routes->post('update/(:num)', 'MainController::update/$1');
-$routes->get('/login', 'MainController::login');
+$routes->post('/login', 'MainController::login');
 
 
 

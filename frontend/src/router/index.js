@@ -3,6 +3,7 @@ import IndexPage from '../views/IndexPage.vue'
 import AboutView from '../views/AboutView.vue'
 import HomeView from '../views/HomeView.vue'
 import LoginForm from '../views/LoginForm.vue'
+import register from '../components/register.vue'
 import Room from '../views/Room.vue'
 import Include from '../views/Include.vue'
 import ContactView from '../views/ContactView.vue'
@@ -67,6 +68,11 @@ const routes = [
 {
   path: '/testimonial',
   component: Testimonial,
+
+},
+{
+  path: '/register',
+  component: register,
 
 },
 ]

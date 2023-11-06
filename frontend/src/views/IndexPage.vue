@@ -1,7 +1,6 @@
 <template>
     <navbar/>
 
-
       <insert @data-saved="getInfo" /> 
       
   </template>

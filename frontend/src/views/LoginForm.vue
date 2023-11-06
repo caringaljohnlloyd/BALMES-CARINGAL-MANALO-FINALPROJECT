@@ -1,19 +1,28 @@
 <template>
-  <div class="container mt-5">
-    <h2 class="text-center">Login</h2>
-    <form @submit.prevent="login" class="mt-3">
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" v-model="username" class="form-control" required />
+  <div class="row">
+    <div class="row">
+      <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 mt-5 pt-3 pb-3 bg-dark form-wrapper">
+        <div class="container">
+          <h3 class="text-primary">Login</h3>
+          <hr />
+          <form @submit.prevent="login()">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" v-model="email" required />
+              <label for="email" class="form-label">Email address</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="password" class="form-control" v-model="password" required minlength="8" />
+              <label for="password" class="form-label">Password</label>
+            </div>
+            <p class="alert-danger ">{{ errorMessage }}</p>
+
+            <button type="submit" class="btn btn-primary mx-auto w-100 mb-3">Sign in</button>
+
+            <router-link to="/register">Don't have an account yet?</router-link>
+          </form>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" v-model="password" class="form-control" required />
-      </div>
-      <div class="text-center">
-        <button type="submit" class="btn btn-primary">Login</button>
-      </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -23,32 +32,33 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      username: '',
+      email: '',
       password: '',
-      loading: false,
-      loggedIn: false,
-      error: '',
+      errorMessage: '', 
+
     };
   },
   methods: {
     login() {
-      this.loading = true;
+    const data = {
+      email: this.email,
+      password: this.password,
+    };
 
-      const userData = {
-        username: this.username,
-        password: this.password,
-      };
-
-      axios
-        .post('http://backend.test/login', userData)
-        .then((response) => {
-          this.loading = false;
-          this.loggedIn = true;
-         
-        })
-        .catch((error) => {
-          this.loading = false;
-          this.error = 'Authentication failed. Please check your credentials.';
+    axios
+      .post('/login', JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => {
+        if (response.data.message === 'Login successful') {
+          this.$router.push('/user');
+        } 
+      })
+      .catch((error) => {
+        console.error(error);
+        this.errorMessage = 'Invalid email or password, try again!';
         });
     },
   },

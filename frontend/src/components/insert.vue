@@ -56,7 +56,7 @@ export default{
             release_date:"",
             genre:"",
         }
-    },
+    },  
     methods:{
         async save(){
 try {

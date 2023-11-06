@@ -10,6 +10,9 @@ use App\Models\UserModel;
 
 class MainController extends ResourceController
 {
+   
+    use ResponseTrait;
+
     public function index()
     {
         //
@@ -22,27 +25,6 @@ class MainController extends ResourceController
 
         return $this->response->setJSON(['message' => 'Record updated successfully']);
     }*/
-    public function login()
-    {
-        $request = service('request');
-        $response = service('response');
-        $userModel = new UserModel();
-
-        $username = $request->getVar('username');
-        $password = $request->getVar('password');
-
-        $user = $userModel->getUserByUsername($username);
-
-        if ($user && password_verify($password, $user['password'])) {
-            $data = [
-                'username' => $user['username'],
-                'password' => 'password',
-            ];
-            return $response->setJSON($data);
-        } else {
-            return $response->setJSON(['error' => 'Authentication failed'])->setStatusCode(401);
-        }
-    }
     public function del(){
         $json = $this->request->getJSON();
         $id= $json->id;
@@ -51,6 +33,7 @@ class MainController extends ResourceController
         return $this->respond($r, 200);
 
     }
+
  public function save(){
         $json = $this->request->getJSON();
         $data = [
@@ -65,8 +48,32 @@ class MainController extends ResourceController
         return $this->respond($r, 200);
     }
     public function getData(){
-        $main = new MainModel();
+        $main = new UserModel();
         $data = $main->findAll();
         return $this->respond($data, 200);
+    }
+    public function register()
+    {
+        $json = $this->request->getJSON();
+        $email = $json->email;
+
+        $userModel = new UserModel();
+        $existingUser = $userModel->where('email', $email)->first();
+
+        if ($existingUser) {
+            return $this->respond(["error" => "Email already exists"], 400);
+        } else {
+            $data = [
+                'firstname' => $json->firstname,
+                'lastname' => $json->lastname,
+                'email' => $email,
+                'password' => password_hash($json->password, PASSWORD_BCRYPT),
+            ];
+
+            $main = new UserModel();
+            $r = $main->save($data);
+
+            return $this->respond($r, 200);
+        }
     }
 }
