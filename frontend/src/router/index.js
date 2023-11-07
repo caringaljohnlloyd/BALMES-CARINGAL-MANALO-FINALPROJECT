@@ -12,6 +12,8 @@ import Table from '../views/Table.vue'
 import Booking from '../views/Booking.vue'
 import Team from '../views/Team.vue'
 import Testimonial from '../views/Testimonial.vue'
+import Admin from '../views/Admin.vue'
+
 
 
 
@@ -73,6 +75,11 @@ const routes = [
 {
   path: '/register',
   component: register,
+
+},
+{
+  path: '/admin',
+  component: Admin,
 
 },
 ]
