@@ -1,9 +1,9 @@
 <template>
   <Top/>
   <navbar/>
-          <!-- Page Header Start -->
-          <div class="Testimonial">
-          <div class="container-fluid page-header mb-5 p-0" >
+  <div class="container-xxl bg-white p-0">
+        <div class="Testimonial">
+        <div class="container-fluid page-header mb-5 p-0" >
             <div class="container-fluid page-header-inner py-5">
                 <div class="container text-center pb-5">
                     <h1 class="display-3 text-white mb-3 animated slideInDown">Testimonial</h1>
@@ -11,14 +11,14 @@
                         <ol class="breadcrumb justify-content-center text-uppercase">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                            <li class="breadcrumb-item text-white active" aria-current="page">Testimonial</li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">Contact</li>
                         </ol>
                     </nav>
                 </div>
             </div>
         </div>
-      </div>
-        <!-- Page Header End -->
+            </div>
+        </div>
 
            <!-- Testimonial Start -->
            <div class="container-xxl testimonial mt-5 py-5 bg-dark wow zoomIn" data-wow-delay="0.1s" style="margin-bottom: 90px;">

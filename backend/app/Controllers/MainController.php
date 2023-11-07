@@ -17,7 +17,7 @@ class MainController extends ResourceController
     {
         //
     }
-   
+
     public function del(){
         $json = $this->request->getJSON();
         $id= $json->id;

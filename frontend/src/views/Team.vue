@@ -1,24 +1,24 @@
 <template>
   <Top/>
   <navbar/>
-          <!-- Page Header Start -->
-          <div class="Team">
-          <div class="container-fluid page-header mb-5 p-0" >
+  <div class="container-xxl bg-white p-0">
+        <div class="Team">
+        <div class="container-fluid page-header mb-5 p-0" >
             <div class="container-fluid page-header-inner py-5">
                 <div class="container text-center pb-5">
-                    <h1 class="display-3 text-white mb-3 animated slideInDown">Our Team</h1>
+                    <h1 class="display-3 text-white mb-3 animated slideInDown">Team</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center text-uppercase">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                            <li class="breadcrumb-item text-white active" aria-current="page">Our Team</li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">Contact</li>
                         </ol>
                     </nav>
                 </div>
             </div>
         </div>
-      </div>
-        <!-- Page Header End -->
+            </div>
+        </div>
        <!-- Team Start -->
        <div class="container-xxl py-5">
             <div class="container">

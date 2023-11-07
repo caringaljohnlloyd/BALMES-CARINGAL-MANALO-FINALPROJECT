@@ -1,25 +1,25 @@
 <template>
      <Top />
   <navbar />
-  <div class="about">
-    <div class="container-fluid page-header mb-5 p-0">
-      <div class="container-fluid page-header-inner py-5">
-        <div class="container text-center pb-5">
-          <h1 class="display-3 text-white mb-3 animated slideInDown">About Us</h1>
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb justify-content-center text-uppercase">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item"><a href="#">Pages</a></li>
-              <li class="breadcrumb-item text-white active" aria-current="page">About</li>
-            </ol>
-          </nav>
+  <!-- Page Header Start -->
+  <div class="container-xxl bg-white p-0">
+        <div class="about">
+        <div class="container-fluid page-header mb-5 p-0" >
+            <div class="container-fluid page-header-inner py-5">
+                <div class="container text-center pb-5">
+                    <h1 class="display-3 text-white mb-3 animated slideInDown">About</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center text-uppercase">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">Contact</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div><br>
-  <br>
-  
- 
+            </div>
+        </div>
               <!-- About Start -->
               
     <div class="container-xxl py-5">
@@ -185,6 +185,7 @@
   width: 100%; 
   height: 338px; 
 }
+
 </style>
 
 <script>
