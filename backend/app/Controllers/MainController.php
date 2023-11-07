@@ -27,7 +27,7 @@ class MainController extends ResourceController
 
     }
 
- public function save(){
+    public function save(){
         $json = $this->request->getJSON();
         $data = [
             'artist' => $json->artist,
@@ -69,4 +69,25 @@ class MainController extends ResourceController
             return $this->respond($r, 200);
         }
     }
+    public function login()
+    {
+        $json = $this->request->getJSON();
+
+        if (isset($json->email) && isset($json->password)) {
+            $email = $json->email;
+            $password = $json->password;
+
+            $userModel = new UserModel();
+            $user = $userModel->where('email', $email)->first();
+
+            if ($user && password_verify($password, $user['password'])) {
+                return $this->respond(['message' => 'Login successful'], 200);
+            } else {
+                return $this->respond(['message' => 'Invalid email or password'], 401);
+            }
+        } else {
+            return $this->respond(['message' => 'Invalid JSON data'], 400);
+        }
+    }
+    
 }
