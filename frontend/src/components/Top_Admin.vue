@@ -58,7 +58,7 @@
 <style>
  @import '@/assets/css/bootstrap.min.css';
  @import '@/assets/css/style.css';
- @import '@/assets/css/style2.css';
+
  </style>
 
 <script>
