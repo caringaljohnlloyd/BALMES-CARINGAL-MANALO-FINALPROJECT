@@ -1,91 +1,175 @@
 <template>
-     <footer class="footer mt-auto">
-            <div class="copyright bg-white">
-              <p>
-                &copy; <span id="copy-year"></span> Copyright Mono Dashboard Bootstrap Template by <a class="text-primary" href="http://www.iamabdus.com/" target="_blank" >Abdus</a>.
-              </p>
-            </div>
+  <footer class="footer mt-auto">
+    <div class="copyright bg-white">
+      <p>
+        &copy; <span id="copy-year"></span> Copyright Mono Dashboard Bootstrap Template by
+        <a class="text-primary" href="http://www.iamabdus.com/" target="_blank">Abdus</a>.
+      </p>
+    </div>
+  </footer>
 
-          </footer>
+
+  <div class="card card-offcanvas" id="contact-off" >
+                      <div class="card-header">
+                        <h2>Contacts</h2>
+                        <a href="#" class="btn btn-primary btn-pill px-4">Add New</a>
+                      </div>
+                      <div class="card-body">
+
+                        <div class="mb-4">
+                          <input type="text" class="form-control form-control-lg form-control-secondary rounded-0" placeholder="Search contacts...">
+                        </div>
+
+                        <div class="media media-sm">
+                          <div class="media-sm-wrapper">
+                            <a href="user-profile.html">
+                              <img src="images/user/user-sm-01.jpg" alt="User Image">
+                              <span class="active bg-primary"></span>
+                            </a>
+                          </div>
+                          <div class="media-body">
+                            <a href="user-profile.html">
+                              <span class="title">Selena Wagner</span>
+                              <span class="discribe">Designer</span>
+                            </a>
+                          </div>
+                        </div>
+
+                        <div class="media media-sm">
+                          <div class="media-sm-wrapper">
+                            <a href="user-profile.html">
+                              <img src="images/user/user-sm-02.jpg" alt="User Image">
+                              <span class="active bg-primary"></span>
+                            </a>
+                          </div>
+                          <div class="media-body">
+                            <a href="user-profile.html">
+                              <span class="title">Walter Reuter</span>
+                              <span>Developer</span>
+                            </a>
+                          </div>
+                        </div>
+
+                        <div class="media media-sm">
+                          <div class="media-sm-wrapper">
+                            <a href="user-profile.html">
+                              <img src="images/user/user-sm-03.jpg" alt="User Image">
+                            </a>
+                          </div>
+                          <div class="media-body">
+                            <a href="user-profile.html">
+                              <span class="title">Larissa Gebhardt</span>
+                              <span>Cyber Punk</span>
+                            </a>
+                          </div>
+                        </div>
+
+                        <div class="media media-sm">
+                          <div class="media-sm-wrapper">
+                            <a href="user-profile.html">
+                              <img src="images/user/user-sm-04.jpg" alt="User Image">
+                            </a>
+
+                          </div>
+                          <div class="media-body">
+                            <a href="user-profile.html">
+                              <span class="title">Albrecht Straub</span>
+                              <span>Photographer</span>
+                            </a>
+                          </div>
+                        </div>
+
+                        <div class="media media-sm">
+                          <div class="media-sm-wrapper">
+                            <a href="user-profile.html">
+                              <img src="images/user/user-sm-05.jpg" alt="User Image">
+                              <span class="active bg-danger"></span>
+                            </a>
+                          </div>
+                          <div class="media-body">
+                            <a href="user-profile.html">
+                              <span class="title">Leopold Ebert</span>
+                              <span>Fashion Designer</span>
+                            </a>
+                          </div>
+                        </div>
+
+                        <div class="media media-sm">
+                          <div class="media-sm-wrapper">
+                            <a href="user-profile.html">
+                              <img src="images/user/user-sm-06.jpg" alt="User Image">
+                              <span class="active bg-primary"></span>
+                            </a>
+                          </div>
+                          <div class="media-body">
+                            <a href="user-profile.html">
+                              <span class="title">Selena Wagner</span>
+                              <span>Photographer</span>
+                            </a>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
 </template>
 
-<style>
- @import '@/assets/css/bootstrap.min.css';
- @import '@/assets/css/style.css';
+<style >
+      @import  '@/assets/plugins/material/css/materialdesignicons.min.css';
+        @import  '@/assets/plugins/simplebar/simplebar.css';
+        @import  '@/assets/plugins/nprogress/nprogress.css';
+        @import  '@/assets/plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css';
+        @import   '@/assets/plugins/jvectormap/jquery-jvectormap-2.0.3.css';
+        @import    '@/assets/plugins/daterangepicker/daterangepicker.css';
+        @import    'https://cdn.quilljs.com/1.3.6/quill.snow.css';  
+        @import     '@/assets/plugins/toaster/toastr.min.css';
+@import '@/assets/css/style2.css';
+</style>
 
+<script>
+export default {
+  name: "Admin",
+  mounted() {
+    this.loadScripts();
+  },
+  methods: {
+    loadScripts() {
+      const scriptUrls = [
+        'https://code.jquery.com/jquery-3.6.4.min.js',
+        'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js',
+        'plugins/jquery/jquery.min.js',
+        'plugins/bootstrap/js/bootstrap.bundle.min.js',
+        'plugins/simplebar/simplebar.min.js',
+        'https://unpkg.com/hotkeys-js/dist/hotkeys.min.js',
+        'plugins/apexcharts/apexcharts.js',
+        'plugins/DataTables/DataTables-1.10.18/js/jquery.dataTables.min.js',
+        'plugins/daterangepicker/moment.min.js',
+        'plugins/daterangepicker/daterangepicker.js',
+        'https://cdn.quilljs.com/1.3.6/quill.js',
+        'plugins/toaster/toastr.min.js',
+        'plugins/nprogress/nprogress.js',
+        'js/mono.js',
+        'js/chart.js',
+        'js/map.js',
+        'js/custom.js',
+        'plugins/jvectormap/jquery-jvectormap-2.0.3.min.js',
+        'plugins/jvectormap/jquery-jvectormap-world-mill.js',
+        'plugins/jvectormap/jquery-jvectormap-us-aea.js',
+      ];
 
- </style>
+      const head = document.getElementsByTagName('head')[0];
 
-  <script>
+      const loadScript = (index) => {
+        if (index < scriptUrls.length) {
+          const script = document.createElement('script');
+          script.src = scriptUrls[index];
+          script.async = true;
+          script.onload = () => loadScript(index + 1);
+          head.appendChild(script);
+        }
+      };
 
-
-  export default {
-    
-    name: "Admin",
-
-    mounted() {
-      this.loadScripts();
+      loadScript(0);
     },
-    methods: {
-      loadScripts() {
-        const cssUrls = [
-          '/lib/animate/animate.min.css',
-          '/lib/owlcarousel/assets/owl.carousel.min.css',
-          '/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css',
-        ];
-  
-        const jsUrls = [
-          '/plugins/jquery/jquery.min.js',
-          '/plugins/bootstrap/js/bootstrap.bundle.min.js',
-          '/plugins/simplebar/simplebar.min.js',
-          '/plugins/apexcharts/apexcharts.js',
-          '/plugins/DataTables/DataTables-1.10.18/js/jquery.dataTables.min.js',
-          '/plugins/jvectormap/jquery-jvectormap-2.0.3.min.js',
-          '/plugins/jvectormap/jquery-jvectormap-world-mill.js',
-          '/plugins/jvectormap/jquery-jvectormap-us-aea.js',
-          '/plugins/daterangepicker/moment.min.js',
-          'plugins/daterangepicker/daterangepicker.js',
-          'https://cdn.quilljs.com/1.3.6/quill.js',
-          'plugins/toaster/toastr.min.js',
-          'js/mono.js',
-          'js/chart.js',
-          'js/map.js',
-         ' js/custom.js',
-        ];
-  
-        const head = document.getElementsByTagName('head')[0];
-  
-        const loadCss = (index) => {
-          if (index < cssUrls.length) {
-            const link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = cssUrls[index];
-            link.onload = () => {
-              loadCss(index + 1);
-            };
-            head.appendChild(link);
-          } else {
-            loadJs(0); 
-          }
-        };
-  
-        const loadJs = (index) => {
-          if (index < jsUrls.length) {
-            const script = document.createElement('script');
-            script.src = jsUrls[index];
-            script.async = true;
-            script.onload = () => {
-              loadJs(index + 1);
-            };
-            head.appendChild(script);
-          }
-        };
-  
-        loadCss(0);
-       
-      },
-    },
-  };
+  },
+};
 </script>
-
- 

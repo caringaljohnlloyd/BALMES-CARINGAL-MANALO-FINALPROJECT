@@ -72,14 +72,7 @@ export default {
     
       const resourceUrls = [
         'img/favicon.ico',
-        'plugins/material/css/materialdesignicons.min.css',
-        'plugins/simplebar/simplebar.css',
-        'plugins/nprogress/nprogress.css',
-        'plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css',
-        'plugins/jvectormap/jquery-jvectormap-2.0.3.css',
-        'plugins/daterangepicker/daterangepicker.css',
-        'https://cdn.quilljs.com/1.3.6/quill.snow.css',
-        'plugins/toaster/toastr.min.css',
+
         'css/bootstrap.min.css',
         'css/style.css',
       ];

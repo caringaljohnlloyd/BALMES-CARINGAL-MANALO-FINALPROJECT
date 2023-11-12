@@ -1,4 +1,5 @@
 <template>
+  <div class="page-wrapper">
     <header class="main-header" id="header">
             <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
               <!-- Sidebar toggle button -->
@@ -72,7 +73,7 @@
                             <div class="media media-sm bg-warning-10 p-4 mb-0">
                               <div class="media-sm-wrapper">
                                 <a href="user-profile.html">
-                                  <img src="images/user/user-sm-02.jpg" alt="User Image">
+                                  <img :src="require('../assets/images/user/user-sm-02.jpg')" alt="User Image">
                                 </a>
                               </div>
                               <div class="media-body">
@@ -106,7 +107,7 @@
                             <div class="media media-sm p-4 mb-0">
                               <div class="media-sm-wrapper">
                                 <a href="user-profile.html">
-                                  <img src="images/user/user-sm-03.jpg" alt="User Image">
+                                  <img :src="require('../assets/images/user/user-sm-03.jpg')" alt="User Image">
                                 </a>
                               </div>
                               <div class="media-body">
@@ -304,7 +305,7 @@
                   <!-- User Account -->
                   <li class="dropdown user-menu">
                     <button class="dropdown-toggle nav-link" data-toggle="dropdown">
-                      <img src="images/user/user-xs-01.jpg" class="user-image rounded-circle" alt="User Image" />
+                      <img :src="require('../assets/images/user/user-xs-01.jpg')" class="user-image rounded-circle" alt="User Image" />
                       <span class="d-none d-lg-inline-block">John Doe</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
@@ -344,4 +345,5 @@
 
 
           </header>
+        </div>
 </template>
