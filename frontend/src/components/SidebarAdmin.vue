@@ -30,7 +30,7 @@
                 
                   <li
                    >
-                    <a class="sidenav-item-link" href="analytics.html">
+                    <a class="sidenav-item-link" href="/analytics">
                       <i class="mdi mdi-chart-line"></i>
                       <span class="nav-text">Analytics Dashboard</span>
                     </a>

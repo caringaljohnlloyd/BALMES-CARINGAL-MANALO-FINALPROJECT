@@ -1,31 +1,32 @@
-
 <template>
-    <Top_Admin/>
-    <Header_Admin/>
-    <Sidebar_Admin/>
-    <Content_Admin/>
-    <End_Admin/>
+
+    <TopAdmin/>
+    <HeaderAdmin/>
+    <SidebarAdmin/>
+    <ContentAdmin/>
+    <EndAdmin/>   
 
   </template>
-  <style>
-   @import '@/assets/css/bootstrap.min.css';
-   @import '@/assets/css/style.css';</style>
   
-  <script>
-      import Top_Admin from '@/components/Top_Admin.vue';
-      import Header_Admin from '@/components/Header_Admin.vue';
-      import Sidebar_Admin from '@/components/Sidebar_Admin.vue';
-      import Content_Admin from '@/components/Content_Admin.vue';
-      import End_Admin from '@/components/End_Admin.vue';
+    <style>
+     @import '@/assets/css/bootstrap.min.css';
+     @import '@/assets/css/style.css';</style>
     
-      export default {
-    name: 'admin',
-    components: {
-      Top_Admin,
-      Header_Admin,
-      Sidebar_Admin,
-      Content_Admin,
-      End_Admin
+    <script>
+        import TopAdmin from '@/components/TopAdmin.vue';
+        import HeaderAdmin from '@/components/HeaderAdmin.vue';
+        import SidebarAdmin from '@/components/SidebarAdmin.vue';
+        import ContentAdmin from '@/components/ContentAdmin.vue';
+        import EndAdmin from '@/components/EndAdmin.vue';
+      
+        export default {
+      name: 'admin',
+      components: {
+        TopAdmin,
+        HeaderAdmin,
+        SidebarAdmin,
+        ContentAdmin,
+        EndAdmin
+      }
     }
-  }
-  </script>
+    </script>

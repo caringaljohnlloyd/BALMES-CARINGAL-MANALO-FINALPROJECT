@@ -209,7 +209,7 @@
 
                             <tr>
                               <td class="py-0">
-                                <img src="images/products/products-xs-01.jpg" alt="Product Image">
+                                <img :src="require('../assets/images/products/products-xs-01.jpg')" alt="Product Image">
                               </td>
                               <td>Coach Swagger</td>
                               <td>24541</td>
@@ -238,7 +238,7 @@
 
                             <tr>
                               <td class="py-0">
-                                <img src="images/products/products-xs-02.jpg" alt="Product Image">
+                                <img :src="require('../assets/images/products/products-xs-02.jpg')" alt="Product Image">
                               </td>
                               <td>Toddler Shoes, Gucci Watch</td>
                               <td>24542</td>
@@ -267,7 +267,7 @@
 
                             <tr>
                               <td class="py-0">
-                                <img src="images/products/products-xs-03.jpg" alt="Product Image">
+                                <img :src="require('../assets/images/products/products-xs-03.jpg')" alt="Product Image">
                               </td>
                               <td>Hat Black Suits</td>
                               <td>24543</td>
@@ -296,7 +296,7 @@
 
                             <tr>
                               <td class="py-0">
-                                <img src="images/products/products-xs-04.jpg" alt="Product Image">
+                                <img :src="require('../assets/images/products/products-xs-04.jpg')" alt="Product Image">
                               </td>
                               <td>Backpack Gents</td>
                               <td>24544</td>
@@ -325,7 +325,7 @@
 
                             <tr>
                               <td class="py-0">
-                                <img src="images/products/products-xs-05.jpg" alt="Product Image">
+                                <img :src="require('../assets/images/products/products-xs-05.jpg')" alt="Product Image">
                               </td>
                               <td>Speed 500 Ignite</td>
                               <td>24545</td>
@@ -354,7 +354,7 @@
 
                             <tr>
                               <td class="py-0">
-                                <img src="images/products/products-xs-06.jpg" alt="Product Image">
+                                <img :src="require('../assets/images/products/products-xs-06.jpg')" alt="Product Image">
                               </td>
                               <td>Olay</td>
                               <td>24546</td>
@@ -383,7 +383,7 @@
 
                             <tr>
                               <td class="py-0">
-                                <img src="images/products/products-xs-07.jpg" alt="Product Image">
+                                <img :src="require('../assets/images/products/products-xs-07.jpg')" alt="Product Image">
                               </td>
                               <td>Ledger Nano X</td>
                               <td>24547</td>
@@ -412,7 +412,7 @@
 
                             <tr>
                               <td class="py-0">
-                                <img src="images/products/products-xs-08.jpg" alt="Product Image">
+                                <img :src="require('../assets/images/products/products-xs-08.jpg')" alt="Product Image">
                               </td>
                               <td>Surface Laptop 2</td>
                               <td>24548</td>
@@ -441,7 +441,7 @@
 
                             <tr>
                               <td class="py-0">
-                                <img src="images/products/products-xs-09.jpg" alt="Product Image">
+                                <img :src="require('../assets/images/products/products-xs-09.jpg')" alt="Product Image">
                               </td>
                               <td>TIGI Bed Head Superstar Queen</td>
                               <td>24549</td>
@@ -470,7 +470,7 @@
 
                             <tr>
                               <td class="py-0">
-                                <img src="images/products/products-xs-10.jpg" alt="Product Image">
+                                <img :src="require('../assets/images/products/products-xs-10.jpg')" alt="Product Image">
                               </td>
                               <td>Wattbike Atom</td>
                               <td>24550</td>
@@ -499,7 +499,7 @@
 
                             <tr>
                               <td class="py-0">
-                                <img src="images/products/products-xs-11.jpg" alt="Product Image">
+                                <img :src="require('../assets/images/products/products-xs-11.jpg')" alt="Product Image">
                               </td>
                               <td>Smart Watch</td>
                               <td>24551</td>
@@ -528,7 +528,7 @@
 
                             <tr>
                               <td class="py-0">
-                                <img src="images/products/products-xs-12.jpg" alt="Product Image">
+                                <img :src="require('../assets/images/products/products-xs-12.jpg')" alt="Product Image">
                               </td>
                               <td>Magic Bullet Blender</td>
                               <td>24552</td>
@@ -557,7 +557,7 @@
 
                             <tr>
                               <td class="py-0">
-                                <img src="images/products/products-xs-13.jpg" alt="Product Image">
+                                <img :src="require('../assets/images/products/products-xs-13.jpg')" alt="Product Image">
                               </td>
                               <td>Kanana rucksack</td>
                               <td>24553</td>
@@ -586,7 +586,7 @@
 
                             <tr>
                               <td class="py-0">
-                                <img src="images/products/products-xs-14.jpg" alt="Product Image">
+                                <img :src="require('../assets/images/products/products-xs-14.jpg')" alt="Product Image">
                               </td>
                               <td>Copic Opaque White</td>
                               <td>24554</td>
@@ -615,7 +615,7 @@
 
                             <tr>
                               <td class="py-0">
-                                <img src="images/products/products-xs-15.jpg" alt="Product Image">
+                                <img :src="require('../assets/images/products/products-xs-15.jpg')" alt="Product Image">
                               </td>
                               <td>Headphones</td>
                               <td>24555</td>
@@ -853,7 +853,7 @@
                             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                               <li>
                                 <a href="#" class="user-link">
-                                  <img src="images/user/user-sm-01.jpg" alt="User Image">
+                                  <img :src="require('../assets/images/user/user-sm-01.jpg')" alt="User Image">
                                   <span class="username">anna patuary
                                     <span class="badge badge-secondary">18</span>
                                   </span>
@@ -864,7 +864,7 @@
                               </li>
                               <li>
                                 <a href="#" class="user-link">
-                                  <img src="images/user/user-sm-02.jpg" alt="User Image">
+                                  <img :src="require('../assets/images/user/user-sm-02.jpg')" alt="User Image">
                                   <span class="username">riman Ghose
                                     <span class="badge badge-secondary">18</span>
                                   </span>
@@ -875,7 +875,7 @@
                               </li>
                               <li>
                                 <a href="#" class="user-link">
-                                  <img src="images/user/user-sm-03.jpg" alt="User Image">
+                                  <img :src="require('../assets/images/user/user-sm-03.jpg')" alt="User Image">
                                   <span class="username">riman Ghose
                                     <span class="badge badge-secondary">18</span>
                                   </span>
@@ -886,7 +886,7 @@
                               </li>
                               <li>
                                 <a href="#" class="user-link">
-                                  <img src="images/user/user-sm-04.jpg" alt="User Image">
+                                  <img :src="require('../assets/images/user/user-sm-04.jpg')" alt="User Image">
                                   <span class="username">riman Ghose
                                     <span class="badge badge-secondary">18</span>
                                   </span>
@@ -897,7 +897,7 @@
                               </li>
                               <li>
                                 <a href="#" class="user-link">
-                                  <img src="images/user/user-sm-05.jpg" alt="User Image">
+                                  <img :src="require('../assets/images/user/user-sm-05.jpg')" alt="User Image">
                                   <span class="username">riman Ghose</span>
                                   <span class="state">15min</span>
                                 </a>
@@ -908,7 +908,7 @@
                         <div class="card-body pb-0" data-simplebar style="height: 363px;">
                           <!-- Media Chat Left -->
                           <div class="media media-chat">
-                            <img src="images/user/user-sm-01.jpg" class="rounded-circle" alt="Avata Image">
+                            <img :src="require('../assets/images/user/user-sm-01.jpg')" class="rounded-circle" alt="Avata Image">
                             <div class="media-body">
                               <div class="text-content">
                                 <span class="message">Hello my name is anna.</span>
@@ -929,12 +929,12 @@
                                 <time class="time">3 mins ago</time>
                               </div>
                             </div>
-                            <img src="images/user/user-sm-02.jpg" class="rounded-circle" alt="Avata Image">
+                            <img :src="require('../assets/images/user/user-sm-02.jpg')" class="rounded-circle" alt="Avata Image">
                           </div>
 
                           <!-- Media Chat Left -->
                           <div class="media media-chat">
-                            <img src="images/user/user-sm-01.jpg" class="rounded-circle" alt="Avata Image">
+                            <img :src="require('../assets/images/user/user-sm-01.jpg')" class="rounded-circle" alt="Avata Image">
                             <div class="media-body">
                               <div class="text-content">
                                 <span class="message">Its had resolving otherwise she contented therefore.</span>

@@ -1,9 +1,11 @@
 
 <template>
+
   <Top/>
   <navbar/>
   <Content/>
   <End/>
+
 </template>
 <style>
  @import '@/assets/css/bootstrap.min.css';

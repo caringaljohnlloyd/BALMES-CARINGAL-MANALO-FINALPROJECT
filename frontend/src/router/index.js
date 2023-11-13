@@ -13,6 +13,7 @@ import Booking from '../views/Booking.vue'
 import Team from '../views/Team.vue'
 import Testimonial from '../views/Testimonial.vue'
 import Admin from '../views/Admin.vue'
+import Analytics from '../views/Analytics.vue'
 
 
 
@@ -82,6 +83,10 @@ const routes = [
   component: Admin,
 
 },
+{
+  path: '/analytics',
+  component: Analytics,
+}
 ]
 
 const router = createRouter({
