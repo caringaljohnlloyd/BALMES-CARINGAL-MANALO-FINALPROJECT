@@ -18,7 +18,7 @@
                   <li
                    class="active"
                    >
-                    <a class="sidenav-item-link" href="index.html">
+                    <a class="sidenav-item-link" href="/index">
                       <i class="mdi mdi-briefcase-account-outline"></i>
                       <span class="nav-text">Business Dashboard</span>
                     </a>
@@ -50,7 +50,7 @@
                 
                   <li
                    >
-                    <a class="sidenav-item-link" href="chat.html">
+                    <a class="sidenav-item-link" href="/chat">
                       <i class="mdi mdi-wechat"></i>
                       <span class="nav-text">Chat</span>
                     </a>
@@ -62,7 +62,7 @@
                 
                   <li
                    >
-                    <a class="sidenav-item-link" href="contacts.html">
+                    <a class="sidenav-item-link" href="/contacts">
                       <i class="mdi mdi-phone"></i>
                       <span class="nav-text">Contacts</span>
                     </a>
@@ -74,7 +74,7 @@
                 
                   <li
                    >
-                    <a class="sidenav-item-link" href="team.html">
+                    <a class="sidenav-item-link" href="/teamadmin">
                       <i class="mdi mdi-account-group"></i>
                       <span class="nav-text">Team</span>
                     </a>
@@ -86,7 +86,7 @@
                 
                   <li
                    >
-                    <a class="sidenav-item-link" href="calendar.html">
+                    <a class="sidenav-item-link" href="/calendar">
                       <i class="mdi mdi-calendar-check"></i>
                       <span class="nav-text">Calendar</span>
                     </a>
