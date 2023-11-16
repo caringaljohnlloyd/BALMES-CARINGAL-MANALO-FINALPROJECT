@@ -14,6 +14,10 @@ import Team from '../views/Team.vue'
 import Testimonial from '../views/Testimonial.vue'
 import Admin from '../views/Admin.vue'
 import Analytics from '../views/Analytics.vue'
+import Chat from '../views/Chat.vue'
+import Contacts from '../views/Contacts.vue'
+import TeamAdmin from '../views/TeamAdmin.vue'
+
 
 
 
@@ -86,7 +90,19 @@ const routes = [
 {
   path: '/analytics',
   component: Analytics,
-}
+},
+{
+  path: '/chat',
+  component: Chat,
+},
+{
+  path: '/contacts',
+  component: Contacts,
+},
+{
+  path: '/teamadmin',
+  component: TeamAdmin,
+},
 ]
 
 const router = createRouter({
