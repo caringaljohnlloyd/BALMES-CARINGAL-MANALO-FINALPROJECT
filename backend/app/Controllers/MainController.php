@@ -7,6 +7,8 @@ use CodeIgniter\RestFul\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\MainModel;
 use App\Models\UserModel;
+use App\Models\FeedbackModel;
+
 
 class MainController extends ResourceController
 {
@@ -16,6 +18,11 @@ class MainController extends ResourceController
     public function index()
     {
         //
+    }
+    public function getFeedback(){
+        $f = new FeedbackModel();
+        $data = $f->findAll();
+        return $this->respond($data, 200);
     }
 
     public function del(){
@@ -27,17 +34,15 @@ class MainController extends ResourceController
 
     }
 
-    public function save(){
+   public function save(){
         $json = $this->request->getJSON();
         $data = [
-            'artist' => $json->artist,
-            'title' => $json->title,
-            'release_date' => $json->release_date,
-            'genre' => $json->genre,
-
+            'feedback' => $json->feedback,
+            'name' => $json->name,
+            'profession' => $json->profession,
         ];
-        $main = new MainModel();
-        $r =$main->save($data);
+        $feedback = new FeedbackModel();
+        $r =$feedback->save($data);
         return $this->respond($r, 200);
     }
     public function getData(){
@@ -51,9 +56,9 @@ class MainController extends ResourceController
         $email = $json->email;
 
         $userModel = new UserModel();
-        $existingUser = $userModel->where('email', $email)->first();
+        $exUser = $userModel->where('email', $email)->first();
 
-        if ($existingUser) {
+        if ($exUser) {
             return $this->respond(["error" => "Email already exists"], 400);
         } else {
             $data = [
@@ -89,5 +94,10 @@ class MainController extends ResourceController
             return $this->respond(['message' => 'Invalid JSON data'], 400);
         }
     }
+    // public function getFeedback(){
+    //     $feedback = new FeedbackModel();
+    //     $data = $feedback->findAll();
+    //     return $this->respond($data, 200);
+    // }
     
 }

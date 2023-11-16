@@ -266,7 +266,7 @@
             </div>
             <div class="col-md-6">
                 <div class="video">
-                    <button type="button" class="btn-play" data-bs-toggle="modal" data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-bs-target="#videoModal">
+                    <button type="button" class="btn-play" data-bs-toggle="modal" :src="require('../assets/img/bestresortinmindoro.mp4')" data-bs-target="#videoModal">
                         <span></span>
                     </button>
                 </div>
@@ -359,36 +359,14 @@
     <!-- Testimonial Start -->
     <div class="container-xxl testimonial my-5 py-5 bg-dark wow zoomIn" data-wow-delay="0.1s">
         <div class="container">
-            <div class="owl-carousel testimonial-carousel py-5">
+            <div class="owl-carousel testimonial-carousel py-5" v-for="feed in feed">
                 <div class="testimonial-item position-relative bg-white rounded overflow-hidden">
-                    <p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd kasd et erat magna eos</p>
+                    <p>{{ feed.feedback }}</p>
                     <div class="d-flex align-items-center">
                         <img :src="require('../assets/img/testimonial-1.jpg')" class="img-fluid flex-shrink-0 rounded"  style="width: 45px; height: 45px;">
                         <div class="ps-3">
-                            <h6 class="fw-bold mb-1">Client Name</h6>
-                            <small>Profession</small>
-                        </div>
-                    </div>
-                    <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
-                </div>
-                <div class="testimonial-item position-relative bg-white rounded overflow-hidden">
-                    <p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd kasd et erat magna eos</p>
-                    <div class="d-flex align-items-center">
-                        <img :src="require('../assets/img/testimonial-2.jpg')" class="img-fluid flex-shrink-0 rounded"  style="width: 45px; height: 45px;">
-                        <div class="ps-3">
-                            <h6 class="fw-bold mb-1">Client Name</h6>
-                            <small>Profession</small>
-                        </div>
-                    </div>
-                    <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
-                </div>
-                <div class="testimonial-item position-relative bg-white rounded overflow-hidden">
-                    <p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd kasd et erat magna eos</p>
-                    <div class="d-flex align-items-center">
-                        <img :src="require('../assets/img/testimonial-3.jpg')" class="img-fluid flex-shrink-0 rounded"  style="width: 45px; height: 45px;">
-                        <div class="ps-3">
-                            <h6 class="fw-bold mb-1">Client Name</h6>
-                            <small>Profession</small>
+                            <h6 class="fw-bold mb-1">{{ feed.name }}</h6>
+                            <small>{{ feed.profession }}</small>
                         </div>
                     </div>
                     <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
@@ -397,7 +375,7 @@
         </div>
     </div>
     <!-- Testimonial End -->
-
+    <insert/>
 
      <!-- Team Start -->
      <div class="container-xxl py-5">
@@ -495,3 +473,32 @@
 <style>
  @import '@/assets/css/bootstrap.min.css';
  @import '@/assets/css/style.css';</style>
+
+<script>
+import axios from 'axios'
+    import insert from '@/components/insert.vue';
+    export default {
+        data(){
+            return{
+                feed:[],
+            }
+        },
+        mounted(){
+            this.getFeed();
+
+        },
+        methods:{
+            async getFeed(){
+                const g = await axios.get("/getFeedback");
+                this.feed = g.data;
+                // alert(g);
+            }
+
+        },
+  name: 'feedback',
+  components: {
+insert,
+  }
+}
+</script>
+

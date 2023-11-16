@@ -21,7 +21,7 @@
         @import    '@/assets/plugins/daterangepicker/daterangepicker.css';
         @import    'https://cdn.quilljs.com/1.3.6/quill.snow.css';  
         @import     '@/assets/plugins/toaster/toastr.min.css';
-        @import '@/assets/css/style2.css';
+        @import '@/assets/css/style.css';
 </style>
 
 <script>
