@@ -4,15 +4,16 @@
        <!-- ====================================
         ——— CONTENT WRAPPER
         ===================================== -->
-        <div class="content-wrapper">
-            <div class="content">                <!-- Analytics Status -->
-                  <div class="row justify-content-between mb-5 ">
-                    <div class="col-lg-6">
+        <div class="container-fluid">
+            <div class="col-md-9">               
+               <!-- Analytics Status -->
+                  <div class="row justify-content-between mb-8 ">
+                    <div class="col-lg-5">
                       <div class="row">
                         <div class="col-md-4">
                           <div class="mini-status">
                             <div class="text-content">
-                              <span class="title">my income</span>
+                              <span class="title">Income</span>
                               <span class="status text-primary"><i class="mdi mdi-currency-usd"></i>47,171</span>
                             </div>
                             <div class="chart-content">
@@ -258,7 +259,7 @@
                             </thead>
                             <tbody>
                               <tr>
-                                <td class="text-primary"><a class="link" href="analytics.html">/analytics.html</a></td>
+                                <td class="text-primary"><a class="link" href="/analytics">/analytics.html</a></td>
                                 <td class="text-right px-3">521</td>
                                 <td class="text-right">2m:14s</td>
                               </tr>
@@ -334,7 +335,7 @@
     <script>
     import TopAdmin from '@/components/TopAdmin.vue';
     import SidebarAdmin from '@/components/SidebarAdmin.vue';
-   import EndAdmin from '@/components/EndAdmin.vue';
+    import EndAdmin from '@/components/EndAdmin.vue';
    
    export default {
     name: 'analytics',

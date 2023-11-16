@@ -17,6 +17,8 @@ import Analytics from '../views/Analytics.vue'
 import Chat from '../views/Chat.vue'
 import Contacts from '../views/Contacts.vue'
 import TeamAdmin from '../views/TeamAdmin.vue'
+import Calendar from '../views/Calendar.vue'
+import Email_inbox from '../views/Email_inbox.vue'
 
 
 
@@ -102,6 +104,14 @@ const routes = [
 {
   path: '/teamadmin',
   component: TeamAdmin,
+},
+{
+  path: '/calendar',
+  component: Calendar,
+},
+{
+  path: '/email_inbox',
+  component: Email_inbox,
 },
 ]
 
