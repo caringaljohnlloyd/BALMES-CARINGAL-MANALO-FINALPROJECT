@@ -20,8 +20,8 @@
                     <!-- Name -->
                     <div class="col-md-6 mb-3">
                       <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" placeholder="Name" v-model="name" class="form-control">
+                        <label for="email">Email</label>
+                        <input type="text" placeholder="email" v-model="email" class="form-control">
                       </div>
                     </div>
   

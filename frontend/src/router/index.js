@@ -5,6 +5,7 @@ import HomeView from '../views/HomeView.vue'
 import LoginForm from '../views/LoginForm.vue'
 import register from '../components/register.vue'
 import Room from '../views/Room.vue'
+import Shop from '../views/Shop.vue'
 import Include from '../views/Include.vue'
 import ContactView from '../views/ContactView.vue'
 import Service from '../views/Service.vue'
@@ -55,6 +56,12 @@ const routes = [
   {
   path: '/room',
   component: Room,
+  meta: {requiresAuth: true}
+
+},
+{
+  path: '/shop',
+  component: Shop,
   meta: {requiresAuth: true}
 
 },

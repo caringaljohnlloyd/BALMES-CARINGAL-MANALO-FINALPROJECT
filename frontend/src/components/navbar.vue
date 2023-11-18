@@ -55,6 +55,7 @@
                               <a href="/user" class="nav-item nav-link active">Home</a>
                               <a href="/about" class="nav-item nav-link">About</a>
                               <a href="/service" class="nav-item nav-link">Services</a>
+                              <a href="/shop" class="nav-item nav-link">Shop</a>      
                               <a href="/room" class="nav-item nav-link">Rooms</a>
                               <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="#dropdownMenu">Pages</a>

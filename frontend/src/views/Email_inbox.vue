@@ -645,7 +645,7 @@
      </template>
 
      <style>
- @import '@/assets/css/style2.css';
+ @import '@/assets/css/style.css';
     </style>
     <script>
     import TopAdmin from '@/components/TopAdmin.vue';

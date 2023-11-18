@@ -10,6 +10,7 @@ use App\Models\MainModel;
 use App\Models\UserModel;
 use App\Models\FeedbackModel;
 use App\Models\BookingModel;
+use App\Models\ShopModel;
 
 
 
@@ -21,6 +22,11 @@ class MainController extends ResourceController
     public function index()
     {
         //
+    }
+    public function getShop(){
+        $shop = new ShopModel();
+        $data = $shop->findAll();
+        return $this->respond($data, 200);
     }
     public function getFeedback(){
         $f = new FeedbackModel();
@@ -40,6 +46,19 @@ class MainController extends ResourceController
         return $this->respond($r, 200);
 
     }
+    public function getData(){
+        $main = new UserModel();
+        $data = $main->findAll();
+        return $this->respond($data, 200);
+    }
+    public function getbook(){
+        $book = new BookingModel();
+        $data = $book->findAll();
+        return $this->respond($data, 200);
+    }
+
+
+
 
 public function save() {
     $json = $this->request->getJSON();
@@ -70,16 +89,7 @@ public function save() {
         $r =$booking->save($data);
         return $this->respond(['message' => 'Booked successfully', $r], 200);
     }
-    public function getData(){
-        $main = new UserModel();
-        $data = $main->findAll();
-        return $this->respond($data, 200);
-    }
-    public function getbook(){
-        $book = new BookingModel();
-        $data = $book->findAll();
-        return $this->respond($data, 200);
-    }
+   
     public function register()
     {
         $json = $this->request->getJSON();
@@ -159,10 +169,8 @@ public function logout()
 }
 public function resetPassword()
     {
-        // Retrieve email from the request
         $email = $this->request->getJSON()->email;
 
-        // Check if the email exists
         $userModel = new UserModel();
         $user = $userModel->where('email', $email)->first();
 
@@ -170,28 +178,22 @@ public function resetPassword()
             return $this->respond(['message' => 'Invalid email'], 404);
         }
 
-        // Generate a new password
         $newPassword = bin2hex(random_bytes(8));
 
-        // Update the user's password in the database
         $userModel->set('password', password_hash($newPassword, PASSWORD_DEFAULT));
         $userModel->where('email', $email);
         $userModel->update();
 
-        // For demonstration purposes, you may want to send the new password to the user
-        // Implement your notification system here
 
         return $this->respond(['message' => 'Password reset successful', 'newPassword' => $newPassword]);
     }
 
     public function updatePassword()
     {
-        // Retrieve email and new password from the request
-        $jsonData = $this->request->getJSON(true); // Get data as an associative array
+        $jsonData = $this->request->getJSON(true);
         $email = $jsonData['email'];
         $newPassword = $jsonData['newPassword'];
     
-        // Check if the email exists
         $userModel = new UserModel();
         $user = $userModel->where('email', $email)->first();
     
@@ -199,7 +201,6 @@ public function resetPassword()
             return $this->respond(['message' => 'Invalid email'], 404);
         }
     
-        // Update the user's password in the database
         $userModel->set('password', password_hash($newPassword, PASSWORD_DEFAULT));
         $userModel->where('email', $email);
         $userModel->update();

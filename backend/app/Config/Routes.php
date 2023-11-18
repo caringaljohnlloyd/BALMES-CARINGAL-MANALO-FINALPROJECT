@@ -18,6 +18,8 @@ $routes->post('booking','MainController::booking');
 $routes->get('/getbook','MainController::getbook');
 $routes->post('/logout', 'MainController::logout');
 $routes->get('/getRoom','MainController::getRoom');
+$routes->get('/getShop','MainController::getShop');
+
 
 
 
