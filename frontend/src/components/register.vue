@@ -29,8 +29,7 @@
             <input type="password" name="confirmpassword" id="confirmpassword" class="form-control" required v-model="confirmpassword" @input="checkMsg" />
             <label for="confirmpassword" class="form-label">Confirm Password</label>
           </div>
-          <div class="alert" :class="{ 'alert-danger': !isValid || !passwordsMatch || errorMessage, 'alert-success': passwordsMatch }" v-if="showMessage">{{ errorMessage || message }}</div>
-
+           <div class="alert" :class="{ 'alert-danger': !isValid || !passwordsMatch || errorMessage, 'alert-success': passwordsMatch }" v-if="showMessage">{{ errorMessage || message }}</div>
           <div class="alert alert-success" v-if="registered"> Successfully registered! </div>
           <button type="submit" class="btn btn-primary mx-auto w-100 mb-3" :disabled="!passwordsMatch">Sign up</button>
           <div class="mt-3">
@@ -63,6 +62,7 @@ return {
   showMessage: false,
   registered: false,
   errorMessage: "", 
+
 };
 },
 
@@ -82,12 +82,13 @@ return {
     },
   },
   methods: {
-      checkMsg() {
+    checkMsg() {
       this.dirty = this.confirmpassword !== '';
       this.showMessage = this.dirty;
 
       if (!this.dirty) {
         this.showMessage = false;
+        this.errorMessage = ''; 
       }
     },
     async register() {
@@ -111,9 +112,9 @@ return {
         this.$emit('data-saved');
         this.getInfo();
           } catch (error) {
-            if (error.response && error.response.data && error.response.data.error) {
-              this.errorMessage = error.response.data.error;
-            }
+        if (error.response && error.response.data && error.response.data.error) {
+          this.errorMessage = error.response.data.error;
+        }
                 }
               }
             }

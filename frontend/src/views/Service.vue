@@ -83,47 +83,32 @@
         <!-- Service End -->
 
 
-        <!-- Testimonial Start -->
-        <div class="container-xxl testimonial mt-5 py-5 bg-dark wow zoomIn" data-wow-delay="0.1s" style="margin-bottom: 90px;">
-            <div class="container">
-                <div class="owl-carousel testimonial-carousel py-5">
-                    <div class="testimonial-item position-relative bg-white rounded overflow-hidden">
-                        <p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd kasd et erat magna eos</p>
-                        <div class="d-flex align-items-center">
-                            <img :src="require('../assets/img/testimonial-1.jpg')" style="width: 45px; height: 45px;">
-                            <div class="ps-3">
-                                <h6 class="fw-bold mb-1">Client Name</h6>
-                                <small>Profession</small>
-                            </div>
+    <!-- Testimonial Start -->
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title text-center text-primary text-uppercase">Feedbacks</h6>
+                 
+                </div>
+    <div class="container-xxl testimonial my-5 py-5 bg-dark wow zoomIn" data-wow-delay="0.1s " style="margin-bottom: 90px;">
+        <div class="container">
+            <div class="owl-carousel testimonial-carousel py-5">
+                <div v-for="feed in feed" class="testimonial-item position-relative bg-white rounded overflow-hidden">
+                    <p>{{ feed.feedback }}</p>
+                    <div class="d-flex align-items-center">
+                        <img :src="require('../assets/img/testimonial-1.jpg')" class="img-fluid flex-shrink-0 rounded" style="width: 45px; height: 45px;">
+                        <div class="ps-3">
+                            <h6 class="fw-bold mb-1">{{ feed.name }}</h6>
+                            <small>{{ feed.profession }}</small>
                         </div>
-                        <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
                     </div>
-                    <div class="testimonial-item position-relative bg-white rounded overflow-hidden">
-                        <p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd kasd et erat magna eos</p>
-                        <div class="d-flex align-items-center">
-                            <img :src="require('../assets/img/testimonial-2.jpg')" style="width: 45px; height: 45px;">
-                            <div class="ps-3">
-                                <h6 class="fw-bold mb-1">Client Name</h6>
-                                <small>Profession</small>
-                            </div>
-                        </div>
-                        <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
-                    </div>
-                    <div class="testimonial-item position-relative bg-white rounded overflow-hidden">
-                        <p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd kasd et erat magna eos</p>
-                        <div class="d-flex align-items-center">
-                            <img :src="require('../assets/img/testimonial-3.jpg')" style="width: 45px; height: 45px;">
-                            <div class="ps-3">
-                                <h6 class="fw-bold mb-1">Client Name</h6>
-                                <small>Profession</small>
-                            </div>
-                        </div>
-                        <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
-                    </div>
+                    <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
                 </div>
             </div>
+            <div v-if="feedbackSent" class="alert alert-success mt-3" role="alert">
+                Feedback sent successfully!
+            </div>
         </div>
-        <!-- Testimonial End -->
+    </div>
+    <!-- Testimonial End -->
 
 
         <!-- Newsletter Start -->
@@ -164,11 +149,29 @@
  import Top from '@/components/Top.vue';
  import navbar from '@/components/navbar.vue';
 import End from '@/components/End.vue';
+import axios from 'axios'
 
 export default {
   name: 'service',
   components: {
     Top,navbar,End
-  }
+  },
+  data(){
+            return{
+                feed:[],
+            }
+        },
+        mounted(){
+            this.getFeed();
+
+        },
+        methods:{
+            async getFeed(){
+                const g = await axios.get("/getFeedback");
+                this.feed = g.data;
+                // alert(g);
+            }
+
+        },
 }
 </script>

@@ -19,6 +19,9 @@ import Contacts from '../views/Contacts.vue'
 import TeamAdmin from '../views/TeamAdmin.vue'
 import Calendar from '../views/Calendar.vue'
 import Email_inbox from '../views/Email_inbox.vue'
+import ForgotPassword from '../views/ForgotPassword.vue'
+import UpdatePassword from '../views/UpdatePassword.vue'
+
 
 
 
@@ -32,31 +35,38 @@ const routes = [
   },
   {
     path: '/insert',
-    component: IndexPage
+    component: IndexPage,
+    meta: {requiresAuth: true}
+
   },
   {
     path: '/about',
-    component: AboutView
+    component: AboutView,
+    meta: {requiresAuth: true}
 
   },
   {
     path: '/service',
-    component: Service
+    component: Service,
+    meta: {requiresAuth: true}
+
 
   },
   {
   path: '/room',
   component: Room,
+  meta: {requiresAuth: true}
 
 },
 {
   path: '/user',
-  component: Include,
-
+  component: Include, 
+  meta: {requiresAuth: true}
 },
 {
   path: '/contact',
   component: ContactView,
+  meta: {requiresAuth: true}
 
 },
 {
@@ -67,16 +77,19 @@ const routes = [
 {
   path: '/booking',
   component: Booking,
+  meta: {requiresAuth: true}
 
 },
 {
   path: '/team',
   component: Team,
+  meta: {requiresAuth: true}
 
 },
 {
   path: '/testimonial',
   component: Testimonial,
+  meta: {requiresAuth: true}
 
 },
 {
@@ -113,11 +126,35 @@ const routes = [
   path: '/email_inbox',
   component: Email_inbox,
 },
+{
+path: '/reset-password',
+component: ForgotPassword,
+},
+{
+  path: '/update-password',
+  component: UpdatePassword,
+},
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+router.beforeEach((to, from, next) => {
+  const isLoggedin = checkUserLogin();
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (isLoggedin) {
+      next();
+    } else {
+      next("/");
+    }
+  } else {
+    next();
+  }
+});
+function checkUserLogin(){
+  const userToken =sessionStorage.getItem("token");
+  return !!userToken;
+}
 
 export default router

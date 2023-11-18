@@ -2,11 +2,11 @@
       <Top/>
  <div class="container-xxl bg-white p-0">
        
-       <!--     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+          <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
-        </div>--> 
+        </div>
         <!-- Spinner End -->
 
 
@@ -64,11 +64,18 @@
                                       <a href="/testimonial" class="dropdown-item">Testimonial</a>
                                   </div>
                               </div>
-                                <a href="/contact" class="nav-item nav-link">Contact</a>
-                          
-                            
+                                <a href="/contact" class="nav-item nav-link">Contact</a>      
                             </div>
+                            <button @click="logout" class="btn btn-primary logout-logo-btn">
+  <i class="fas fa-power-off logout-icon"></i>
+  Logout
+</button>
+
+
                         </div>
+                        <!-- Logout Button (styled as a logo with Font Awesome icon) -->
+                      
+
                     </nav>
                 </div>
             </div>
@@ -84,6 +91,18 @@
  @import '@/assets/css/bootstrap.min.css';
  @import '@/assets/css/style.css';
 
+ .logout-logo-btn {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px; /* Adjust the font size as needed */
+  }
+
+  .logout-icon {
+    margin-right: 8px; /* Adjust the margin between icon and text */
+  }
 
  .icon-group {
   display: flex;
@@ -95,9 +114,29 @@
 <script>
 import Top from '@/components/Top.vue';
   import{FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+  import axios from 'axios'
+
   export default{
     components:{
         Top, FontAwesomeIcon
+    },
+    methods: {   
+    async logout() {
+    try {
+      const response = await axios.post("/logout");
+
+      if (response.status === 200) {
+        console.log("Logout successful");
+        
+        sessionStorage.removeItem("token");
+
+        this.$router.push('/');
+      }
+    } catch (error) {
+      console.error("Error during logout", error);
     }
-  }
+  },
+},
+    }
+  
 </script>
