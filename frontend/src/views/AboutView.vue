@@ -205,9 +205,9 @@ export default {
                 feed:[],
                 feedbackSent: false, 
                 room:[],
-                numberOfClients: 0, // Add this property
+                numberOfClients: 0,
                 numberOfRooms: 0,
-                pool:[], // Add this property
+                pool:[],
             }
         },
         mounted(){

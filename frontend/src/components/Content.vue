@@ -42,9 +42,8 @@
 
 
 
-   
+    <!-- About Start -->
     <div class="container-xxl py-5">
-
         <div class="container">
             <div class="row g-5 align-items-center">
                 <div class="col-lg-6">
@@ -80,15 +79,13 @@
                             </div>
                         </div>
                     </div>
-
                     <a class="btn btn-primary py-3 px-5 mt-2" href="">Explore More</a>
                 </div>
                 <div class="col-lg-6">
                     <div class="row g-3">
-                        <div class="col-6 text-center">
-                            <img :src="imageUrls[0]" :alt="'Image 1'" class="img-fluid rounded w-100 wow zoomIn" :data-wow-delay="`${0 * 0.2 + 0.1}s`">
-
-      </div>
+                        <div class="col-6 text-end">
+                            <img :src="require('../assets/img/pool3.jpg')" alt="" class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.1s" > 
+                        </div>
                         <div class="col-6 text-start">
                             <img :src="require('../assets/img/pool5.jpg')" alt="" class="img-fluid  w-100 wow zoomIn" data-wow-delay="0.3s">
                         </div>
@@ -383,7 +380,6 @@
  @import '@/assets/css/style.css';</style>
 
 <script>
-
 import axios from 'axios'
     import insert from '@/components/insert.vue';
     export default {
@@ -399,7 +395,6 @@ import axios from 'axios'
                 numberOfClients: 0, 
                 numberOfRooms: 0,
                 pool:[], 
-
             }
         },
         mounted(){
@@ -407,6 +402,7 @@ import axios from 'axios'
             this.getRoom();
             this.getPool();
             this.getData();
+
 
         },
         methods:{
@@ -435,8 +431,5 @@ import axios from 'axios'
         
         }
     }
-
 </script>
-
-
 
