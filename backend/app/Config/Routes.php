@@ -14,6 +14,8 @@ $routes->match(['post','get'],'/login', 'MainController::login');
 $routes->post('/submit-feedback', 'MainController::submitFeedback');
 $routes->post('save', 'MainController::save');
 $routes->get('/getFeedback','MainController::getFeedback');
+$routes->get('api/data', 'MainController::fetchData');
+$routes->get('image-data', 'MainController::getImageData');
 $routes->post('booking','MainController::booking');
 $routes->get('/getbook','MainController::getbook');
 $routes->post('/logout', 'MainController::logout');

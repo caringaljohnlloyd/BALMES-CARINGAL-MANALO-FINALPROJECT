@@ -9,6 +9,7 @@ use CodeIgniter\API\ResponseTrait;
 use App\Models\MainModel;
 use App\Models\UserModel;
 use App\Models\FeedbackModel;
+use App\Models\DataModel;
 use App\Models\BookingModel;
 use App\Models\ShopModel;
 use App\Models\PoolModel;
@@ -257,4 +258,22 @@ public function resetPassword()
         return $this->respond(['message' => 'Password updated successfully']);
     }
     
+    public function fetchData()
+    {
+        $dataModel = new DataModel();
+        $data = $dataModel->first(); // Fetching the first row from the database
+        return $this->respond($data);
+
+    }
+    public function getImageData() {
+        $model = new DataModel(); // Create an instance of your DataModel
+
+        // Fetch image data from the database
+        $imageData = $model->findAll(); // Or use appropriate logic to fetch specific image data based on your requirements
+
+        // Return the fetched image data as JSON response
+        return $this->response->setJSON($imageData);
+    }
+    
 }
+    
