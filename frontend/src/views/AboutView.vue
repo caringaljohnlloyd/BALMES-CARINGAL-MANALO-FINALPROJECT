@@ -35,7 +35,7 @@
                             <div class="border rounded p-1">
                                 <div class="border rounded text-center p-4">
                                     <i class="fa fa-hotel fa-2x text-primary mb-2"></i>
-                                    <h2 class="mb-1" data-toggle="counter-up">1234</h2>
+                                    <h2 class="mb-1" data-toggle="counter-up">{{ numberOfRooms }}</h2>
                                     <p class="mb-0">Rooms</p>
                                 </div>
                             </div>
@@ -53,7 +53,7 @@
                             <div class="border rounded p-1">
                                 <div class="border rounded text-center p-4">
                                     <i class="fa fa-users fa-2x text-primary mb-2"></i>
-                                    <h2 class="mb-1" data-toggle="counter-up">1234</h2>
+                                    <h2 class="mb-1" data-toggle="counter-up">{{ numberOfClients }}</h2>
                                     <p class="mb-0">Clients</p>
                                 </div>
                             </div>
@@ -189,6 +189,8 @@
 </style>
 
 <script>
+import axios from 'axios'
+
 import Top from '@/components/Top.vue';
 import navbar from '@/components/navbar.vue';
 import End from '@/components/End.vue';
@@ -197,6 +199,33 @@ export default {
   name: 'about',
   components: {
     Top,navbar,End
-  }
-}
+  },
+  data(){
+            return{
+                feed:[],
+                feedbackSent: false, 
+                room:[],
+                numberOfClients: 0, // Add this property
+                numberOfRooms: 0,
+                pool:[], // Add this property
+            }
+        },
+        mounted(){
+            this.getData();
+            this.getRoom();
+
+        },
+        methods:{
+            async getData() {
+                const response = await axios.get("/getData"); 
+                this.data = response.data;
+                this.numberOfClients = this.data.length; 
+            },
+            async getRoom() {
+                const response = await axios.get("/getRoom");
+                this.room = response.data;
+                this.numberOfRooms = this.room.length; 
+            }
+        }
+     }
 </script>

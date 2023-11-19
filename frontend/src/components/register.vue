@@ -6,13 +6,8 @@
         <hr />
         <form @submit.prevent="register()" ref="registerForm">
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" name="firstname" v-model="firstname" required />
-            <label for="firstname" class="form-label">First Name</label>
-          </div>
-
-          <div class="form-floating mb-3">
-            <input type="text" class="form-control" name="lastname" v-model="lastname" required />
-            <label for="lastname" class="form-label">Last Name</label>
+            <input type="text" class="form-control" name="name" v-model="name" required />
+            <label for="name" class="form-label">Name</label>
           </div>
 
           <div class="form-floating mb-3">
@@ -54,8 +49,7 @@ import axios from 'axios';
 export default {
   data() {
 return {
-  firstname: "",
-  lastname: "",
+  name: "",
   email: "",
   password: "",
   confirmpassword: "",
@@ -94,14 +88,12 @@ return {
     async register() {
       try {
         const res = await axios.post("register", {
-          firstname: this.firstname,
-          lastname: this.lastname,
+          name: this.name,
           email: this.email,
           password: this.password,
           confirmpassword: this.confirmpassword,
         })
-        this.firstname = "";
-        this.lastname = "";
+        this.name = "";
         this.email = "";
         this.password = "";
         this.confirmpassword = "";

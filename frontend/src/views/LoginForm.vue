@@ -55,6 +55,7 @@ export default {
       .then((response) => {
         if (response.data.message === 'Login successful') {
           sessionStorage.setItem("token", response.data.token);
+          sessionStorage.setItem("id", response.data.id);
           router.push('/user');
         } 
       })

@@ -48,22 +48,6 @@
                         <div class="wow fadeInUp" data-wow-delay="0.2s">
                             <form @submit.prevent="save">
                   <div class="row">
-                    <!-- Name -->
-                    <div class="col-md-6 mb-3">
-                      <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" placeholder="Name" v-model="name" class="form-control">
-                      </div>
-                    </div>
-  
-                    <!-- email -->
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="text" placeholder="Email" v-model="email" class="form-control">
-                      </div>
-                    </div>
-
                     <!-- in -->
                     <div class="col-md-6">
                       <div class="form-group">
@@ -171,8 +155,6 @@ export default {
   },
   data() {
       return {
-        name: "",
-        email: "",
         checkin: "",
         checkout: "",
         adult: "",
@@ -186,9 +168,9 @@ export default {
     methods: {
       async save() {
         try {
+          const id = sessionStorage.getItem("id");
           const response = await axios.post("booking", {
-            name: this.name,
-            email: this.email,
+            id: id,
             checkin: this.checkin,
             checkout: this.checkout,
             adult: this.adult,
@@ -201,14 +183,12 @@ export default {
   console.log("Booked successfully");
   this.successMessage = "Booked successfully";
   this.errorMessage = ""; 
-            this.name = "";
-            this.email = "";
+            this.id = "";
             this.checkin = "";
             this.checkout = "";
             this.adult = "";
             this.child = "";
             this.specialRequest = "";
-
             this.$emit('data-saved');
           } 
         } catch (error) {

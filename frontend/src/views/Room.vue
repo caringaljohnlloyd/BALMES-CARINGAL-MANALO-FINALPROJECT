@@ -32,7 +32,7 @@
                         <div class="room-item shadow rounded overflow-hidden">
                             <div  class="position-relative">
                                 <img :src="require('@/assets/img/' + room.image)" alt="" />
-                                <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">{{ room.price }}</small>
+                                <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">Php.{{ room.price }}</small>
                             </div>
                             <div class="p-4 mt-2">
                                 <div class="d-flex justify-content-between mb-3">
@@ -62,8 +62,8 @@
     </div>
         <!-- Room End -->
 
-    <!-- Testimonial Start -->
-    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+ <!-- Testimonial Start -->
+ <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                     <h6 class="section-title text-center text-primary text-uppercase">Feedbacks</h6>
                  
                 </div>
@@ -76,8 +76,7 @@
                     <div class="d-flex align-items-center">
                         <img :src="require('../assets/img/testimonial-1.jpg')" class="img-fluid flex-shrink-0 rounded" style="width: 45px; height: 45px;">
                         <div class="ps-3">
-                            <h6 class="fw-bold mb-1">{{ feed.name }}</h6>
-                            <small>{{ feed.profession }}</small>
+                            <h6 class="fw-bold mb-1">{{ feed.id }}</h6>
                         </div>
                     </div>
                     <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>

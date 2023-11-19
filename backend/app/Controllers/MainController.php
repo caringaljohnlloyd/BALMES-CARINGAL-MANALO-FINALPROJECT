@@ -11,6 +11,9 @@ use App\Models\UserModel;
 use App\Models\FeedbackModel;
 use App\Models\BookingModel;
 use App\Models\ShopModel;
+use App\Models\PoolModel;
+use App\Models\CartModel;
+
 
 
 
@@ -22,6 +25,17 @@ class MainController extends ResourceController
     public function index()
     {
         //
+    }
+    public function getCart()
+    {
+        $cart = new CartModel();
+        $data = $cart->findAll();
+        return $this->respond($data, 200);
+    }
+    public function getPool(){
+        $pool = new PoolModel();
+        $data = $pool->findAll();
+        return $this->respond($data, 200);
     }
     public function getShop(){
         $shop = new ShopModel();
@@ -64,8 +78,7 @@ public function save() {
     $json = $this->request->getJSON();
     $data = [
         'feedback' => $json->feedback,
-        'name' => $json->name,
-        'profession' => $json->profession,
+        'id' => $json->id,
     ];
 
     $feedback = new FeedbackModel();
@@ -77,8 +90,7 @@ public function save() {
     public function booking(){
         $json = $this->request->getJSON();
         $data = [
-            'name' => $json->name,
-            'email' => $json->email,
+            'id' => $json->id,
             'checkin' => $json->checkin,
             'checkout' => $json->checkout,
             'adult' => $json->adult,
@@ -87,7 +99,11 @@ public function save() {
         ];
         $booking = new BookingModel();
         $r =$booking->save($data);
-        return $this->respond(['message' => 'Booked successfully', $r], 200);
+        if($booking){
+            return $this->respond(['message' => 'Booked successfully', $r], 200);
+        } else {
+            return $this->respond(['message' => 'Booking failed'], 500);
+        }
     }
    
     public function register()
@@ -109,8 +125,7 @@ public function save() {
             }
     
             $data = [
-                'firstname' => $json->firstname,
-                'lastname' => $json->lastname,
+                'name' => $json->name,
                 'email' => $email,
                 'password' => password_hash($password, PASSWORD_BCRYPT),
                 'token' => $token, 
@@ -149,8 +164,7 @@ public function save() {
                 $pass = $data['password'];
                 $auth = password_verify($password, $pass);
                 if($auth){
-                    return $this->respond(['message' => 'Login successful','token' => $data['token']], 200);
-                }
+                    return $this->respond(['message' => 'Login successful', 'token' => $data['token'], 'id' => $data['id']], 200);                }
             
              else {
                 return $this->respond(['message' => 'Invalid email or password'], 401);
@@ -166,6 +180,41 @@ public function logout()
     session()->destroy();
 
     return $this->response->setStatusCode(200)->setJSON(['message' => 'Logout successful']);
+}
+public function Cart()
+{
+    $cart = new CartModel();
+    $json = $this->request->getJSON();
+
+    $shop_id = $json->shop_id;
+    $user = $json->id;
+
+    $existing = $cart->where(['id' => $user, 'shop_id' => $shop_id])->first();
+
+    if ($existing) {
+        $existing['quantity']++;
+        $updateResult = $cart->update($existing['cart_id'], $existing);
+
+        if ($updateResult) {
+            return $this->respond(['message' => 'Item quantity updated in the cart'], 200);
+        } else {
+            return $this->respond(['message' => 'Failed to update item quantity in the cart'], 500);
+        }
+    } else {
+        $data = [
+            'id'  => $user,
+            'shop_id'  => $shop_id,
+            'quantity' => 1,
+        ];
+
+        $addcart = $cart->save($data);
+
+        if ($addcart) {
+            return $this->respond(['message' => 'Item added to cart successfully'], 200);
+        } else {
+            return $this->respond(['message' => 'Failed to add item to cart'], 500);
+        }
+    }
 }
 public function resetPassword()
     {

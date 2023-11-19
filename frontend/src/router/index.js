@@ -22,6 +22,7 @@ import Calendar from '../views/Calendar.vue'
 import Email_inbox from '../views/Email_inbox.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import UpdatePassword from '../views/UpdatePassword.vue'
+import Cart from '../views/Cart.vue'
 
 
 
@@ -96,6 +97,12 @@ const routes = [
 {
   path: '/testimonial',
   component: Testimonial,
+  meta: {requiresAuth: true}
+
+},
+{
+  path: '/shopcart',
+  component: Cart,
   meta: {requiresAuth: true}
 
 },

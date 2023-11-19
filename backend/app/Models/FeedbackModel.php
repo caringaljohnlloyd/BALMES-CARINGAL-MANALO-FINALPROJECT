@@ -7,12 +7,12 @@ use CodeIgniter\Model;
 class FeedbackModel extends Model
 {
     protected $table            = 'feedbacks';
-    protected $primaryKey       = 'id';
+    protected $primaryKey       = 'feed_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['feedback', 'name', 'profession'];
+    protected $allowedFields    = ['feedback', 'id'];
 
     // Dates
     protected $useTimestamps = false;

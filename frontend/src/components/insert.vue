@@ -16,22 +16,8 @@
                         <textarea type="text" placeholder="Feedback" v-model="feedback" class="form-control"></textarea>
                       </div>
                     </div>
-  
-                    <!-- Name -->
-                    <div class="col-md-6 mb-3">
-                      <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="text" placeholder="email" v-model="email" class="form-control">
-                      </div>
-                    </div>
-  
-                    <!-- Profession -->
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="profession">Profession</label>
-                        <input type="text" placeholder="Profession" v-model="profession" class="form-control">
-                      </div>
-                    </div>
+
+
                   </div>
   
                   <button type="submit" class="btn btn-primary">Submit</button>
@@ -60,8 +46,6 @@
     data() {
       return {
         feedback: "",
-        name: "",
-        profession: "",
         successMessage: "",
       errorMessage: "",
       };
@@ -69,19 +53,18 @@
     methods: {
       async save() {
         try {
+          const id = sessionStorage.getItem("id");
           const response = await axios.post("save", {
             feedback: this.feedback,
-            name: this.name,
-            profession: this.profession,
+            id: id,
           });
   
           if (response.status === 200) {
             console.log("Feedback submitted successfully");
             this.successMessage = "Feedback submitted successfully";
-  this.errorMessage = ""; 
+            this.errorMessage = ""; 
             this.feedback = "";
-            this.name = "";
-            this.profession = "";
+            this.id = "";
             this.$emit('data-saved');
       
           } 

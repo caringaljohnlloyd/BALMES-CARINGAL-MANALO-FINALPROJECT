@@ -7,12 +7,12 @@ use CodeIgniter\Model;
 class BookingModel extends Model
 {
     protected $table            = 'booking';
-    protected $primaryKey       = 'id';
+    protected $primaryKey       = 'book_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name', 'email','checkin','checkout','adult','child','specialRequest'];
+    protected $allowedFields    = ['id','checkin','checkout','adult','child','specialRequest'];
 
     // Dates
     protected $useTimestamps = false;

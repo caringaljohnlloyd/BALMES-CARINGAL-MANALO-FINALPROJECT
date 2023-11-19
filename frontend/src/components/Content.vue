@@ -55,7 +55,7 @@
                             <div class="border rounded p-1">
                                 <div class="border rounded text-center p-4">
                                     <i class="fa fa-hotel fa-2x text-primary mb-2"></i>
-                                    <h2 class="mb-1" data-toggle="counter-up">1234</h2>
+                                    <h2 class="mb-1" data-toggle="counter-up">{{ numberOfRooms }}</h2>
                                     <p class="mb-0">Rooms</p>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                             <div class="border rounded p-1">
                                 <div class="border rounded text-center p-4">
                                     <i class="fa fa-users-cog fa-2x text-primary mb-2"></i>
-                                    <h2 class="mb-1" data-toggle="counter-up">1234</h2>
+                                    <h2 class="mb-1" data-toggle="counter-up">3</h2>
                                     <p class="mb-0">Staffs</p>
                                 </div>
                             </div>
@@ -73,7 +73,7 @@
                             <div class="border rounded p-1">
                                 <div class="border rounded text-center p-4">
                                     <i class="fa fa-users fa-2x text-primary mb-2"></i>
-                                    <h2 class="mb-1" data-toggle="counter-up">1234</h2>
+                                    <h2 class="mb-1" data-toggle="counter-up">{{ numberOfClients }}</h2>
                                     <p class="mb-0">Clients</p>
                                 </div>
                             </div>
@@ -115,7 +115,7 @@
                         <div class="room-item shadow rounded overflow-hidden">
                             <div  class="position-relative">
                                 <img :src="require('@/assets/img/' + room.image)" alt="" />
-                                <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">{{ room.price }}</small>
+                                <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">Php{{ room.price }}</small>
                             </div>
                             <div class="p-4 mt-2">
                                 <div class="d-flex justify-content-between mb-3">
@@ -267,7 +267,7 @@
                     <div class="d-flex align-items-center">
                         <img :src="require('../assets/img/testimonial-1.jpg')" class="img-fluid flex-shrink-0 rounded" style="width: 45px; height: 45px;">
                         <div class="ps-3">
-                            <h6 class="fw-bold mb-1">{{ feed.name }}</h6>
+                            <h6 class="fw-bold mb-1">{{ feed.id }}</h6>
                         </div>
                     </div>
                     <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
@@ -383,32 +383,53 @@
 import axios from 'axios'
     import insert from '@/components/insert.vue';
     export default {
+        name: 'feedback',
+            components: {
+                insert,
+            },
         data(){
             return{
                 feed:[],
                 feedbackSent: false, 
                 room:[],
+                numberOfClients: 0, // Add this property
+                numberOfRooms: 0,
+                pool:[], // Add this property
             }
         },
         mounted(){
             this.getFeed();
             this.getRoom();
+            this.getPool();
+            this.getData();
+
+
         },
         methods:{
             async getFeed(){
                 const g = await axios.get("/getFeedback");
                 this.feed = g.data;
             },
+            async getPool(){
+                const p = await axios.get("/getPool");
+                this.pool = p.data;
+            },
             async getRoom(){
                 const r = await axios.get("/getRoom");
                 this.room = r.data;
-            }
-
-        },
-  name: 'feedback',
-  components: {
-insert,
-  }
-}
+            },
+            async getData() {
+                const response = await axios.get("/getData"); 
+                this.data = response.data;
+                this.numberOfClients = this.data.length; 
+            },
+            async getRoom() {
+                const response = await axios.get("/getRoom");
+                this.room = response.data;
+                this.numberOfRooms = this.room.length; 
+            },
+        
+        }
+    }
 </script>
 

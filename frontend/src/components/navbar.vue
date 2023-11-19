@@ -38,6 +38,7 @@
                                 <font-awesome-icon :icon ="['fab','google']"/>
                                 <font-awesome-icon :icon ="['fab','facebook']"/>
                                 <font-awesome-icon :icon ="['fab','twitter']"/>
+                                
                             </div>
                         </button>
                             </div>
@@ -67,10 +68,15 @@
                               </div>
                                 <a href="/contact" class="nav-item nav-link">Contact</a>      
                             </div>
+                            <router-link to="/shopcart" class="text-primary">
+    <i class="fa fa-shopping-cart"></i>
+</router-link>
+
                             <button @click="logout" class="btn btn-primary logout-logo-btn">
-  <i class="fas fa-power-off logout-icon"></i>
-  Logout
-</button>
+                                        <i class="fas fa-power-off logout-icon"></i>
+                                            Logout
+                              </button>
+
 
 
                         </div>

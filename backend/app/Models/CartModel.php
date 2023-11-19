@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class RoomModel extends Model
+class CartModel extends Model
 {
-    protected $table            = 'room';
-    protected $primaryKey       = 'room_id';
+    protected $table            = 'cart';
+    protected $primaryKey       = 'cart_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['image','name', 'price','bed','bath','description'];
+    protected $allowedFields    = ['id','shop_id',	'quantity'];
 
     // Dates
     protected $useTimestamps = false;

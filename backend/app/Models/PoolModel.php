@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class RoomModel extends Model
+class PoolModel extends Model
 {
-    protected $table            = 'room';
-    protected $primaryKey       = 'room_id';
+    protected $table            = 'pool';
+    protected $primaryKey       = 'pool_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['image','name', 'price','bed','bath','description'];
+    protected $allowedFields    = ['pimg'];
 
     // Dates
     protected $useTimestamps = false;
