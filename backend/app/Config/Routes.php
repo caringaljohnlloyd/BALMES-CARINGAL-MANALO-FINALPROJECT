@@ -14,6 +14,9 @@ $routes->post('/login', 'MainController::login');
 $routes->post('/submit-feedback', 'MainController::submitFeedback');
 $routes->post('save', 'MainController::save');
 $routes->get('/getFeedback','MainController::getFeedback');
+$routes->get('api/data', 'MainController::fetchData');
+$routes->get('image-data', 'MainController::getImageData');
+
 
 
 

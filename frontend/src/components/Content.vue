@@ -87,50 +87,55 @@
     <!-- Booking End -->
 
 
-    <!-- About Start -->
+   
     <div class="container-xxl py-5">
-        <div class="container">
-            <div class="row g-5 align-items-center">
-                <div class="col-lg-6">
-                    <h6 class="section-title text-start text-primary text-uppercase">About Us</h6>
-                    <h1 class="mb-4">Welcome to <span class="text-primary text-uppercase">Eduardo's</span></h1>
-                    <p class="mb-4">Eduardo's Resort promotes tourism in the province, provides employment to local residents, helps the farmers maximize product of agricultural crops and supports swimmers and athletes. </p>
-                    <div class="row g-3 pb-4">
-                        <div class="col-sm-4 wow fadeIn" data-wow-delay="0.1s">
-                            <div class="border rounded p-1">
-                                <div class="border rounded text-center p-4">
-                                    <i class="fa fa-hotel fa-2x text-primary mb-2"></i>
-                                    <h2 class="mb-1" data-toggle="counter-up">1234</h2>
-                                    <p class="mb-0">Rooms</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 wow fadeIn" data-wow-delay="0.3s">
-                            <div class="border rounded p-1">
-                                <div class="border rounded text-center p-4">
-                                    <i class="fa fa-users-cog fa-2x text-primary mb-2"></i>
-                                    <h2 class="mb-1" data-toggle="counter-up">1234</h2>
-                                    <p class="mb-0">Staffs</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 wow fadeIn" data-wow-delay="0.5s">
-                            <div class="border rounded p-1">
-                                <div class="border rounded text-center p-4">
-                                    <i class="fa fa-users fa-2x text-primary mb-2"></i>
-                                    <h2 class="mb-1" data-toggle="counter-up">1234</h2>
-                                    <p class="mb-0">Clients</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="container">
+      <div class="row g-5 align-items-center">
+        <div class="col-lg-6">
+          <h6 class="section-title text-start text-primary text-uppercase">About Us</h6>
+          <h1 class="mb-4">Welcome to <span class="text-primary text-uppercase">Eduardo's</span></h1>
+          <p class="mb-4">Eduardo's Resort promotes tourism in the province, provides employment to local residents, helps the farmers maximize product of agricultural crops and supports swimmers and athletes.</p>
+          <div class="row g-3 pb-4">
+            <div class="col-sm-4 wow fadeIn" data-wow-delay="0.1s">
+              <div class="border rounded p-1">
+                <div class="border rounded text-center p-4">
+                  <i class="fa fa-hotel fa-2x text-primary mb-2"></i>
+                  <h2 class="mb-1" data-toggle="counter-up">{{ roomCount }}</h2>
+                  <p class="mb-0">Rooms</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 wow fadeIn" data-wow-delay="0.3s">
+              <div class="border rounded p-1">
+                <div class="border rounded text-center p-4">
+                  <i class="fa fa-users-cog fa-2x text-primary mb-2"></i>
+                  <h2 class="mb-1" data-toggle="counter-up">{{ staffCount }}</h2>
+                  <p class="mb-0">Staffs</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 wow fadeIn" data-wow-delay="0.5s">
+              <div class="border rounded p-1">
+                <div class="border rounded text-center p-4">
+                  <i class="fa fa-users fa-2x text-primary mb-2"></i>
+                  <h2 class="mb-1" data-toggle="counter-up">{{ clientCount }}</h2>
+                  <p class="mb-0">Clients</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+                    
                     <a class="btn btn-primary py-3 px-5 mt-2" href="">Explore More</a>
                 </div>
                 <div class="col-lg-6">
                     <div class="row g-3">
-                        <div class="col-6 text-end">
-                            <img :src="require('../assets/img/pool3.jpg')" alt="" class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.1s" > 
-                        </div>
+                        <div class="col-6 text-center">
+                            <img :src="imageUrls[0]" :alt="'Image 1'" class="img-fluid rounded w-100 wow zoomIn" :data-wow-delay="`${0 * 0.2 + 0.1}s`">
+
+      </div>
                         <div class="col-6 text-start">
                             <img :src="require('../assets/img/pool5.jpg')" alt="" class="img-fluid  w-100 wow zoomIn" data-wow-delay="0.3s">
                         </div>
@@ -475,30 +480,65 @@
  @import '@/assets/css/style.css';</style>
 
 <script>
-import axios from 'axios'
-    import insert from '@/components/insert.vue';
-    export default {
-        data(){
-            return{
-                feed:[],
-            }
-        },
-        mounted(){
-            this.getFeed();
 
-        },
-        methods:{
-            async getFeed(){
-                const g = await axios.get("/getFeedback");
-                this.feed = g.data;
-                // alert(g);
-            }
 
-        },
-  name: 'feedback',
+import axios from 'axios';
+import insert from '@/components/insert.vue';
+
+export default {
+  data() {
+    return {
+      feed: [],
+      roomCount: 0,
+      staffCount: 0,
+      clientCount: 0,
+      imageUrls: []
+    };
+  },
   components: {
-insert,
-  }
-}
+    insert,
+  },
+  mounted() {
+    this.getFeed();
+    this.fetchDataFromAPI();
+    this.fetchImageData();
+  },
+  methods: {
+    async getFeed() {
+      try {
+        const response = await axios.get("http://your-api-domain.com/getFeedback");
+        this.feed = response.data;
+      } catch (error) {
+        console.error('Error fetching feed:', error);
+      }
+    },
+    async fetchDataFromAPI() {
+      try {
+        const response = await axios.get('http://localhost/BALMES-CARINGAL-MANALO-FINALPROJECT/backend/public/api/data');
+
+        const data = response.data;
+        this.roomCount = data.room_count;
+        this.staffCount = data.staff_count;
+        this.clientCount = data.client_count;
+        // Assign other necessary data properties from the response
+
+
+        // Assign other necessary data properties from the response
+      } catch (error) {
+        console.error(error);
+        // Handle errors
+      }
+    },
+    async fetchImageData() {
+        try {
+    const response = await fetch('http://localhost:8080/BALMES-CARINGAL-MANALO-FINALPROJECT/image-data'); // Update with your actual endpoint URL
+    const data = await response.json();
+    this.imageUrls = data.map(item => item.images);
+  } catch (error) {
+    console.error('Error fetching image data:', error);
+      }
+    },
+  },
+};
 </script>
 
