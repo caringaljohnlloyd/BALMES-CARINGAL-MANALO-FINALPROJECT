@@ -1,5 +1,4 @@
 <template>
-  <div class="row">
     <div class="row">
       <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 mt-5 pt-3 pb-3 bg-dark form-wrapper">
         <div class="container">
@@ -19,16 +18,18 @@
             <button type="submit" class="btn btn-primary mx-auto w-100 mb-3">Sign in</button>
 
             <router-link to="/register">Don't have an account yet?</router-link>
+            <br>
+            <router-link to="/reset-password">Forgot Password</router-link>
+
           </form>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
 import axios from 'axios';
-
+import router from '@/router'; 
 export default {
   data() {
     return {
@@ -53,7 +54,8 @@ export default {
       })
       .then((response) => {
         if (response.data.message === 'Login successful') {
-          this.$router.push('/user');
+          sessionStorage.setItem("token", response.data.token);
+          router.push('/user');
         } 
       })
       .catch((error) => {

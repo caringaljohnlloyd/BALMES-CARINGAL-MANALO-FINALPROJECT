@@ -5,7 +5,7 @@
           <div class="col-12 col-lg-6">
             <div class="card ">
               <div class="card-body p-4 p-md-5">
-                <h3 class="card-name mb-4 pb-2 pb-md-0 mb-md-5">Send us Your Feedbacks</h3>
+                <h4 class="mb-5">Send us your<span class="text-primary text-uppercase"> Feedbacks</span></h4>
   
                 <form @submit.prevent="save">
                   <div class="row">
@@ -20,8 +20,8 @@
                     <!-- Name -->
                     <div class="col-md-6 mb-3">
                       <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" placeholder="Name" v-model="name" class="form-control">
+                        <label for="email">Email</label>
+                        <input type="text" placeholder="email" v-model="email" class="form-control">
                       </div>
                     </div>
   
@@ -34,8 +34,14 @@
                     </div>
                   </div>
   
-                  <!-- Submit Button -->
                   <button type="submit" class="btn btn-primary">Submit</button>
+                  <div v-if="successMessage" class="alert alert-success mt-3">
+    {{ successMessage }}
+  </div>
+
+  <div v-if="errorMessage" class="alert alert-danger mt-3">
+    {{ errorMessage }}
+  </div>
                 </form>
               </div>
             </div>
@@ -56,6 +62,8 @@
         feedback: "",
         name: "",
         profession: "",
+        successMessage: "",
+      errorMessage: "",
       };
     },
     methods: {
@@ -67,21 +75,21 @@
             profession: this.profession,
           });
   
-          // Check the response for success
           if (response.status === 200) {
             console.log("Feedback submitted successfully");
+            this.successMessage = "Feedback submitted successfully";
+  this.errorMessage = ""; 
             this.feedback = "";
             this.name = "";
             this.profession = "";
             this.$emit('data-saved');
-            this.getInfo();
-          } else {
-            console.error("Failed to submit feedback");
-          }
+      
+          } 
         } catch (error) {
-          console.error("Error submitting feedback", error);
-          // Handle errors if necessary
-        }
+  console.error("Error feedback", error);
+  this.errorMessage = `Error feedback: ${error.message}`;
+  this.successMessage = ""; 
+}
       },
     }
   }

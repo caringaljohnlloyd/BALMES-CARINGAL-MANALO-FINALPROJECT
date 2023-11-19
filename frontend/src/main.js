@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {faFacebook, faGoogle,faTwitter} from '@fortawesome/free-brands-svg-icons';
 
 
+
 library.add(faFacebook, faGoogle, faTwitter);
 axios.defaults.baseURL="http://localhost:8080/"
 

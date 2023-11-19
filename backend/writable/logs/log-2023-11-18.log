@@ -247,3 +247,192 @@ in APPPATH\Controllers\MainController.php on line 112.
  3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
  4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
  5 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ERROR - 2023-11-18 08:53:54 --> mysqli_sql_exception: Table 'crud.users' doesn't exist in C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('UPDATE `users` ...', 0)
+#1 C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `users` ...')
+#2 C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `users` ...')
+#3 C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\system\Database\BaseBuilder.php(2475): CodeIgniter\Database\BaseConnection->query('UPDATE `users` ...', Array, false)
+#4 C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\app\Controllers\MainController.php(174): CodeIgniter\Database\BaseBuilder->update()
+#5 C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\system\CodeIgniter.php(942): App\Controllers\MainController->resetPassword()
+#6 C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#7 C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\public\index.php(85): CodeIgniter\CodeIgniter->run()
+#9 C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#10 {main}
+CRITICAL - 2023-11-18 08:53:54 --> Table 'crud.users' doesn't exist
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2475): CodeIgniter\Database\BaseConnection->query('UPDATE `users` SET `password` = :password:
+WHERE `email` = :email:', [...], false)
+ 2 APPPATH\Controllers\MainController.php(174): CodeIgniter\Database\BaseBuilder->update()
+ 3 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->resetPassword()
+ 4 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 5 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:17:32 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 185.
+ 1 APPPATH\Controllers\MainController.php(185): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 185)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:21:00 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 185.
+ 1 APPPATH\Controllers\MainController.php(185): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 185)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:23:46 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 185.
+ 1 APPPATH\Controllers\MainController.php(185): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 185)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:24:37 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 185.
+ 1 APPPATH\Controllers\MainController.php(185): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 185)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:31:09 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 185.
+ 1 APPPATH\Controllers\MainController.php(185): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 185)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:31:29 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 185.
+ 1 APPPATH\Controllers\MainController.php(185): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 185)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:31:31 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 185.
+ 1 APPPATH\Controllers\MainController.php(185): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 185)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:31:31 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 185.
+ 1 APPPATH\Controllers\MainController.php(185): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 185)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:31:31 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 185.
+ 1 APPPATH\Controllers\MainController.php(185): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 185)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:31:31 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 185.
+ 1 APPPATH\Controllers\MainController.php(185): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 185)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:31:32 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 185.
+ 1 APPPATH\Controllers\MainController.php(185): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 185)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:31:32 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 185.
+ 1 APPPATH\Controllers\MainController.php(185): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 185)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:31:32 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 185.
+ 1 APPPATH\Controllers\MainController.php(185): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 185)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:34:59 --> Undefined array key "email"
+in APPPATH\Controllers\MainController.php on line 186.
+ 1 APPPATH\Controllers\MainController.php(186): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "email"', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 186)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:35:02 --> Undefined array key "email"
+in APPPATH\Controllers\MainController.php on line 186.
+ 1 APPPATH\Controllers\MainController.php(186): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "email"', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 186)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:35:04 --> Undefined array key "email"
+in APPPATH\Controllers\MainController.php on line 186.
+ 1 APPPATH\Controllers\MainController.php(186): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "email"', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 186)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:37:34 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 158.
+ 1 APPPATH\Controllers\MainController.php(158): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 158)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->resetPassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:48:37 --> There is no data to update.
+in SYSTEMPATH\BaseModel.php on line 930.
+ 1 SYSTEMPATH\BaseModel.php(930): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('update')
+ 2 SYSTEMPATH\Model.php(776): CodeIgniter\BaseModel->update(null, [])
+ 3 APPPATH\Controllers\MainController.php(175): CodeIgniter\Model->update()
+ 4 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->resetPassword()
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:49:52 --> There is no data to update.
+in SYSTEMPATH\BaseModel.php on line 930.
+ 1 SYSTEMPATH\BaseModel.php(930): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('update')
+ 2 SYSTEMPATH\Model.php(776): CodeIgniter\BaseModel->update(null, [])
+ 3 APPPATH\Controllers\MainController.php(175): CodeIgniter\Model->update()
+ 4 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->resetPassword()
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-11-18 09:54:27 --> There is no data to update.
+in SYSTEMPATH\BaseModel.php on line 930.
+ 1 SYSTEMPATH\BaseModel.php(930): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('update')
+ 2 SYSTEMPATH\Model.php(776): CodeIgniter\BaseModel->update(null, [])
+ 3 APPPATH\Controllers\MainController.php(175): CodeIgniter\Model->update()
+ 4 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->resetPassword()
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(85): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')

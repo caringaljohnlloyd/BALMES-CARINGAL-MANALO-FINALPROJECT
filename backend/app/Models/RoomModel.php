@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class UserModel extends Model
+class RoomModel extends Model
 {
-    protected $table            = 'user';
+    protected $table            = 'room';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['firstname', 'lastname','email','password','status','role','token'];
+    protected $allowedFields    = ['image','name', 'price','bed','bath','description'];
 
     // Dates
     protected $useTimestamps = false;

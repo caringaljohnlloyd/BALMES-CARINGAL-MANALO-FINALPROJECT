@@ -41,51 +41,6 @@
     <!-- Carousel End -->
 
 
-    <!-- Booking Start -->
-    <div class="container-fluid booking pb-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container">
-            <div class="bg-white shadow" style="padding: 35px;">
-                <div class="row g-2">
-                    <div class="col-md-10">
-                        <div class="row g-2">
-                            <div class="col-md-3">
-                                <div class="date" id="date1" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input"
-                                        placeholder="Check in" data-target="#date1" data-toggle="datetimepicker" />
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="date" id="date2" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input" placeholder="Check out" data-target="#date2" data-toggle="datetimepicker"/>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <select class="form-select">
-                                    <option selected>Adult</option>
-                                    <option value="1">Adult 1</option>
-                                    <option value="2">Adult 2</option>
-                                    <option value="3">Adult 3</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <select class="form-select">
-                                    <option selected>Child</option>
-                                    <option value="1">Child 1</option>
-                                    <option value="2">Child 2</option>
-                                    <option value="3">Child 3</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-primary w-100">Submit</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Booking End -->
-
 
    
     <div class="container-xxl py-5">
@@ -154,103 +109,42 @@
 
 
     <!-- Room Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="section-title text-center text-primary text-uppercase">Our Rooms</h6>
-                <h1 class="mb-5">Explore Our <span class="text-primary text-uppercase">Rooms</span></h1>
-            </div>
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="room-item shadow rounded overflow-hidden">
-                        <div class="position-relative">
-                            <img :src="require('../assets/img/room-1.jpg')" class="img-fluid" alt="">
-                            <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">$100/Night</small>
-                        </div>
-                        <div class="p-4 mt-2">
-                            <div class="d-flex justify-content-between mb-3">
-                                <h5 class="mb-0">Junior Suite</h5>
-                                <div class="ps-2">
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
+    <div  class="container-xxl py-5">
+            <div  class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title text-center text-primary text-uppercase">Our Rooms</h6>
+                    <h1 class="mb-5">Explore Our <span class="text-primary text-uppercase">Rooms</span></h1>
+                </div>
+                <div class="row g-4">
+                    <div  v-for="room in room" class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="room-item shadow rounded overflow-hidden">
+                            <div  class="position-relative">
+                                <img :src="require('@/assets/img/' + room.image)" alt="" />
+                                <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">{{ room.price }}</small>
+                            </div>
+                            <div class="p-4 mt-2">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <h5 class="mb-0">{{ room.name }}</h5>
+                                    <div class="ps-2">
+                                        <small class="fa fa-star text-primary"></small>
+                                        <small class="fa fa-star text-primary"></small>
+                                        <small class="fa fa-star text-primary"></small>
+                                        <small class="fa fa-star text-primary"></small>
+                                        <small class="fa fa-star text-primary"></small>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="d-flex mb-3">
-                                <small class="border-end me-3 pe-3"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>
-                                <small class="border-end me-3 pe-3"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>
-                                <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small>
-                            </div>
-                            <p class="text-body mb-3">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
-                            <div class="d-flex justify-content-between">
-                                <a class="btn btn-sm btn-primary rounded py-2 px-4" href="">View Detail</a>
-                                <a class="btn btn-sm btn-dark rounded py-2 px-4" href="">Book Now</a>
+                                <div class="d-flex mb-3">
+                                    <small class="border-end me-3 pe-3"><i class="fa fa-bed text-primary me-2"></i>{{ room.bed }} Bed</small>
+                                    <small class="border-end me-3 pe-3"><i class="fa fa-bath text-primary me-2"></i>{{ room.bath }} Bath</small>
+                                </div>
+                                <p class="text-body mb-3">{{ room.description }}</p>
+                                <div class="d-flex justify-content-between">
+                                    <a class="btn btn-sm btn-primary rounded py-2 px-4" href="">View Detail</a>
+                                    <a class="btn btn-sm btn-dark rounded py-2 px-4" href="">Book Now</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="room-item shadow rounded overflow-hidden">
-                        <div class="position-relative">
-                            <img :src="require('../assets/img/room-2.jpg')" class="img-fluid" alt="">
-                            <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">$100/Night</small>
-                        </div>
-                        <div class="p-4 mt-2">
-                            <div class="d-flex justify-content-between mb-3">
-                                <h5 class="mb-0">Executive Suite</h5>
-                                <div class="ps-2">
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                </div>
-                            </div>
-                            <div class="d-flex mb-3">
-                                <small class="border-end me-3 pe-3"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>
-                                <small class="border-end me-3 pe-3"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>
-                                <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small>
-                            </div>
-                            <p class="text-body mb-3">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
-                            <div class="d-flex justify-content-between">
-                                <a class="btn btn-sm btn-primary rounded py-2 px-4" href="">View Detail</a>
-                                <a class="btn btn-sm btn-dark rounded py-2 px-4" href="">Book Now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
-                    <div class="room-item shadow rounded overflow-hidden">
-                        <div class="position-relative">
-                            <img :src="require('../assets/img/room-3.jpg')" class="img-fluid" alt="">
-                            <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">$100/Night</small>
-                        </div>
-                        <div class="p-4 mt-2">
-                            <div class="d-flex justify-content-between mb-3">
-                                <h5 class="mb-0">Super Deluxe</h5>
-                                <div class="ps-2">
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                </div>
-                            </div>
-                            <div class="d-flex mb-3">
-                                <small class="border-end me-3 pe-3"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>
-                                <small class="border-end me-3 pe-3"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>
-                                <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small>
-                            </div>
-                            <p class="text-body mb-3">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
-                            <div class="d-flex justify-content-between">
-                                <a class="btn btn-sm btn-primary rounded py-2 px-4" href="">View Detail</a>
-                                <a class="btn btn-sm btn-dark rounded py-2 px-4" href="/booking">Book Now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -258,45 +152,48 @@
 
 
     <!-- Video Start -->
-    <div class="container-xxl py-5 px-0 wow zoomIn" data-wow-delay="0.1s">
-        <div class="row g-0">
-            <div class="col-md-6 bg-dark d-flex align-items-center">
-                <div class="p-5">
-                    <h6 class="section-title text-start text-white text-uppercase mb-3">Eduardo's Resort</h6>
-                    <h1 class="text-white mb-4">"Where Every Moment Becomes a Memory"</h1>
-                    <p class="text-white mb-4">"Eduardo's Resort is a tranquil paradise nestled in a breathtaking natural setting. With lush gardens, pristine pools, and luxurious accommodations, our resort offers the perfect escape from the hustle and bustle of daily life. Whether you're seeking a romantic getaway, a family vacation, or a venue for your special events, Eduardo's Resort provides a serene and memorable experience. Immerse yourself in comfort, adventure, and relaxation, all in one remarkable destination."</p>
-                    <a href="/room" class="btn btn-primary py-md-3 px-md-5 me-3">Our Rooms</a>
-                    <a href="/booking" class="btn btn-light py-md-3 px-md-5">Book A Room</a>
-                </div>
+<div class="container-xxl py-5 px-0 wow zoomIn" data-wow-delay="0.1s">
+    <div class="row g-0">
+        <div class="col-md-6 bg-dark d-flex align-items-center">
+            <div class="p-5">
+                <h6 class="section-title text-start text-white text-uppercase mb-3">Eduardo's Resort</h6>
+                <h1 class="text-white mb-4">"Where Every Moment Becomes a Memory"</h1>
+                <p class="text-white mb-4">"Eduardo's Resort is a tranquil paradise nestled in a breathtaking natural setting. With lush gardens, pristine pools, and luxurious accommodations, our resort offers the perfect escape from the hustle and bustle of daily life. Whether you're seeking a romantic getaway, a family vacation, or a venue for your special events, Eduardo's Resort provides a serene and memorable experience. Immerse yourself in comfort, adventure, and relaxation, all in one remarkable destination."</p>
+                <a href="/room" class="btn btn-primary py-md-3 px-md-5 me-3">Our Rooms</a>
+                <a href="/booking" class="btn btn-light py-md-3 px-md-5">Book A Room</a>
             </div>
-            <div class="col-md-6">
-                <div class="video">
-                    <button type="button" class="btn-play" data-bs-toggle="modal" :src="require('../assets/img/bestresortinmindoro.mp4')" data-bs-target="#videoModal">
-                        <span></span>
-                    </button>
-                </div>
+        </div>
+        <div class="col-md-6">
+            <div class="video">
+                <!-- Button to trigger the modal -->
+                <button type="button" class="btn-play" data-bs-toggle="modal" data-bs-target="#videoModal">
+                    <span></span>
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content rounded-0">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Youtube Video</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- 16:9 aspect ratio -->
-                    <div class="ratio ratio-16x9">
-                        <iframe class="embed-responsive-item" src="" id="video" allowfullscreen allowscriptaccess="always"
-                            allow="autoplay"></iframe>
-                    </div>
-                </div>
+<!-- Modal -->
+<div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Eduardo's Resort Video</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Video player with controls -->
+                <video controls width="100%" height="auto">
+                    <source :src="require('../assets/img/bestresortinmindoro.mp4')" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
             </div>
         </div>
     </div>
-    <!-- Video Start -->
+</div>
+<!-- Video Start -->
+
 
 
     <!-- Service Start -->
@@ -362,24 +259,32 @@
 
 
     <!-- Testimonial Start -->
-    <div class="container-xxl testimonial my-5 py-5 bg-dark wow zoomIn" data-wow-delay="0.1s">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title text-center text-primary text-uppercase">Feedbacks</h6>
+                 
+                </div>
+
+    <div class="container-xxl testimonial my-5 py-5 bg-dark wow zoomIn" data-wow-delay="0.1s " style="margin-bottom: 90px;">
         <div class="container">
-            <div class="owl-carousel testimonial-carousel py-5" v-for="feed in feed">
-                <div class="testimonial-item position-relative bg-white rounded overflow-hidden">
+            <div class="owl-carousel testimonial-carousel py-5">
+                <div v-for="feed in feed" class="testimonial-item position-relative bg-white rounded overflow-hidden">
                     <p>{{ feed.feedback }}</p>
                     <div class="d-flex align-items-center">
-                        <img :src="require('../assets/img/testimonial-1.jpg')" class="img-fluid flex-shrink-0 rounded"  style="width: 45px; height: 45px;">
+                        <img :src="require('../assets/img/testimonial-1.jpg')" class="img-fluid flex-shrink-0 rounded" style="width: 45px; height: 45px;">
                         <div class="ps-3">
                             <h6 class="fw-bold mb-1">{{ feed.name }}</h6>
-                            <small>{{ feed.profession }}</small>
                         </div>
                     </div>
                     <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
                 </div>
             </div>
+            <div v-if="feedbackSent" class="alert alert-success mt-3" role="alert">
+                Feedback sent successfully!
+            </div>
         </div>
     </div>
     <!-- Testimonial End -->
+
     <insert/>
 
      <!-- Team Start -->
@@ -481,38 +386,36 @@
 
 <script>
 
-
-import axios from 'axios';
-import insert from '@/components/insert.vue';
-
-export default {
-  data() {
-    return {
-      feed: [],
-      roomCount: 0,
+import axios from 'axios'
+    import insert from '@/components/insert.vue';
+    export default {
+        data(){
+            return{
+                feed:[],
+                feedbackSent: false, 
+                room:[],
+                roomCount: 0,
       staffCount: 0,
       clientCount: 0,
       imageUrls: []
-    };
-  },
-  components: {
-    insert,
-  },
-  mounted() {
-    this.getFeed();
-    this.fetchDataFromAPI();
+            }
+        },
+        mounted(){
+            this.getFeed();
+            this.getRoom();
+            this.fetchDataFromAPI();
     this.fetchImageData();
-  },
-  methods: {
-    async getFeed() {
-      try {
-        const response = await axios.get("http://your-api-domain.com/getFeedback");
-        this.feed = response.data;
-      } catch (error) {
-        console.error('Error fetching feed:', error);
-      }
-    },
-    async fetchDataFromAPI() {
+        },
+        methods:{
+            async getFeed(){
+                const g = await axios.get("/getFeedback");
+                this.feed = g.data;
+            },
+            async getRoom(){
+                const r = await axios.get("/getRoom");
+                this.room = r.data;
+            },
+            async fetchDataFromAPI() {
       try {
         const response = await axios.get('http://localhost/BALMES-CARINGAL-MANALO-FINALPROJECT/backend/public/api/data');
 
@@ -541,4 +444,6 @@ export default {
   },
 };
 </script>
+
+
 
