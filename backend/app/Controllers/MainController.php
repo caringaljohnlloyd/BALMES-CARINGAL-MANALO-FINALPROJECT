@@ -9,7 +9,6 @@ use CodeIgniter\API\ResponseTrait;
 use App\Models\MainModel;
 use App\Models\UserModel;
 use App\Models\FeedbackModel;
-use App\Models\DataModel;
 use App\Models\BookingModel;
 use App\Models\ShopModel;
 use App\Models\PoolModel;
@@ -71,10 +70,6 @@ class MainController extends ResourceController
         $data = $book->findAll();
         return $this->respond($data, 200);
     }
-
-
-
-
 public function save() {
     $json = $this->request->getJSON();
     $data = [
@@ -122,7 +117,7 @@ public function save() {
             $password = $json->password;
     
             if (!preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password)) {
-                return $this->respond(["error" => "Password must contain at least one letter and one number"], 400);
+                return $this->respond(["error" => "Password must contain at least one letter, one number and one character"], 400);
             }
     
             $data = [
@@ -145,7 +140,7 @@ public function save() {
     
     public function verification($length)
     { 
-        $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; 
+        $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_-/*$#@.,<>=%!()?{}[]'; 
         return substr(str_shuffle($str_result), 0, $length); 
     }
     
