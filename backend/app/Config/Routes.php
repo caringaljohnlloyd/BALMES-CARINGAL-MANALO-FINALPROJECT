@@ -21,6 +21,7 @@ $routes->get('/getRoom','MainController::getRoom');
 $routes->get('/getShop','MainController::getShop');
 $routes->get('/getPool','MainController::getPool');
 $routes->post('/getCart', 'MainController::Cart');
+$routes->get('/getProd', 'MainController::getCart');
 
 
 

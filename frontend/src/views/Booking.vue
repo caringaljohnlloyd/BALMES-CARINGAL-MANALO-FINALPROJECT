@@ -190,6 +190,12 @@ export default {
             this.child = "";
             this.specialRequest = "";
             this.$emit('data-saved');
+            this.successMessage = response.data.message; 
+
+
+            setTimeout(() => {
+                    this.successMessage = "";
+                }, 2000);
           } 
         } catch (error) {
   console.error("Error booking", error);

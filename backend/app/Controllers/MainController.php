@@ -54,11 +54,10 @@ class MainController extends ResourceController
     }
     public function del(){
         $json = $this->request->getJSON();
-        $id= $json->id;
-        $main = new MainModel();
-        $r = $main->delete($id);
+        $cart_id= $json->cart_id;
+        $cart = new CartModel();
+        $r = $cart->delete($cart_id);
         return $this->respond($r, 200);
-
     }
     public function getData(){
         $main = new UserModel();
@@ -161,7 +160,6 @@ public function save() {
                 $auth = password_verify($password, $pass);
                 if($auth){
                     return $this->respond(['message' => 'Login successful', 'token' => $data['token'], 'id' => $data['id']], 200);                }
-            
              else {
                 return $this->respond(['message' => 'Invalid email or password'], 401);
             }

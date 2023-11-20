@@ -66,7 +66,9 @@
             this.feedback = "";
             this.id = "";
             this.$emit('data-saved');
-      
+            this.successMessage = response.data.message; 
+            setTimeout(() => {
+              this.successMessage = "";}, 2000);
           } 
         } catch (error) {
   console.error("Error feedback", error);
