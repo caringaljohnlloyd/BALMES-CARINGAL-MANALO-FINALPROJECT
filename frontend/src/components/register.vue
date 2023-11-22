@@ -11,7 +11,7 @@
           </div>
 
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" name="email" v-model="email" required />
+            <input type="email" class="form-control" name="email" v-model="email" required />
             <label for="email" class="form-label">Email address</label>
           </div>
 
@@ -72,8 +72,10 @@ return {
         return 'Passwords match!';
       } else {
         return 'Passwords do not match.';
+        
       }
     },
+    
   },
   methods: {
     checkMsg() {
@@ -103,9 +105,15 @@ return {
         this.$refs.registerForm.reset();
         this.$emit('data-saved');
         this.getInfo();
+        
           } catch (error) {
         if (error.response && error.response.data && error.response.data.error) {
           this.errorMessage = error.response.data.error;
+          setTimeout(() => {
+						this.errorMessage = "";      
+					},
+					4000);
+          
         }
                 }
               }

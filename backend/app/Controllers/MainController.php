@@ -105,7 +105,10 @@ public function save() {
     {
         $json = $this->request->getJSON();
         $email = $json->email;
-    
+        
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return $this->respond(["error" => "Invalid email format"], 400);
+        }
         $userModel = new UserModel();
         $token = $this->verification(50); 
         $exUser = $userModel->where('email', $email)->first();
@@ -115,8 +118,8 @@ public function save() {
         } else {
             $password = $json->password;
     
-            if (!preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password)) {
-                return $this->respond(["error" => "Password must contain at least one letter, one number and one character"], 400);
+            if (!preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password) || !preg_match('/[^A-Za-z0-9]/', $password)) {
+                return $this->respond(["error" => "Password must contain at least one letter, one number, and one special character"], 400);
             }
     
             $data = [
@@ -136,6 +139,7 @@ public function save() {
             }
         }
     }
+    
     
     public function verification($length)
     { 
