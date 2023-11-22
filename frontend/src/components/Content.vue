@@ -411,7 +411,7 @@ export default {
             this.feed = g.data;
             this.name = n.data;
         },
-        getName(g) {
+        getName(g){
             return this.name.find(n => n.id === g.id) || {};
         },
         async getPool(){
