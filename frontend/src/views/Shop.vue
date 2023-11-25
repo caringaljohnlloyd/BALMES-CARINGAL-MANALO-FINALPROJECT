@@ -52,7 +52,7 @@
 							<img class="img-fluid menu" style="width: 200%; max-width: 500px; height: 330px;"
 							:src="require('@/assets/img/' + shop.prod_img)" alt="" />
 							<small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">
-								Php.{{ shop.prod_price }}
+								Php. {{ shop.prod_price }}
 							</small>
 						</div>
 						<div class="p-4 mt-2">
@@ -61,16 +61,7 @@
 									{{ shop.prod_name }}
 								</h5>
 								<div class="ps-2">
-									<small class="fa fa-star text-primary">
-									</small>
-									<small class="fa fa-star text-primary">
-									</small>
-									<small class="fa fa-star text-primary">
-									</small>
-									<small class="fa fa-star text-primary">
-									</small>
-									<small class="fa fa-star text-primary">
-									</small>
+									<star-rating :initialRating="shop.rating" @rating-selected="updateRating(shop.shop_id, $event)"></star-rating>
 								</div>
 							</div>
 							<div class="d-flex mb-3">
@@ -84,6 +75,7 @@
 							<div class="d-flex justify-content-between">
 								<button class="btn text-primary btn-lg-square rounded-circle mx-2" @click="addCart(shop.shop_id)">
 									<i class="fa fa-shopping-cart">
+										Add to Cart
 									</i>
 								</button>
 							</div>
@@ -91,7 +83,7 @@
 					</div>
 				</div>
 			</div>
-			<div v-if="successMessage" class="alert alert-success mt-3" role="alert">
+			<div v-if="successMessage" class="alert alert-primary mt-3" role="alert">
 				{{ successMessage }}
 			</div>
 		</div>
@@ -136,24 +128,27 @@
 	import navbar from '@/components/navbar.vue';
 	import feedbacks from '@/components/feedbacks.vue';
 	import End from '@/components/End.vue';
+	import StarRating from '@/components/StarRating.vue';
 
 	import axios from 'axios'
 
-	export
-default {
+	export default {
 		name:
 		'shop',
 		components: {
 			Top,
 			navbar,
 			End,
-			feedbacks
+			feedbacks,
+			StarRating
 		},
 		data() {
 			return {
 				feed: [],
 				shop: [],
 				successMessage: "",
+				name: [], 
+
 			}
 		},
 		mounted() {
@@ -161,6 +156,17 @@ default {
 			this.getShop();
 		},
 		methods: {
+			updateRating(shop_id, rating) {
+      this.submitRatingToBackend(shop_id, rating);
+    },
+    async submitRatingToBackend(shop_id, rating) {
+      try {
+        const response = await axios.post("/submit-rating", { shop_id, rating });
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+	},
 			async getFeed() {
 				const[g, n] = await Promise.all([axios.get("/getFeedback"), axios.get("/getData")]);
 				this.feed = g.data;

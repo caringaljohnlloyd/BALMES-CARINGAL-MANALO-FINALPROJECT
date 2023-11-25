@@ -172,6 +172,38 @@ public function save() {
     }
     
 }
+public function submitRating()
+{
+    $json = $this->request->getJSON();
+    $shop_id = $json->shop_id;
+    $rating = $json->rating;
+
+    $shopModel = new ShopModel();
+
+    $shopData = $shopModel->find($shop_id);
+
+    if (!$shopData) {
+        return $this->respond(['error' => 'Shop not found'], 404);
+    }
+
+    $newRatingsCount = $shopData['ratings_count'] + 1;
+    $newTotalRatings = $shopData['total_ratings'] + $rating;
+
+    $newRating = $newTotalRatings / $newRatingsCount;
+
+    $updateResult = $shopModel->update($shop_id, [
+        'rating' => $newRating,
+        'ratings_count' => $newRatingsCount,
+        'total_ratings' => $newTotalRatings,
+    ]);
+
+    if ($updateResult) {
+        return $this->respond(['success' => true, 'newRating' => $newRating]);
+    } else {
+        return $this->respond(['error' => 'Failed to update rating'], 500);
+    }
+}
+
 public function logout()
 {
     session()->destroy();

@@ -11,9 +11,6 @@
         <div class="container">
             <div class="owl-carousel testimonial-carousel py-5">
                 <div v-for="feed in feed" :key="name.id" class="testimonial-item position-relative bg-white rounded overflow-hidden">
-                    <p>
-                        {{ feed.feedback }}
-                    </p>
                     <div class="d-flex align-items-center">
                         <img :src="require('../assets/img/testimonial-1.jpg')" class="img-fluid flex-shrink-0 rounded"
                         style="width: 45px; height: 45px;">
@@ -23,8 +20,10 @@
                             </h6>
                         </div>
                     </div>
-                    <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1">
-                    </i>
+                    <p>
+                        {{ feed.feedback }}
+                    </p>
+                    
                 </div>
             </div>
             <div v-if="feedbackSent" class="alert alert-success mt-3" role="alert">

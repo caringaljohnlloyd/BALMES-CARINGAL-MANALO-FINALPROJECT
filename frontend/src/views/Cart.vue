@@ -2,28 +2,28 @@
   <div>
     <Top />
     <navbar />
-    <div class="container padding-bottom-3x mb-1">
+    <div class="container-fluid padding-bottom-3x mb-1">
       <div class="alert alert-success" v-if="deleteSuccess">
         Deleted successfully!
       </div>
-      <div class="table-responsive shopping-cart">
+      <div class="table-responsive">
         <table class="table">
           <thead>
             <tr>
               <th>Product Name</th>
-              <th class="text-center">Quantity </th>
+              <th class="text-center">Quantity</th>
               <th class="text-center">Price</th>
               <th class="text-center">Total Price</th>
               <th class="text-center">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="cart in cart" :key="prod_name.shop_id" >
+            <tr v-for="cart in cart" :key="cart.shop_id">
               <td>
                 <div class="product-item">
-                  <a class=""><img class="img-fluid menu" style="width: 150%; max-width: 250px; height: 200px;" :src="require('@/assets/img/' + getImg(cart).prod_img)" alt="Product"></a>
+                  <a class=""><img class="img-fluid menu" style="width: 100%; max-width: 250px; height: auto;" :src="require('@/assets/img/' + getImg(cart).prod_img)" alt="Product"></a>
                   <div class="product-info">
-                    <h4 class="product-title"> {{ getInfo(cart).prod_name }}</h4>
+                    <h4 class="product-title">{{ getInfo(cart).prod_name }}</h4>
                   </div>
                 </div>
               </td>
@@ -34,9 +34,8 @@
               </td>
               <td class="text-center text-lg text-medium">{{ getPrice(cart).prod_price }}</td>
               <td class="text-center text-lg text-medium">{{ getTotal(cart) }}</td>
-
               <td class="text-center">
-                <button @click="deleteCart(cart.cart_id)"><a><i class="fa fa-trash"></i></a></button>
+                <button @click="deleteCart(cart.cart_id)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
               </td>
             </tr>
           </tbody>
@@ -45,7 +44,7 @@
       <div class="shopping-cart-footer">
         <div class="column">
           <form class="coupon-form" method="post">
-            <input class="form-control form-control-sm" type="text" placeholder="Coupon code" required="">
+            <input class="form-control form-control-sm" type="text" placeholder="Coupon code" required>
             <div>
               <button class="btn btn-outline-primary btn-sm" type="submit">Apply Coupon</button>
             </div>
@@ -59,16 +58,14 @@
         </div>
       </div>
     </div>
-
-    <br>
-
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <End />
   </div>
+<br><br>
+<br>
+<br>
+
+
+  <End />
+
 </template>
 
 <script>
@@ -162,4 +159,12 @@ getTotal(prod) {
 <style scoped>
 @import '@/assets/css/bootstrap.min.css';
 @import '@/assets/css/style.css';
+@media (max-width: 768px) {
+  .product-item {
+    text-align: center;
+  }
+  .product-info {
+    margin-top: 10px;
+  }
+}
 </style>

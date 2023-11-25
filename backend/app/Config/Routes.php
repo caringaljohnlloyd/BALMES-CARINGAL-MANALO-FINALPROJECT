@@ -22,6 +22,7 @@ $routes->get('/getPool','MainController::getPool');
 $routes->get('/getFeedback','MainController::getFeedback');
 $routes->post('booking','MainController::booking');
 $routes->get('/getbook','MainController::getbook');
+$routes->post('/submit-rating','MainController::submitRating');
 
 //di pa okay
 $routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {

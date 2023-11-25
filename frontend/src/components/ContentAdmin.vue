@@ -18535,6 +18535,5 @@ html[dir=rtl] .sidebar li > a .caret:before {
   font-weight: 500;
 }
 /*# sourceMappingURL=style.css.map */
-@import '@/assets/css/bootstrap.min.css';
 
 </style>
