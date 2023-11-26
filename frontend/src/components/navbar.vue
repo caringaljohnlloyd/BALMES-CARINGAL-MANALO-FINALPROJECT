@@ -67,11 +67,13 @@
                                       <a href="/testimonial" class="dropdown-item">Testimonial</a>
                                   </div>
                               </div>
+
                               <router-link to="/contact" class="nav-item nav-link" :class="{ 'active': $route.path === '/contact' }">Contact</router-link>
                             </div>
                             <router-link to="/shopcart" class="text-primary">
                                 <i class="fa fa-shopping-cart"></i>
                             </router-link>
+  
 
                             <button @click="logout" class="btn btn-primary logout-logo-btn">
                                         <i class="fas fa-power-off logout-icon"></i>
@@ -87,7 +89,15 @@
                 </div>
             </div>
         </div>
-        
+        <div class="app">
+            <form class="d-flex me-2" @submit.prevent="getData">
+        <input v-model="query" class="form-control " type="search" placeholder="Search" aria-label="Search"/>
+       
+      </form>
+      <ul class="list-group">
+        <li class="list-group-item" v-for = "(item,index) in data ">{{ index+1 }}.{{ item.advice }} </li>
+      </ul>
+    </div>
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
     <router-view/>
@@ -130,11 +140,21 @@ import Top from '@/components/Top.vue';
   import{FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
   import axios from 'axios'
 
+ 
+
+
   export default{
+
     components:{
         Top, FontAwesomeIcon
     },
-    methods: {   
+    data(){
+    return{
+      query : null,
+      data : []
+    }
+  },
+    methods:{   
     async logout() {
     try {
       const response = await axios.post("/logout");
@@ -150,6 +170,16 @@ import Top from '@/components/Top.vue';
       console.error("Error during logout", error);
     }
   },
+  async getData(){
+    await axios.get(`https://api.adviceslip.com/advice/search/${this.query}`)
+    .then((response)=>{
+      this.data = response.data.slips
+      console.log(this.data)
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
 },
     }
   
