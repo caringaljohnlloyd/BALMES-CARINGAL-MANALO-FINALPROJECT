@@ -12,8 +12,7 @@
             <div class="owl-carousel testimonial-carousel py-5">
                 <div v-for="feed in feed" :key="name.id" class="testimonial-item position-relative bg-white rounded overflow-hidden">
                     <div class="d-flex align-items-center">
-                        <img :src="require('../assets/img/testimonial-1.jpg')" class="img-fluid flex-shrink-0 rounded"
-                        style="width: 45px; height: 45px;">
+    <i class="fas fa-user-circle fa-3x"></i>
                         <div class="ps-3">
                             <h6 class="fw-bold mb-1">
                                 {{getName(feed).name}}
