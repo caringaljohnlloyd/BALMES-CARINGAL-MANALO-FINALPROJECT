@@ -90,14 +90,22 @@
             </div>
         </div>
         <div class="app">
-            <form class="d-flex me-2" @submit.prevent="getData">
-        <input v-model="query" class="form-control " type="search" placeholder="Search" aria-label="Search"/>
-       
-      </form>
-      <ul class="list-group">
-        <li class="list-group-item" v-for = "(item,index) in data ">{{ index+1 }}.{{ item.advice }} </li>
-      </ul>
-    </div>
+    <form class="d-flex me-2" @submit.prevent="getData">
+      <input v-model="query" class="form-control" type="search" placeholder="Search" aria-label="Search"/>
+    </form>
+    <ul class="list-group">
+      <li class="list-group-item" v-for="(item, index) in data" :key="index">
+        <template v-if="item.matchedWord">
+          {{ item.matchedWord }}
+        </template>
+        <template v-else>
+        
+          {{ item.matchedWord }} 
+        </template>
+      </li>
+      <li class="list-group-item" v-if="!data.length">No matching word found</li>
+    </ul>
+  </div>
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
     <router-view/>
@@ -150,7 +158,7 @@ import Top from '@/components/Top.vue';
     },
     data(){
     return{
-      query : null,
+      query : '',
       data : []
     }
   },
@@ -170,17 +178,17 @@ import Top from '@/components/Top.vue';
       console.error("Error during logout", error);
     }
   },
-  async getData(){
-    await axios.get(`https://api.adviceslip.com/advice/search/${this.query}`)
-    .then((response)=>{
-      this.data = response.data.slips
-      console.log(this.data)
-    })
-    .catch((error)=>{
-      console.log(error)
-    })
+  async getData() {
+      try {
+        const response = await axios.get(`/search/${this.query}`);
+        this.data = response.data;
+        console.log(this.data);
+      } catch (error) {
+        console.error(error);
+      }
+}
+
   }
-},
-    }
+}
   
 </script>

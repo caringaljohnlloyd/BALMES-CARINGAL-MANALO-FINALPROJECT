@@ -285,6 +285,14 @@ public function resetPassword()
     
         return $this->respond(['message' => 'Password updated successfully']);
     }
-    
+    public function  search($query){
+        $roomModel = new RoomModel();
+
+        $filteredData = $roomModel->searchInRoom($query);
+        
+        
+        return json_encode($filteredData);
+    }
+  
 }
     

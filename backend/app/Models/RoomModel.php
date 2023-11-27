@@ -37,4 +37,38 @@ class RoomModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function searchInRoom($query)
+    {
+        $result = $this->db->table('room')
+            ->groupStart()
+                ->like('name', $query)
+                ->orLike('description', $query)
+                ->orLike('price', $query)
+                ->orLike('bed', $query)
+                ->orLike('bath', $query)
+            ->groupEnd()
+            ->get()
+            ->getResultArray();
+    
+        // Loop through the result set to find the matched word
+        foreach ($result as &$record) {
+            if (stripos($record['name'], $query) !== false) {
+                $record['matchedWord'] = $record['name'];
+            } elseif (stripos($record['description'], $query) !== false) {
+                $record['matchedWord'] = $record['description'];
+            } elseif (stripos($record['price'], $query) !== false) {
+                $record['matchedWord'] = $record['price'];
+            } elseif (stripos($record['bed'], $query) !== false) {
+                $record['matchedWord'] = $record['bed'];
+            } elseif (stripos($record['bath'], $query) !== false) {
+                $record['matchedWord'] = $record['bath'];
+            }
+        }
+    
+        return $result;
+    }
+    
+    
+
 }

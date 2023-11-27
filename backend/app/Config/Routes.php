@@ -23,6 +23,7 @@ $routes->get('/getFeedback','MainController::getFeedback');
 $routes->post('booking','MainController::booking');
 $routes->get('/getbook','MainController::getbook');
 $routes->post('/submit-rating','MainController::submitRating');
+$routes->get('/search/(:any)', 'MainController::search/$1');
 
 //di pa okay
 $routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {

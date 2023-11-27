@@ -69,7 +69,7 @@ const routes = [
 {
   path: '/user',
   component: Include, 
-  meta: {requiresAuth: true}
+ 
 },
 {
   path: '/contact',
