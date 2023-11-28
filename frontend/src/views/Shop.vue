@@ -184,22 +184,30 @@
 				this.shop = s.data;
 			},
 			async addCart(shop_id) {
-				try {
-					const id = sessionStorage.getItem("id");
-					const response = await axios.post("getCart", {
-						shop_id: shop_id,
-						id: id
-					});
-					this.successMessage = response.data.message;
+    try {
+        const id = sessionStorage.getItem("id");
+        const product = this.shop.find(item => item.shop_id === shop_id);
 
-					setTimeout(() => {
-						this.successMessage = "";
-					},
-					2000);
-				} catch(error) {
-					console.error("Error adding to cart", error);
-				}
-			},
-		},
+        if (product.prod_quantity > 0) {
+            const response = await axios.post("getCart", {
+                shop_id: shop_id,
+                id: id
+            });
+
+            this.successMessage = response.data.message;
+
+            product.prod_quantity--;
+
+            setTimeout(() => {
+                this.successMessage = "";
+            }, 2000);
+        } else {
+            this.successMessage = "Product is out of stock";
+        }
+    } catch (error) {
+        console.error("Error adding to cart", error);
+    }
+},
+		}
 	};
 </script>

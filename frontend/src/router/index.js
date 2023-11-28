@@ -83,10 +83,10 @@ const routes = [
 
 },
 {
-  path: '/booking',
+  path: '/booking/:id', 
   component: Booking,
+  name:'booking',
   meta: {requiresAuth: true}
-
 },
 {
   path: '/team',

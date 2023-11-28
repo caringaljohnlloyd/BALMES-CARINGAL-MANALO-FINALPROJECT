@@ -12,7 +12,7 @@ class RoomModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['image','name', 'price','bed','bath','description'];
+    protected $allowedFields    = ['image','room_name', 'price','bed','bath','description','room_status'];
 
     // Dates
     protected $useTimestamps = false;
@@ -51,7 +51,7 @@ class RoomModel extends Model
             ->get()
             ->getResultArray();
     
-        // Loop through the result set to find the matched word
+       
         foreach ($result as &$record) {
             if (stripos($record['name'], $query) !== false) {
                 $record['matchedWord'] = $record['name'];
@@ -71,4 +71,5 @@ class RoomModel extends Model
     
     
 
+    
 }
