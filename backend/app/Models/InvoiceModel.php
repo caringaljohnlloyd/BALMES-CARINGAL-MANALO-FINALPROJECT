@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class RoomModel extends Model
+class InvoiceModel extends Model
 {
-    protected $table            = 'room';
-    protected $primaryKey       = 'room_id';
+    protected $table            = 'invoices';
+    protected $primaryKey       = 'invoice_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['image','room_name', 'price','bed','bath','description','room_status'];
+    protected $allowedFields    = ['created_at','id'];
 
     // Dates
     protected $useTimestamps = false;
@@ -37,5 +37,4 @@ class RoomModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-    
 }

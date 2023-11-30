@@ -246,7 +246,6 @@
 
 </section>
 
-<?php echo $filteredData?>
 <div class="further">
 
     <section>

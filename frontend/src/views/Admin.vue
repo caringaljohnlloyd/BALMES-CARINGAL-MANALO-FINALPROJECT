@@ -2,10 +2,8 @@
 
     <TopAdmin/>
     <HeaderAdmin/>
-    <div id="main-content">
-      <SidebarAdmin/>
-      <ContentAdmin/>
-    </div>
+    <SidebarAdmin/>
+    <ContentAdmin/>
     <EndAdmin/>   
 
   </template>
@@ -92,9 +90,7 @@
 *::after {
   box-sizing: border-box;
 }
-#main-content{
-  display: flex;
-}
+
 html {
   font-family: sans-serif;
   line-height: 1.15;

@@ -1,5 +1,6 @@
 <template>
     <Top/>
+    <spinner/>
       <navbar />
         <!-- Page Header Start -->
         <div class="container-xxl bg-white p-0">
@@ -133,11 +134,12 @@
   import Top from '@/components/Top.vue';
  import navbar from '@/components/navbar.vue';
 import End from '@/components/End.vue';
+import spinner from '@/components/spinner.vue';
 
 export default {
   name: 'contact',
   components: {
-    Top,navbar,End
+   spinner, Top,navbar,End
   }
 }
 </script>

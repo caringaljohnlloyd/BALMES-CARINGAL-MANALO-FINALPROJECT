@@ -1,5 +1,6 @@
 <template>
 	<Top/>
+	<spinner/>
 	<navbar />
 	<div class="container-xxl bg-white p-0">
 		<div class="room">
@@ -129,6 +130,7 @@
 	import feedbacks from '@/components/feedbacks.vue';
 	import End from '@/components/End.vue';
 	import StarRating from '@/components/StarRating.vue';
+	import spinner from '@/components/spinner.vue';
 
 	import axios from 'axios'
 
@@ -136,6 +138,7 @@
 		name:
 		'shop',
 		components: {
+			spinner,
 			Top,
 			navbar,
 			End,
@@ -185,29 +188,30 @@
 			},
 			async addCart(shop_id) {
     try {
-        const id = sessionStorage.getItem("id");
-        const product = this.shop.find(item => item.shop_id === shop_id);
+      const id = sessionStorage.getItem("id");
+      const product = this.shop.find(item => item.shop_id === shop_id);
 
-        if (product.prod_quantity > 0) {
-            const response = await axios.post("getCart", {
-                shop_id: shop_id,
-                id: id
-            });
+      if (product.prod_quantity > 0) {
+        const response = await axios.post("getCart", {
+          shop_id: shop_id,
+          id: id
+        });
 
-            this.successMessage = response.data.message;
+        this.successMessage = response.data.message;
 
-            product.prod_quantity--;
+        // Commented out the line below to remove quantity decrement
+        // product.prod_quantity--;
 
-            setTimeout(() => {
-                this.successMessage = "";
-            }, 2000);
-        } else {
-            this.successMessage = "Product is out of stock";
-        }
+        setTimeout(() => {
+          this.successMessage = "";
+        }, 2000);
+      } else {
+        this.successMessage = "Product is out of stock";
+      }
     } catch (error) {
-        console.error("Error adding to cart", error);
+      console.error("Error adding to cart", error);
     }
-},
+  },
 		}
 	};
 </script>

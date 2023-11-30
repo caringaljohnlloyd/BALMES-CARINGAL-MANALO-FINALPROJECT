@@ -177,8 +177,9 @@
             </div>
         </div>
         <!-- Newsletter Start -->
-
+<spinner/>
         <End/>
+
 </template>
 
 <style>
@@ -198,11 +199,12 @@
  import Top from '@/components/Top.vue';
  import navbar from '@/components/navbar.vue';
 import End from '@/components/End.vue';
+import spinner from '@/components/spinner.vue';
 
 export default {
   name: 'service',
   components: {
-    Top,navbar,End
+    spinner,Top,navbar,End
   }
 }
 </script>

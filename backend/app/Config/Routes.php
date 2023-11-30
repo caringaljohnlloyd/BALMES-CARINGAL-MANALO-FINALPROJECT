@@ -15,15 +15,23 @@ $routes->post('/submit-feedback', 'MainController::submitFeedback');
 $routes->post('save', 'MainController::save');
 $routes->post('/logout', 'MainController::logout');
 $routes->post('/getCart', 'MainController::Cart');
-$routes->get('/getProd', 'MainController::getCart');
+$routes->get('/getProd/(:num)', 'MainController::getCart/$1');
 $routes->get('/getRoom','MainController::getRoom');
 $routes->get('/getShop','MainController::getShop');
 $routes->get('/getPool','MainController::getPool');
+$routes->get('/getManifest','MainController::getManifest');
+$routes->post('manifest','MainController::manifest');
+$routes->post('updateCartQuantity', 'MainController::updateCartQuantity');
 $routes->get('/getFeedback','MainController::getFeedback');
 $routes->post('booking','MainController::booking');
 $routes->get('/getbook','MainController::getbook');
 $routes->post('/submit-rating','MainController::submitRating');
-$routes->get('/search/(:any)', 'MainController::search/$1');
+$routes->post('/checkout', 'MainController::checkout');
+
+
+
+
+
 
 //di pa okay
 $routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {

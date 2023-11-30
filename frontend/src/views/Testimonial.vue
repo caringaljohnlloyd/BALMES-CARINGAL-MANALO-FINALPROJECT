@@ -39,6 +39,7 @@
             </div>
         </div>
         <!-- Newsletter Start -->
+        <spinner/>
         <End/>
 </template>
 
@@ -60,12 +61,14 @@
  import navbar from '@/components/navbar.vue';
 import End from '@/components/End.vue';
 import feedbacks from '@/components/feedbacks.vue';
+import spinner from '@/components/spinner.vue';
+
 import axios from 'axios'
 
 export default {
   name: 'Testimonial',
   components: {
-    Top,navbar,End,feedbacks
+    spinner,Top,navbar,End,feedbacks
   },
   data(){
     return{

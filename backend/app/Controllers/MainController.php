@@ -12,6 +12,9 @@ use App\Models\BookingModel;
 use App\Models\ShopModel;
 use App\Models\PoolModel;
 use App\Models\CartModel;
+use App\Models\ManifestModel;
+use App\Models\InvoiceModel;
+use App\Models\ReceiptModel;
 
 
 
@@ -25,10 +28,16 @@ class MainController extends ResourceController
     {
         //
     }
-    public function getCart()
+    public function getManifest()
+    {
+        $manifest = new ManifestModel();
+        $data = $manifest->findAll();
+        return $this->respond($data, 200);
+    }
+    public function getCart($id)
     {
         $cart = new CartModel();
-        $data = $cart->findAll();
+        $data = $cart->where('id', $id)->findAll();
         return $this->respond($data, 200);
     }
     public function getPool()
@@ -75,18 +84,33 @@ class MainController extends ResourceController
         $data = $book->findAll();
         return $this->respond($data, 200);
     }
+
     public function save()
     {
         $json = $this->request->getJSON();
         $data = [
             'feedback' => $json->feedback,
             'id' => $json->id,
+
         ];
 
         $feedback = new FeedbackModel();
         $result = $feedback->save($data);
 
         return $this->respond(['message' => 'Feedback submitted successfully', $result], 200);
+    }
+    public function manifest()
+    {
+        $json = $this->request->getJSON();
+        $data = [
+            'manifest' => $json->manifest,
+            'id' => $json->id,
+        ];
+
+        $manifest = new ManifestModel();
+        $result = $manifest->save($data);
+
+        return $this->respond(['message' => 'Manifest submitted successfully', $result], 200);
     }
 
     public function booking()
@@ -95,7 +119,7 @@ class MainController extends ResourceController
         $room_id = $json->room_id;
         $this->room = new RoomModel();
         $booked = $this->room->where(['room_id' => $room_id])->first();
-        
+
         $data = [
             'id' => $json->id,
             'checkin' => $json->checkin,
@@ -105,12 +129,12 @@ class MainController extends ResourceController
             'specialRequest' => $json->specialRequest,
             'room_id' => $json->room_id,
         ];
-    
+
         $booking = new BookingModel();
         $r = $booking->save($data);
-    
+
         if ($r) {
-            $bookedr = $this->room->update($booked['room_id'], ['room_status' => 'booked']); 
+            $bookedr = $this->room->update($booked['room_id'], ['room_status' => 'booked']);
             if ($bookedr) {
                 return $this->respond(['message' => 'Booked successfully', 'booking' => $r, 'room' => $booked], 200);
             }
@@ -118,7 +142,7 @@ class MainController extends ResourceController
             return $this->respond(['message' => 'Booking failed'], 500);
         }
     }
-    
+
 
     public function register()
     {
@@ -264,6 +288,116 @@ class MainController extends ResourceController
             }
         }
     }
+    public function updateCartQuantity()
+    {
+        $json = $this->request->getJSON();
+
+        $cart_id = $json->cart_id;
+        $quantity = $json->quantity;
+
+        $cart = new CartModel();
+        $existing = $cart->find($cart_id);
+
+        if ($existing) {
+            $existing['quantity'] = $quantity;
+            $updateResult = $cart->update($cart_id, $existing);
+
+            if ($updateResult) {
+                return $this->respond(['message' => 'Quantity updated successfully'], 200);
+            } else {
+                return $this->respond(['message' => 'Failed to update quantity'], 500);
+            }
+        } else {
+            return $this->respond(['message' => 'Cart item not found'], 404);
+        }
+    }
+
+
+    public function checkout()
+    {
+        $json = $this->request->getJSON();
+
+        $id = $json->id;
+        $cartItems = $json->cart;
+        $paymentMethod = $json->payment_method;
+
+        $invoiceId = $this->createInvoice($id, $cartItems);
+        $receiptId = $this->createReceipt($invoiceId, $paymentMethod);
+
+        $this->deleteCheckedOutItems($id, $cartItems);
+
+
+        return $this->respond(['message' => 'Checkout successful', 'invoice_id' => $invoiceId, 'receipt_id' => $receiptId], 200);
+    }
+
+    private function deleteCheckedOutItems($id, $cartItems)
+    {
+        $cartModel = new CartModel();
+
+        foreach ($cartItems as $cartItem) {
+            $cartId = $cartItem->cart_id;
+
+            $deleteResult = $cartModel->where(['id' => $id, 'cart_id' => $cartId])->delete();
+
+            if (!$deleteResult) {
+                return $this->respond(['message' => 'Failed to delete checked out items from the cart'], 500);
+            }
+        }
+
+        return true;
+    }
+
+
+    private function createInvoice($id, $cartItems)
+    {
+
+        $invoiceModel = new InvoiceModel();
+
+        $invoiceData = [
+            'id' => $id,
+        ];
+
+        $invoiceId = $invoiceModel->save($invoiceData);
+
+        return $invoiceId;
+    }
+
+    private function createReceipt($invoiceId, $paymentMethod)
+    {
+
+        $receiptModel = new ReceiptModel();
+
+        $receiptData = [
+            'invoice_id' => $invoiceId,
+            'payment_method' => $paymentMethod,
+        ];
+
+        $receiptId = $receiptModel->save($receiptData);
+
+        return $receiptId;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function resetPassword()
     {
         $email = $this->request->getJSON()->email;
@@ -304,15 +438,6 @@ class MainController extends ResourceController
 
         return $this->respond(['message' => 'Password updated successfully']);
     }
-    public function  search($query){
-        $roomModel = new RoomModel();
-
-        $filteredData = $roomModel->searchInRoom($query);
-        
-        
-        return json_encode($filteredData);
-    }
-  
 
 }
 
