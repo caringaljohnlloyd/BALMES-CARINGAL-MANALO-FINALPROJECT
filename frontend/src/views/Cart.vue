@@ -10,7 +10,7 @@
         <table class="table">
           <thead>
             <tr>
-              <th>Product Name</th>
+              <th class="text-center">Product Name</th>
               <th class="text-center">Quantity</th>
               <th class="text-center">Price</th>
               <th class="text-center">Total Price</th>
@@ -19,72 +19,42 @@
           </thead>
           <tbody>
             <tr v-for="cart in cart" :key="cart.shop_id">
-              <td>
+              <td class="align-middle">
                 <div class="product-item">
-                  <div
-                    class="custom-control custom-checkbox"
-                    style="float: left; margin-right: 10px; margin-top: 10px"
-                  >
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="checkbox{{ cart.shop_id }}"
-                      v-model="cart.selected"
-                      style="width: 20px; height: 20px"
-                    />
-                    <label
-                      class="custom-control-label"
-                      :for="'checkbox' + cart.shop_id"
-                    ></label>
+                  <div class="custom-control custom-checkbox" style="float: left; margin-right: 10px; margin-top: 10px;">
+                    <input type="checkbox" class="custom-control-input" id="checkbox{{ cart.shop_id }}"
+                      v-model="cart.selected" style="width: 20px; height: 20px;">
+                    <label class="custom-control-label" :for="'checkbox' + cart.shop_id"></label>
                   </div>
-                  <a class=""
-                    ><img
-                      class="img-fluid menu"
-                      style="
-                        width: 100%;
-                        max-width: 250px;
-                        height: auto;
-                        margin-top: 5px;
-                      "
-                      :src="require('@/assets/img/' + getImg(cart).prod_img)"
-                      alt="Product"
-                  /></a>
+                  <a class=""><img class="img-fluid menu"
+                      style="width: 100%; max-width: 250px; height: 200px; margin-top: 5px;"
+                      :src="require('@/assets/img/' + getImg(cart).prod_img)" alt="Product"></a>
                   <div class="product-info">
                     <h4 class="product-title">{{ getInfo(cart).prod_name }}</h4>
                   </div>
                 </div>
               </td>
-              <td class="text-center">
+
+
+              <td class="align-middle text-center">
                 <div class="count-input">
-                  <button
-                    @click="updateQuantity(cart, 'decrement')"
-                    class="btn btn-danger"
-                  >
-                    -
+                  <button @click="updateQuantity(cart, 'decrement')" class="btn btn-primary btn-sm rounded-circle"
+                    :disabled="cart.quantity <= 1">
+                    <i class="fas fa-minus"></i>
                   </button>
-                  {{ cart.quantity }}
-                  <button
-                    @click="updateQuantity(cart, 'increment')"
-                    class="btn btn-success"
-                  >
-                    +
+                  <span class="quantity">{{ cart.quantity }}</span>
+                  <button @click="updateQuantity(cart, 'increment')" class="btn btn-primary btn-sm rounded-circle"
+                    :disabled="cart.quantity >= getMaxQuantity(cart)">
+                    <i class="fas fa-plus"></i>
                   </button>
                 </div>
               </td>
 
-              <td class="text-center text-lg text-medium">
-                {{ getPrice(cart).prod_price }}
-              </td>
-              <td class="text-center text-lg text-medium">
-                {{ getTotal(cart) }}
-              </td>
-              <td class="text-center">
-                <button
-                  @click="deleteCart(cart.cart_id)"
-                  class="btn btn-danger"
-                >
-                  <i class="fa fa-trash"></i>
-                </button>
+
+              <td class=" align-middle text-center text-lg text-medium">{{ getPrice(cart).prod_price }}</td>
+              <td class="align-middle text-center text-lg text-medium">{{ getTotal(cart) }}</td>
+              <td class="align-middle text-center">
+                <button @click="deleteCart(cart.cart_id)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
               </td>
             </tr>
           </tbody>
@@ -94,62 +64,72 @@
         <div class="shopping-cart-footer">
           <div class="column">
             <form class="coupon-form" method="post">
-              <input
-                class="form-control form-control-sm"
-                type="text"
-                placeholder="Coupon code"
-                required
-              />
-              <br />
+              <input class="form-control form-control-sm" type="text" placeholder="Coupon code" required>
+              <br>
               <div>
-                <button class="btn btn-outline-primary btn-sm" type="submit">
-                  Apply Coupon
-                </button>
+                <button class="btn btn-outline-primary btn-sm" type="submit">Apply Coupon</button>
               </div>
             </form>
           </div>
+
           <div class="column text-lg">
-            Subtotal:
-            <span class="text-medium">${{ calculateSubtotal() }}</span>
+            <h4>Products to Pay:</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Product Name</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="checkedItem in checkedItems" :key="checkedItem.cart_id">
+                  <td>{{ getInfo(checkedItem).prod_name }}</td>
+                  <td>${{ getPrice(checkedItem).prod_price }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div>
+              <h4>Total:</h4> <span class="text-medium">${{ calculateSubtotal() }}</span>
+            </div>
           </div>
-        </div>
-        <div class="shopping-cart-footer">
+
+
           <div class="column">
-            <button
-              @click="checkout"
-              :disabled="isCheckoutDisabled"
-              class="btn"
-              :class="{ 'btn-success': !isCheckoutDisabled }"
-            >
-              {{ checkoutButtonLabel }}
-            </button>
+            <div class="shopping-cart-footer">
+              <div class="column">
+                <a class="btn btn-dark" @click="checkout" href="#">Proceed to Checkout</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+
     </div>
   </div>
-  <br /><br />
-  <br />
-  <br />
+  <br><br>
+  <br>
+  <br>
+
 
   <End />
   <spinner />
 </template>
 
 <script>
-import axios from "axios";
-import Top from "@/components/Top.vue";
-import navbar from "@/components/navbar.vue";
-import End from "@/components/End.vue";
-import spinner from "@/components/spinner.vue";
+import axios from 'axios';
+import Top from '@/components/Top.vue';
+import navbar from '@/components/navbar.vue';
+import End from '@/components/End.vue';
+import spinner from '@/components/spinner.vue';
 
 export default {
-  name: "cart",
+  name: 'cart',
   components: {
-    spinner,
-    Top,
+    spinner, Top,
     navbar,
-    End,
+    End
   },
   data() {
     return {
@@ -158,10 +138,8 @@ export default {
       prod_name: [],
       prod_price: [],
       prod_img: [],
-      isCheckoutDisabled: false,
-      checkoutButtonLabel: "Checkout",
-      receiptInfo: null,
-      invoiceInfo: null,
+      user: null,
+
     };
   },
   mounted() {
@@ -169,8 +147,20 @@ export default {
     this.getInfo();
     this.getPrice();
     this.getImg();
+    this.getUser();
+
+
   },
   methods: {
+    async getUser() {
+      const id = sessionStorage.getItem('id');
+      try {
+        const userData = await apiService.getUser(id);
+        this.user = userData;
+      } catch (error) {
+        // Handle error...
+      }
+    },
     async getCart() {
       const id = sessionStorage.getItem("id");
       try {
@@ -180,7 +170,7 @@ export default {
           axios.get("/getShop"),
         ]);
 
-        this.cart = prod.data.map((item) => ({
+        this.cart = prod.data.map(item => ({
           ...item,
           selected: false,
         }));
@@ -195,21 +185,20 @@ export default {
     },
 
     getInfo(prod) {
-      return this.prod_name.find((shop) => shop.shop_id === prod.shop_id) || {};
+      return this.prod_name.find(shop => shop.shop_id === prod.shop_id) || {};
+
     },
     getPrice(prod) {
-      return (
-        this.prod_price.find((shop) => shop.shop_id === prod.shop_id) || {}
-      );
+      return this.prod_price.find(shop => shop.shop_id === prod.shop_id) || {};
+
     },
     getImg(prod) {
-      return this.prod_img.find((shop) => shop.shop_id === prod.shop_id) || {};
+      return this.prod_img.find(shop => shop.shop_id === prod.shop_id) || {};
+
     },
     async deleteCart(delcart) {
-      const confirmResult = await new Promise((resolve) => {
-        const confirmDialog = window.confirm(
-          "Do you want to DELETE this item?"
-        );
+      const confirmResult = await new Promise(resolve => {
+        const confirmDialog = window.confirm("Do you want to DELETE this item?");
         resolve(confirmDialog);
       });
 
@@ -219,7 +208,7 @@ export default {
             cart_id: delcart,
           });
 
-          this.cart = this.cart.filter((item) => item.cart_id !== delcart);
+          this.cart = this.cart.filter(item => item.cart_id !== delcart);
           this.deleteSuccess = true;
           setTimeout(() => {
             this.deleteSuccess = false;
@@ -229,29 +218,32 @@ export default {
         }
       }
     },
+    getMaxQuantity(cart) {
+      const item = this.getInfo(cart);
+      return item.prod_quantity || 0;
+    },
+
     updateQuantity(cart, action) {
-      if (action === "increment") {
+      if (action === 'increment' && cart.quantity < this.getMaxQuantity(cart)) {
         cart.quantity++;
-      } else if (action === "decrement" && cart.quantity > 1) {
+      } else if (action === 'decrement' && cart.quantity > 1) {
         cart.quantity--;
       }
 
       this.updateTotalPrice(cart);
     },
-
     updateTotalPrice(cart) {
       const item = this.getInfo(cart);
       const newTotal = (item.prod_price || 0) * cart.quantity;
 
-      axios
-        .post("/updateCartQuantity", {
-          cart_id: cart.cart_id,
-          quantity: cart.quantity,
-        })
-        .then((response) => {
+      axios.post("/updateCartQuantity", {
+        cart_id: cart.cart_id,
+        quantity: cart.quantity,
+      })
+        .then(response => {
           console.log(response.data);
         })
-        .catch((error) => {
+        .catch(error => {
           console.error("Error updating quantity:", error);
         });
     },
@@ -261,54 +253,39 @@ export default {
     },
 
     calculateSubtotal() {
-      return this.cart
-        .reduce((total, prod) => {
-          const item = this.getInfo(prod);
-          return (
-            total +
-            (item.prod_price || 0) * prod.quantity * (prod.selected ? 1 : 0)
-          );
-        }, 0)
-        .toFixed(2);
+      return this.cart.reduce((total, prod) => {
+        const item = this.getInfo(prod);
+        return total + ((item.prod_price || 0) * prod.quantity * (prod.selected ? 1 : 0));
+      }, 0).toFixed(2);
     },
-
     async checkout() {
-      const id = sessionStorage.getItem("id");
-      const cartItems = this.cart.filter((item) => item.selected);
+      const confirmed = window.confirm("Proceed to checkout?");
 
-      try {
-        this.isCheckoutDisabled = true;
-        this.checkoutButtonLabel = "Processing...";
+      if (confirmed) {
+        try {
+          const response = await axios.post("/checkout", {
+            cart: this.cart,
+          });
 
-        const response = await axios.post("/checkout", {
-          id: id,
-          cart: cartItems,
-          payment_method: "your_payment_method",
-        });
-
-        console.log(response.data);
-
-        this.receiptInfo = response.data.receipt_info;
-        this.invoiceInfo = response.data.invoice_info;
-
-        this.cart = this.cart.filter((item) => !item.selected);
-
-        this.checkoutButtonLabel = "Checkout Successful";
-      } catch (error) {
-        console.error("Error during checkout:", error);
-
-        this.checkoutButtonLabel = "Checkout Failed";
-      } finally {
-        this.isCheckoutDisabled = false;
+          console.log(response.data);
+        } catch (error) {
+          console.error("Error during checkout:", error);
+        }
       }
+    }
+  },
+  computed: {
+    checkedItems() {
+      return this.cart.filter(item => item.selected);
     },
   },
+
 };
 </script>
 
 <style scoped>
-@import "@/assets/css/bootstrap.min.css";
-@import "@/assets/css/style.css";
+@import '@/assets/css/bootstrap.min.css';
+@import '@/assets/css/style.css';
 @media (max-width: 768px) {
   .product-item {
     text-align: center;
@@ -343,6 +320,7 @@ export default {
   background-color: #28a745;
   color: #fff;
 }
+
 .count-input {
   display: flex;
   align-items: center;
@@ -351,4 +329,9 @@ export default {
 .count-input button {
   margin: 0 5px;
 }
-</style>
+
+.quantity {
+  margin: 0 8px;
+  font-weight: bold;
+  font-size: 16px;
+}</style>

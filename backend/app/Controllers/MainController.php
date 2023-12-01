@@ -37,7 +37,7 @@ class MainController extends ResourceController
     public function getCart($id)
     {
         $cart = new CartModel();
-        $data = $cart->where('id', $id)->findAll();
+        $data = $cart->where('id',$id)->findAll();
         return $this->respond($data, 200);
     }
     public function getPool()
@@ -126,7 +126,7 @@ class MainController extends ResourceController
         $room_id = $json->room_id;
         $this->room = new RoomModel();
         $booked = $this->room->where(['room_id' => $room_id])->first();
-
+        
         $data = [
             'id' => $json->id,
             'checkin' => $json->checkin,
@@ -136,12 +136,12 @@ class MainController extends ResourceController
             'specialRequest' => $json->specialRequest,
             'room_id' => $json->room_id,
         ];
-
+    
         $booking = new BookingModel();
         $r = $booking->save($data);
-
+    
         if ($r) {
-            $bookedr = $this->room->update($booked['room_id'], ['room_status' => 'booked']);
+            $bookedr = $this->room->update($booked['room_id'], ['room_status' => 'booked']); 
             if ($bookedr) {
                 return $this->respond(['message' => 'Booked successfully', 'booking' => $r, 'room' => $booked], 200);
             }
@@ -149,7 +149,7 @@ class MainController extends ResourceController
             return $this->respond(['message' => 'Booking failed'], 500);
         }
     }
-
+    
 
     public function register()
     {
@@ -261,62 +261,84 @@ class MainController extends ResourceController
         return $this->response->setStatusCode(200)->setJSON(['message' => 'Logout successful']);
     }
     public function Cart()
-    {
-        $cart = new CartModel();
-        $json = $this->request->getJSON();
+{
+    $cart = new CartModel();
+    $json = $this->request->getJSON();
 
-        $shop_id = $json->shop_id;
-        $user = $json->id;
+    $shop_id = $json->shop_id;
+    $user = $json->id;
+    $quantity = $json->quantity; // Assuming you're passing the quantity along with the request
 
-        $existing = $cart->where(['id' => $user, 'shop_id' => $shop_id])->first();
+    // Fetch the product details
+    $shopModel = new ShopModel();
+    $product = $shopModel->find($shop_id);
 
-        if ($existing) {
-            $existing['quantity']++;
-            $updateResult = $cart->update($existing['cart_id'], $existing);
+    if (!$product) {
+        return $this->respond(['message' => 'Product not found'], 404);
+    }
 
-            if ($updateResult) {
-                return $this->respond(['message' => 'Item quantity updated in the cart'], 200);
-            } else {
-                return $this->respond(['message' => 'Failed to update item quantity in the cart'], 500);
-            }
+    if ($product['prod_quantity'] < $quantity) {
+        return $this->respond(['message' => 'Insufficient stock quantity'], 400);
+    }
+
+    // Check if the item is already in the cart
+    $existing = $cart->where(['id' => $user, 'shop_id' => $shop_id])->first();
+
+    if ($existing) {
+        $existing['quantity'] += $quantity;
+        $updateResult = $cart->update($existing['cart_id'], $existing);
+
+        if ($updateResult) {
+            // Decrease stock quantity
+            $newQuantity = $product['prod_quantity'] - $quantity;
+            $shopModel->update($shop_id, ['prod_quantity' => $newQuantity]);
+
+            return $this->respond(['message' => 'Item quantity updated in the cart'], 200);
         } else {
-            $data = [
-                'id' => $user,
-                'shop_id' => $shop_id,
-                'quantity' => 1,
-            ];
+            return $this->respond(['message' => 'Failed to update item quantity in the cart'], 500);
+        }
+    } else {
+        $data = [
+            'id' => $user,
+            'shop_id' => $shop_id,
+            'quantity' => $quantity,
+        ];
 
-            $addcart = $cart->save($data);
+        $addcart = $cart->save($data);
 
-            if ($addcart) {
-                return $this->respond(['message' => 'Item added to cart successfully'], 200);
-            } else {
-                return $this->respond(['message' => 'Failed to add item to cart'], 500);
-            }
+        if ($addcart) {
+            $newQuantity = $product['prod_quantity'] - $quantity;
+            $shopModel->update($shop_id, ['prod_quantity' => $newQuantity]);
+
+            return $this->respond(['message' => 'Item added to cart successfully'], 200);
+        } else {
+            return $this->respond(['message' => 'Failed to add item to cart'], 500);
         }
     }
+}
+
     public function updateCartQuantity()
     {
-        $json = $this->request->getJSON();
-
-        $cart_id = $json->cart_id;
-        $quantity = $json->quantity;
-
-        $cart = new CartModel();
-        $existing = $cart->find($cart_id);
-
-        if ($existing) {
-            $existing['quantity'] = $quantity;
-            $updateResult = $cart->update($cart_id, $existing);
-
-            if ($updateResult) {
-                return $this->respond(['message' => 'Quantity updated successfully'], 200);
-            } else {
-                return $this->respond(['message' => 'Failed to update quantity'], 500);
-            }
+      $json = $this->request->getJSON();
+    
+      $cart_id = $json->cart_id;
+      $quantity = $json->quantity;
+    
+      $cart = new CartModel();
+      $existing = $cart->find($cart_id);
+    
+      if ($existing) {
+        $existing['quantity'] = $quantity;
+        $updateResult = $cart->update($cart_id, $existing);
+    
+        if ($updateResult) {
+          return $this->respond(['message' => 'Quantity updated successfully'], 200);
         } else {
-            return $this->respond(['message' => 'Cart item not found'], 404);
+          return $this->respond(['message' => 'Failed to update quantity'], 500);
         }
+      } else {
+        return $this->respond(['message' => 'Cart item not found'], 404);
+      }
     }
 
 
@@ -424,7 +446,6 @@ class MainController extends ResourceController
 
 
 
-
     public function resetPassword()
     {
         $email = $this->request->getJSON()->email;
@@ -475,5 +496,7 @@ class MainController extends ResourceController
         return json_encode($filteredData);
     }
 
+ 
 }
 
+    

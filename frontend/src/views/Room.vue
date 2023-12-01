@@ -1,6 +1,6 @@
 <template>
   <Top />
-  <spinner/>
+  <spinner />
   <navbar />
   <div class="container-xxl bg-white p-0">
     <div class="room">
@@ -161,7 +161,7 @@ import Top from "@/components/Top.vue";
 import navbar from "@/components/navbar.vue";
 import End from "@/components/End.vue";
 import feedbacks from "@/components/feedbacks.vue";
-import spinner from '@/components/spinner.vue';
+import spinner from "@/components/spinner.vue";
 
 import axios from "axios";
 

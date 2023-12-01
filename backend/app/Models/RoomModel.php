@@ -42,7 +42,7 @@ class RoomModel extends Model
     {
         $result = $this->db->table('room')
             ->groupStart()
-                ->like('name', $query)
+                ->like('room_name', $query)
                 ->orLike('description', $query)
                 ->orLike('price', $query)
                 ->orLike('bed', $query)
@@ -53,8 +53,8 @@ class RoomModel extends Model
     
        
         foreach ($result as &$record) {
-            if (stripos($record['name'], $query) !== false) {
-                $record['matchedWord'] = $record['name'];
+            if (stripos($record['room_name'], $query) !== false) {
+                $record['matchedWord'] = $record['room_name'];
             } elseif (stripos($record['description'], $query) !== false) {
                 $record['matchedWord'] = $record['description'];
             } elseif (stripos($record['price'], $query) !== false) {

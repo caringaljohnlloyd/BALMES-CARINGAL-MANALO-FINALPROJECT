@@ -74,13 +74,15 @@
 								{{ shop.prod_desc }}
 							</p>
 							<div class="d-flex justify-content-between">
-								<button class="btn text-primary btn-lg-square rounded-circle mx-2" @click="addCart(shop.shop_id)">
-									<i class="fa fa-shopping-cart">
-										Add to Cart
-									</i>
-								</button>
-							</div>
-						</div>
+								<div class="input-group">
+  <input type="number" class="form-control text-center" v-model="selectedQuantity" min="1">
+</div>
+<button class="btn text-primary btn-lg-square rounded-circle mx-2" @click="addCart(shop.shop_id)">
+  <i class="fa fa-shopping-cart">
+    Add to Cart
+  </i>
+</button>
+</div>
 					</div>
 				</div>
 			</div>
@@ -88,6 +90,7 @@
 				{{ successMessage }}
 			</div>
 		</div>
+	</div>
 	</div>
 	<!-- Shop End -->
 	<feedbacks/>
@@ -151,6 +154,8 @@
 				shop: [],
 				successMessage: "",
 				name: [], 
+				quantity: 1,
+				selectedQuantity: 1, // default quantity
 
 			}
 		},
@@ -162,6 +167,14 @@
 			updateRating(shop_id, rating) {
       this.submitRatingToBackend(shop_id, rating);
     },
+	updateQuantity(amount) {
+    // Update quantity based on the plus or minus button clicked
+    this.quantity += amount;
+    // Ensure quantity is at least 1
+    if (this.quantity < 1) {
+      this.quantity = 1;
+    }
+  },
     async submitRatingToBackend(shop_id, rating) {
       try {
         const response = await axios.post("/submit-rating", { shop_id, rating });
@@ -186,32 +199,58 @@
 				const s = await axios.get("/getShop");
 				this.shop = s.data;
 			},
-			async addCart(shop_id) {
-    try {
-      const id = sessionStorage.getItem("id");
-      const product = this.shop.find(item => item.shop_id === shop_id);
+			updateQuantity(product, increment) {
+    product.selectedQuantity = (product.selectedQuantity || 0) + increment;
 
-      if (product.prod_quantity > 0) {
-        const response = await axios.post("getCart", {
-          shop_id: shop_id,
-          id: id
-        });
-
-        this.successMessage = response.data.message;
-
-        // Commented out the line below to remove quantity decrement
-        // product.prod_quantity--;
-
-        setTimeout(() => {
-          this.successMessage = "";
-        }, 2000);
-      } else {
-        this.successMessage = "Product is out of stock";
-      }
-    } catch (error) {
-      console.error("Error adding to cart", error);
+    if (product.selectedQuantity < 0) {
+      product.selectedQuantity = 0;
     }
   },
+
+  async addCart(shop_id, quantity) {
+  try {
+    const id = sessionStorage.getItem("id");
+    const product = this.shop.find(item => item.shop_id === shop_id);
+	const quantity = this.selectedQuantity; 
+
+    if (product.prod_quantity >= quantity) {
+      const response = await axios.post("getCart", {
+        shop_id: shop_id,
+        id: id,
+        quantity: quantity, 
+      });
+
+      this.successMessage = response.data.message;
+
+      product.prod_quantity -= quantity;
+
+      setTimeout(() => {
+        this.successMessage = "";
+      }, 2000);
+    } else {
+      this.successMessage = "Product is out of stock";
+    }
+  } catch (error) {
+    console.error("Error adding to cart", error);
+  }
+},
+async checkout() {
+        const confirmed = window.confirm("Proceed to checkout?");
+        if (confirmed) {
+            try {
+                const response = await axios.post("/checkout", {
+                    id: sessionStorage.getItem("id"),
+                    cart: this.cart,
+                    payment_method: 'your_payment_method',
+                });
+
+                console.log(response.data);
+
+            } catch (error) {
+                console.error("Error during checkout:", error);
+            }
+        }
+	}
 		}
 	};
 </script>

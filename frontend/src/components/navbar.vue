@@ -82,6 +82,7 @@
         </div>
       </div>
     </div>
+    
     <div class="app" ref="appRef">
     <form class="d-flex me-2" @submit.prevent="getData">
       <input v-model="query" class="form-control" type="search" placeholder="Search" aria-label="Search"/>
