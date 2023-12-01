@@ -84,6 +84,13 @@ class MainController extends ResourceController
         $data = $book->findAll();
         return $this->respond($data, 200);
     }
+    
+    public function getDataShop()
+    {
+        $main = new ShopModel();
+        $data = $main->findAll();
+        return $this->respond($data, 200);
+    }
 
     public function save()
     {
@@ -377,6 +384,26 @@ class MainController extends ResourceController
         return $receiptId;
     }
 
+    public function saveShop() {
+        $request = $this->request->getJSON();
+
+        $data = [
+            'prod_name' => $request->prod_name,
+            'prod_quantity' => $request->prod_quantity,
+            'prod_desc' => $request->prod_desc,
+            'prod_price' => $request->prod_price,
+        ];
+
+        $shopModel = new ShopModel();
+
+        try {
+            $shopModel->insert($data);
+            return $this->respond(["message" => "Data saved successfully"], 200);
+        } catch (\Exception $e) {
+            return $this->respond(["message" => "Failed to save data: " . $e->getMessage()], 500);
+        }
+    }
+
 
 
 
@@ -437,6 +464,15 @@ class MainController extends ResourceController
         $userModel->update();
 
         return $this->respond(['message' => 'Password updated successfully']);
+    }
+
+    public function  search($query){
+        $roomModel = new RoomModel();
+        
+        $filteredData = $roomModel->searchInRoom($query);
+        
+        
+        return json_encode($filteredData);
     }
 
 }

@@ -176,7 +176,8 @@
                   <div class="col-12">
                     <div class="card card-default">
                       <div class="card-header">
-                        <h2>Products Inventory</h2>
+                        <h2>Shop Inventory</h2>
+                        <button @click="openAddModal">Add</button>
                         <div class="dropdown">
                           <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false"> Yearly Chart
@@ -193,466 +194,63 @@
                         <table id="productsTable" class="table table-hover table-product" style="width:100%">
                           <thead>
                             <tr>
-                              <th></th>
+                             
                               <th>Product Name</th>
-                              <th>ID</th>
-                              <th>Qty</th>
-                              <th>Variants</th>
-                              <th>Committed</th>
-                              <th>Daily Sale</th>
-                              <th>Sold</th>
-                              <th>In Stock</th>
-                              <th></th>
+                              <th>Quantity</th>
+                              <th>Description</th>
+                              <th>Price</th>
+                              <th>Action</th>
                             </tr>
+                          
                           </thead>
+                         
                           <tbody>
+                            <tr v-for="(info, index) in infos" :key="info.id">
+      <td>{{ info.prod_name }}</td>
+      <td>{{ info.prod_quantity }}</td>
+      <td>{{ info.prod_desc }}</td>
+      <td>{{ info.prod_price }}</td>
+      <td>
+        <button >Edit</button>
+      </td>
+    </tr>
+  </tbody>
+    </table>
+  </div>
 
-                            <tr>
-                              <td class="py-0">
-                                <img :src="require('../assets/images/products/products-xs-01.jpg')" alt="Product Image">
-                              </td>
-                              <td>Coach Swagger</td>
-                              <td>24541</td>
-                              <td>27</td>
-                              <td>1</td>
-                              <td>2</td>
-                              <td>
-                                <div id="tbl-chart-01"></div>
-                              </td>
-                              <td>4</td>
-                              <td>18</td>
-                              <td>
-                                <div class="dropdown">
-                                  <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                  </a>
+   <!-- Modal for Adding -->
+   <div class="modal" :class="{ 'show': addModalVisible }">
+      <!-- Modal content for adding -->
+      <span class="close" @click="closeAddModal">&times;</span>
+      <!-- Add form -->
+      <form @submit.prevent="saveShop('add')">
+        <!-- Your form inputs -->
+        <label for="prod_name">Product Name</label>
+        <input type="text" placeholder="Name" v-model="prod_name">
+        <br>
+        <label for="prod_quantity">Product Quantity</label>
+        <input type="text" placeholder="Quantity" v-model="prod_quantity">
+        <br>
+        <label for="prod_desc">Product Description</label>
+        <input type="text" placeholder="Description" v-model="prod_desc">
+        <br>
+        <label for="prod_price">Product Price</label>
+        <input type="number" placeholder="Price" v-model="prod_price">
+        <button type="submit">Add</button>
+      </form>
+    </div>
 
-                                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <td class="py-0">
-                                <img :src="require('../assets/images/products/products-xs-02.jpg')" alt="Product Image">
-                              </td>
-                              <td>Toddler Shoes, Gucci Watch</td>
-                              <td>24542</td>
-                              <td>18</td>
-                              <td>7</td>
-                              <td>5</td>
-                              <td>
-                                <div id="tbl-chart-02"></div>
-                              </td>
-                              <td>1</td>
-                              <td>14</td>
-                              <td>
-                                <div class="dropdown">
-                                  <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                  </a>
-
-                                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <td class="py-0">
-                                <img :src="require('../assets/images/products/products-xs-03.jpg')" alt="Product Image">
-                              </td>
-                              <td>Hat Black Suits</td>
-                              <td>24543</td>
-                              <td>20</td>
-                              <td>3</td>
-                              <td>7</td>
-                              <td>
-                                <div id="tbl-chart-03"></div>
-                              </td>
-                              <td>6</td>
-                              <td>26</td>
-                              <td>
-                                <div class="dropdown">
-                                  <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                  </a>
-
-                                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <td class="py-0">
-                                <img :src="require('../assets/images/products/products-xs-04.jpg')" alt="Product Image">
-                              </td>
-                              <td>Backpack Gents</td>
-                              <td>24544</td>
-                              <td>37</td>
-                              <td>8</td>
-                              <td>3</td>
-                              <td>
-                                <div id="tbl-chart-04"></div>
-                              </td>
-                              <td>6</td>
-                              <td>7</td>
-                              <td>
-                                <div class="dropdown">
-                                  <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                  </a>
-
-                                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <td class="py-0">
-                                <img :src="require('../assets/images/products/products-xs-05.jpg')" alt="Product Image">
-                              </td>
-                              <td>Speed 500 Ignite</td>
-                              <td>24545</td>
-                              <td>8</td>
-                              <td>3</td>
-                              <td>4</td>
-                              <td>
-                                <div id="tbl-chart-05"></div>
-                              </td>
-                              <td>8</td>
-                              <td>42</td>
-                              <td>
-                                <div class="dropdown">
-                                  <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                  </a>
-
-                                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <td class="py-0">
-                                <img :src="require('../assets/images/products/products-xs-06.jpg')" alt="Product Image">
-                              </td>
-                              <td>Olay</td>
-                              <td>24546</td>
-                              <td>19</td>
-                              <td>6</td>
-                              <td>6</td>
-                              <td>
-                                <div id="tbl-chart-06"></div>
-                              </td>
-                              <td>79</td>
-                              <td>12</td>
-                              <td>
-                                <div class="dropdown">
-                                  <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                  </a>
-
-                                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <td class="py-0">
-                                <img :src="require('../assets/images/products/products-xs-07.jpg')" alt="Product Image">
-                              </td>
-                              <td>Ledger Nano X</td>
-                              <td>24547</td>
-                              <td>61</td>
-                              <td>46</td>
-                              <td>18</td>
-                              <td>
-                                <div id="tbl-chart-07"></div>
-                              </td>
-                              <td>76</td>
-                              <td>36</td>
-                              <td>
-                                <div class="dropdown">
-                                  <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                  </a>
-
-                                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <td class="py-0">
-                                <img :src="require('../assets/images/products/products-xs-08.jpg')" alt="Product Image">
-                              </td>
-                              <td>Surface Laptop 2</td>
-                              <td>24548</td>
-                              <td>33</td>
-                              <td>56</td>
-                              <td>89</td>
-                              <td>
-                                <div id="tbl-chart-08"></div>
-                              </td>
-                              <td>38</td>
-                              <td>5</td>
-                              <td>
-                                <div class="dropdown">
-                                  <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                  </a>
-
-                                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <td class="py-0">
-                                <img :src="require('../assets/images/products/products-xs-09.jpg')" alt="Product Image">
-                              </td>
-                              <td>TIGI Bed Head Superstar Queen</td>
-                              <td>24549</td>
-                              <td>3</td>
-                              <td>9</td>
-                              <td>15</td>
-                              <td>
-                                <div id="tbl-chart-09"></div>
-                              </td>
-                              <td>6</td>
-                              <td>46</td>
-                              <td>
-                                <div class="dropdown">
-                                  <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                  </a>
-
-                                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <td class="py-0">
-                                <img :src="require('../assets/images/products/products-xs-10.jpg')" alt="Product Image">
-                              </td>
-                              <td>Wattbike Atom</td>
-                              <td>24550</td>
-                              <td>61</td>
-                              <td>56</td>
-                              <td>68</td>
-                              <td>
-                                <div id="tbl-chart-10"></div>
-                              </td>
-                              <td>3</td>
-                              <td>19</td>
-                              <td>
-                                <div class="dropdown">
-                                  <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                  </a>
-
-                                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <td class="py-0">
-                                <img :src="require('../assets/images/products/products-xs-11.jpg')" alt="Product Image">
-                              </td>
-                              <td>Smart Watch</td>
-                              <td>24551</td>
-                              <td>19</td>
-                              <td>76</td>
-                              <td>38</td>
-                              <td>
-                                <div id="tbl-chart-11"></div>
-                              </td>
-                              <td>3</td>
-                              <td>17</td>
-                              <td>
-                                <div class="dropdown">
-                                  <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                  </a>
-
-                                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <td class="py-0">
-                                <img :src="require('../assets/images/products/products-xs-12.jpg')" alt="Product Image">
-                              </td>
-                              <td>Magic Bullet Blender</td>
-                              <td>24552</td>
-                              <td>12</td>
-                              <td>30</td>
-                              <td>14</td>
-                              <td>
-                                <div id="tbl-chart-12"></div>
-                              </td>
-                              <td>26</td>
-                              <td>9</td>
-                              <td>
-                                <div class="dropdown">
-                                  <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                  </a>
-
-                                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <td class="py-0">
-                                <img :src="require('../assets/images/products/products-xs-13.jpg')" alt="Product Image">
-                              </td>
-                              <td>Kanana rucksack</td>
-                              <td>24553</td>
-                              <td>14</td>
-                              <td>65</td>
-                              <td>39</td>
-                              <td>
-                                <div id="tbl-chart-13"></div>
-                              </td>
-                              <td>9</td>
-                              <td>55</td>
-                              <td>
-                                <div class="dropdown">
-                                  <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                  </a>
-
-                                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <td class="py-0">
-                                <img :src="require('../assets/images/products/products-xs-14.jpg')" alt="Product Image">
-                              </td>
-                              <td>Copic Opaque White</td>
-                              <td>24554</td>
-                              <td>43</td>
-                              <td>29</td>
-                              <td>75</td>
-                              <td>
-                                <div id="tbl-chart-14"></div>
-                              </td>
-                              <td>7</td>
-                              <td>15</td>
-                              <td>
-                                <div class="dropdown">
-                                  <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                  </a>
-
-                                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <td class="py-0">
-                                <img :src="require('../assets/images/products/products-xs-15.jpg')" alt="Product Image">
-                              </td>
-                              <td>Headphones</td>
-                              <td>24555</td>
-                              <td>17</td>
-                              <td>6</td>
-                              <td>7</td>
-                              <td>
-                                <div id="tbl-chart-15"></div>
-                              </td>
-                              <td>6</td>
-                              <td>98</td>
-                              <td>
-                                <div class="dropdown">
-                                  <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                  </a>
-
-                                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
+    
+  
+  
 
 
 
-                          </tbody>
-                        </table>
+  
+  </div>
 
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
+</div>
+</div>
                 <div class="row">
                   <div class="col-xl-4">
                     <!-- Top Customers -->
@@ -728,6 +326,8 @@
               <div class="row">
                 <div class="col-xl-8">
                   
+                    <!-- Sales by Product -->
+                    <!-- Sales by Product -->
                     <!-- Sales by Product -->
                     <div class="card card-default">
                       <div class="card-header align-items-center">
@@ -840,6 +440,10 @@
                     </div>
 
                 </div>
+                    <!-- Sales by Product -->
+                    <!-- Sales by Product -->
+                    <!-- Sales by Product -->
+
                 <div class="col-xl-4">
                   
                       <!-- Chat -->
@@ -18534,6 +18138,120 @@ html[dir=rtl] .sidebar li > a .caret:before {
 .copyright p {
   font-weight: 500;
 }
-/*# sourceMappingURL=style.css.map */
+
+.modal {
+  display: none;
+
+}
+.modal.show {
+  display: block;
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+}
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal form label {
+  font-weight: bold;
+}
+
+.modal form input[type="text"],
+.modal form input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  /* Additional styles as needed */
+}
+
+.modal form button[type="submit"] {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  /* Additional styles for the submit button */
+}
+
+.modal form button[type="submit"]:hover {
+  background-color: #0056b3;
+  /* Adjust hover styles as needed */
+}
 
 </style>
+
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      infos: [],
+      addModalVisible: false,
+      prod_name: '',
+      prod_quantity: '',
+      prod_desc: '',
+      prod_price: '',
+      addingItemId: null,
+    }
+  },
+
+  created() {
+    this.getInfo();
+  },
+  methods: {
+    async getInfo() {
+      try {
+        const inf = await axios.get('getDataShop');
+        this.infos = inf.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    openAddModal() {
+    
+      this.addModalVisible = true;
+    },
+    closeAddModal() {
+    
+      this.addModalVisible = false;
+    },
+
+    async saveShop(mode) {
+  try {
+    let data = {};
+    if (mode === 'add') {
+      data = {
+        prod_name: this.prod_name,
+        prod_quantity: this.prod_quantity,
+        prod_desc: this.prod_desc,
+        prod_price: this.prod_price,
+      };
+    }
+    const ins = await axios.post('saveShop', data);
+
+if (mode === 'add') {
+  // Close the modal after successfully inserting the data
+  this.closeAddModal();
+  // Clear input fields after adding
+  this.prod_name = '';
+  this.prod_quantity = '';
+  this.prod_desc = '';
+  this.prod_price = '';
+  // Refresh data after adding
+  this.getInfo();
+}
+} catch (error) {
+console.error(error);
+}
+}
+
+  },
+};
+</script>

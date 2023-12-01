@@ -82,16 +82,17 @@
         </div>
       </div>
     </div>
-    <div class="app">
-      <form class="d-flex me-2" @submit.prevent="getData">
-        <input v-model="query" class="form-control" type="search" placeholder="Search" aria-label="Search" />
-      </form>
-      <ul class="list-group">
-        <li class="list-group-item" v-for="(item, index) in data">
-          {{ index + 1 }}.{{ item.advice }}
-        </li>
-      </ul>
-    </div>
+    <div class="app" ref="appRef">
+    <form class="d-flex me-2" @submit.prevent="getData">
+      <input v-model="query" class="form-control" type="search" placeholder="Search" aria-label="Search"/>
+    </form>
+    <ul class="list-group" v-show="showData">
+      <li class="list-group-item" v-for="(item, index) in data" :key="index">
+        {{ item.matchedWord }}
+      </li>
+      <li class="list-group-item" v-if="showNoMatchMessage && !data.length">No matching word found</li>
+    </ul>
+  </div>
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
   </div>
   <router-view />
@@ -107,10 +108,10 @@
 
 .logo-image {
   max-width: 40%;
-  /* Set the maximum width to 100% of the container */
+
   height: 40%;
   width: 50%;
-  /* Maintain the aspect ratio */
+
 }
 
 .logout-logo-btn {
@@ -144,8 +145,10 @@ export default {
   },
   data() {
     return {
-      query: null,
+      query: '',
       data: [],
+      showData: false,
+      showNoMatchMessage: false,
     };
   },
   methods: {
@@ -165,16 +168,30 @@ export default {
       }
     },
     async getData() {
-      await axios
-        .get(`https://api.adviceslip.com/advice/search/${this.query}`)
-        .then((response) => {
-          this.data = response.data.slips;
-          console.log(this.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      try {
+        const response = await axios.get(`/search/${this.query}`);
+        this.data = response.data;
+        this.showNoMatchMessage = true; 
+        this.showData = true; 
+        console.log(this.data);
+      } catch (error) {
+        console.error(error);
+      }
     },
+    closeDataList(event) {
+      const appElement = this.$refs.appRef;
+      if (appElement && !appElement.contains(event.target)) {
+        this.showData = false; 
+        this.data = []; 
+        this.query = ''; 
+      }
+    },
+  },
+  mounted() {
+    document.addEventListener('click', this.closeDataList);
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', this.closeDataList);
   },
 };
 </script>

@@ -7,6 +7,8 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('/getData','MainController::getData');
+$routes->get('/getDataShop','MainController::getDataShop');
+$routes->post('/saveShop','MainController::saveShop');
 $routes->post('/register','MainController::register');
 $routes->post('/del','MainController::del');
 $routes->post('update/(:num)', 'MainController::update/$1');
@@ -27,7 +29,7 @@ $routes->post('booking','MainController::booking');
 $routes->get('/getbook','MainController::getbook');
 $routes->post('/submit-rating','MainController::submitRating');
 $routes->post('/checkout', 'MainController::checkout');
-
+$routes->get('/search/(:any)', 'MainController::search/$1');
 
 
 
