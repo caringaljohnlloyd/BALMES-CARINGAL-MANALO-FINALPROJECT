@@ -15,6 +15,8 @@ use App\Models\CartModel;
 use App\Models\ManifestModel;
 use App\Models\InvoiceModel;
 use App\Models\ReceiptModel;
+use App\Models\OrderListModel;
+use App\Models\OrdersModel;
 
 
 
@@ -24,9 +26,19 @@ class MainController extends ResourceController
 
     use ResponseTrait;
     protected $room;
+    protected $orders;
+    protected $orderitems;
+    protected $invoice;
+
     public function index()
     {
         //
+    }
+    public function getInvoice()
+    {
+        $invoice = new InvoiceModel();
+        $data = $invoice->findAll();
+        return $this->respond($data, 200);
     }
     public function getManifest()
     {
@@ -267,9 +279,7 @@ class MainController extends ResourceController
 
     $shop_id = $json->shop_id;
     $user = $json->id;
-    $quantity = $json->quantity; // Assuming you're passing the quantity along with the request
-
-    // Fetch the product details
+    $quantity = $json->quantity; 
     $shopModel = new ShopModel();
     $product = $shopModel->find($shop_id);
 
@@ -281,7 +291,6 @@ class MainController extends ResourceController
         return $this->respond(['message' => 'Insufficient stock quantity'], 400);
     }
 
-    // Check if the item is already in the cart
     $existing = $cart->where(['id' => $user, 'shop_id' => $shop_id])->first();
 
     if ($existing) {
@@ -289,7 +298,6 @@ class MainController extends ResourceController
         $updateResult = $cart->update($existing['cart_id'], $existing);
 
         if ($updateResult) {
-            // Decrease stock quantity
             $newQuantity = $product['prod_quantity'] - $quantity;
             $shopModel->update($shop_id, ['prod_quantity' => $newQuantity]);
 
@@ -342,69 +350,115 @@ class MainController extends ResourceController
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function checkout()
     {
+        $this->invoice = new InvoiceModel();
+        $this->orderitems = new OrderListModel();
+        $this->orders = new OrderSModel();
         $json = $this->request->getJSON();
-
         $id = $json->id;
-        $cartItems = $json->cart;
-        $paymentMethod = $json->payment_method;
 
-        $invoiceId = $this->createInvoice($id, $cartItems);
-        $receiptId = $this->createReceipt($invoiceId, $paymentMethod);
-
-        $this->deleteCheckedOutItems($id, $cartItems);
-
-
-        return $this->respond(['message' => 'Checkout successful', 'invoice_id' => $invoiceId, 'receipt_id' => $receiptId], 200);
-    }
-
-    private function deleteCheckedOutItems($id, $cartItems)
-    {
-        $cartModel = new CartModel();
-
-        foreach ($cartItems as $cartItem) {
-            $cartId = $cartItem->cart_id;
-
-            $deleteResult = $cartModel->where(['id' => $id, 'cart_id' => $cartId])->delete();
-
-            if (!$deleteResult) {
-                return $this->respond(['message' => 'Failed to delete checked out items from the cart'], 500);
-            }
-        }
-
-        return true;
-    }
-
-
-    private function createInvoice($id, $cartItems)
-    {
-
-        $invoiceModel = new InvoiceModel();
-
-        $invoiceData = [
+        $order = [
             'id' => $id,
+            'status' => $json->status,
+            'total_price' => $json->total_price,
         ];
 
-        $invoiceId = $invoiceModel->save($invoiceData);
+        $this->orders->save($order);
 
-        return $invoiceId;
-    }
+        $order_id = $this->orders->insertID();
 
-    private function createReceipt($invoiceId, $paymentMethod)
-    {
+        foreach ($json->items as $item) {
+            $orderitem = [
+                'id' => $id,
+                'shop_id' => $item->shop_id,
+                'quantity' => $item->quantity,
+                'total_price' => $item->total_price,
+                'order_id' => $order_id,
+            ];
 
-        $receiptModel = new ReceiptModel();
-
-        $receiptData = [
-            'invoice_id' => $invoiceId,
-            'payment_method' => $paymentMethod,
+            $this->orderitems->save($orderitem);
+        }
+        $inv = [
+            'id' => $id,
+            'order_id' => $order_id,
         ];
-
-        $receiptId = $receiptModel->save($receiptData);
-
-        return $receiptId;
+        $this->invoice->save($inv);
+        
+        if ($this->orders->affectedRows() > 0 && $this->orderitems->affectedRows() > 0  && $this->invoice->affectedRows() > 0) {
+            return $this->respond(['message' => 'Checkout successful'], 200);
+        } else {
+            return $this->respond(['message' => 'Checkout failed'], 500);
+        }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function saveShop() {
         $request = $this->request->getJSON();

@@ -1,31 +1,71 @@
 <template>
-    <div class="row">
-      <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 mt-5 pt-3 pb-3 bg-dark form-wrapper">
-        <div class="container">
-          <h3 class="text-primary">Login</h3>
-          <hr />
-          <form @submit.prevent="login()">
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" v-model="email" required />
-              <label for="email" class="form-label">Email address</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control" v-model="password" required minlength="8" />
-              <label for="password" class="form-label">Password</label>
-            </div>
-            <p class="alert-danger ">{{ errorMessage }}</p>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-8 col-md-6 col-lg-4 mt-3  p-4 form-wrapper bg-dark shadow">
+        <h2 class="text-primary text-center mb-4">Welcome Back!</h2>
 
-            <button type="submit" class="btn btn-primary mx-auto w-100 mb-3">Sign in</button>
+        <form @submit.prevent="login">
 
-            <router-link to="/register">Don't have an account yet?</router-link>
-            <br>
-            <router-link to="/reset-password">Forgot Password</router-link>
+          <!-- Email Input -->
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" v-model="email" required placeholder="Email" />
+            <label for="email" class="form-label">Email address</label>
 
-          </form>
-        </div>
+          </div>
+
+          <!-- Password Input -->
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" v-model="password" required minlength="8" placeholder="Password" />
+            <label for="password" class="form-label">Password</label>
+
+          </div>
+
+          <!-- Error Message -->
+          <p class="alert alert-danger text-center" v-if="errorMessage">{{ errorMessage }}</p>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary w-100 mb-3">Sign in</button>
+
+          <!-- Links -->
+          <div class="text-center">
+            <router-link class="text-muted" to="/register">Don't have an account yet?</router-link>
+            <span class="mx-2">|</span>
+            <router-link class="text-muted" to="/reset-password">Forgot Password?</router-link>
+          </div>
+        </form>
+
       </div>
     </div>
+  </div>
 </template>
+
+<style scoped>
+  .form-wrapper {
+    border-radius: 10px;
+  }
+
+  .form-wrapper:hover
+
+  {
+box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.text-primary {
+color: #007bff;
+}
+
+
+.alert-danger {
+color: #dc3545;
+border-color: #dc3545;
+}
+
+.text-muted {
+color: #6c757d;
+}
+</style>
+
+
 
 <script>
 import axios from 'axios';

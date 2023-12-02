@@ -3,9 +3,8 @@
     <Top />
     <navbar />
     <div class="container-fluid padding-bottom-3x mb-1">
-      <div class="alert alert-success" v-if="deleteSuccess">
-        Deleted successfully!
-      </div>
+      <Notification v-if="deleteSuccess" :show="deleteSuccess" type="success" message="Deleted successfully!" />
+
       <div class="table-responsive">
         <table class="table">
           <thead>
@@ -22,8 +21,8 @@
               <td class="align-middle">
                 <div class="product-item">
                   <div class="custom-control custom-checkbox" style="float: left; margin-right: 10px; margin-top: 10px;">
-                    <input type="checkbox" class="custom-control-input" id="checkbox{{ cart.shop_id }}"
-                      v-model="cart.selected" style="width: 20px; height: 20px;">
+                    <input type="checkbox" :id="'checkbox_' + cart.cart_id" v-model="checkedItems" :value="cart.cart_id"
+                      @click="check(cart.cart_id)">
                     <label class="custom-control-label" :for="'checkbox' + cart.shop_id"></label>
                   </div>
                   <a class=""><img class="img-fluid menu"
@@ -71,7 +70,7 @@
               </div>
             </form>
           </div>
-
+<!-- invoice section-->
           <div class="column text-lg">
             <h4>Products to Pay:</h4>
             <table class="table">
@@ -98,7 +97,7 @@
           <div class="column">
             <div class="shopping-cart-footer">
               <div class="column">
-                <a class="btn btn-dark" @click="checkout" href="#">Proceed to Checkout</a>
+                <a class="btn btn-dark" @click="checkout">Proceed to Checkout</a>
               </div>
             </div>
           </div>
@@ -112,6 +111,7 @@
   <br>
   <br>
 
+  <Notification v-if="checkoutSuccess" :show="checkoutSuccess" type="success" message="Checkout successful!" />
 
   <End />
   <spinner />
@@ -123,13 +123,15 @@ import Top from '@/components/Top.vue';
 import navbar from '@/components/navbar.vue';
 import End from '@/components/End.vue';
 import spinner from '@/components/spinner.vue';
+import Notification from "@/components/Notification.vue";
 
 export default {
   name: 'cart',
   components: {
     spinner, Top,
     navbar,
-    End
+    End,    Notification,
+
   },
   data() {
     return {
@@ -139,6 +141,9 @@ export default {
       prod_price: [],
       prod_img: [],
       user: null,
+      checkedItems: [],
+      deleteSuccess: false,
+      checkoutSuccess: false,
 
     };
   },
@@ -147,20 +152,11 @@ export default {
     this.getInfo();
     this.getPrice();
     this.getImg();
-    this.getUser();
 
 
   },
   methods: {
-    async getUser() {
-      const id = sessionStorage.getItem('id');
-      try {
-        const userData = await apiService.getUser(id);
-        this.user = userData;
-      } catch (error) {
-        // Handle error...
-      }
-    },
+
     async getCart() {
       const id = sessionStorage.getItem("id");
       try {
@@ -200,6 +196,10 @@ export default {
       const confirmResult = await new Promise(resolve => {
         const confirmDialog = window.confirm("Do you want to DELETE this item?");
         resolve(confirmDialog);
+        this.deleteSuccess = true;
+      setTimeout(() => {
+        this.deleteSuccess = false;
+      }, 2000);
       });
 
       if (confirmResult) {
@@ -253,32 +253,67 @@ export default {
     },
 
     calculateSubtotal() {
-      return this.cart.reduce((total, prod) => {
-        const item = this.getInfo(prod);
-        return total + ((item.prod_price || 0) * prod.quantity * (prod.selected ? 1 : 0));
-      }, 0).toFixed(2);
-    },
-    async checkout() {
-      const confirmed = window.confirm("Proceed to checkout?");
+  return this.cart.reduce((total, prod) => {
+    const item = this.getInfo(prod);
+    const subtotal = (item.prod_price || 0) * prod.quantity;
+    return total + subtotal;
+  }, 0).toFixed(2);
+},
 
-      if (confirmed) {
-        try {
-          const response = await axios.post("/checkout", {
-            cart: this.cart,
-          });
 
-          console.log(response.data);
-        } catch (error) {
-          console.error("Error during checkout:", error);
-        }
+async checkout() {
+  try {
+    const id = sessionStorage.getItem("id");
+
+    const orderItems = Array.isArray(this.checkedItems)
+      ? this.checkedItems.map(cartId => {
+          const cart = this.cart.find(cart => cart.cart_id === cartId);
+          const shop_id = cart ? cart.shop_id : null;
+
+          return {
+            shop_id: shop_id,
+            quantity: cart ? cart.quantity : 0,
+            total_price: this.getTotal(cart),
+          };
+        })
+      : [];
+
+    const orderData = {
+      id: id,
+      status: 'pending',
+      total_price: parseFloat(this.calculateSubtotal()), 
+      items: orderItems,
+    };
+
+    const response = await axios.post('checkout', orderData);
+
+    console.log('Checkout Response:', response);
+    this.checkoutSuccess = true;
+        setTimeout(() => {
+          this.checkoutSuccess = false;
+        }, 2000);
+  } catch (error) {
+    console.error('Checkout Error:', error);
+  }
+},
+
+    check(cartId) {
+      const index = this.checkedItems.indexOf(cartId);
+
+      if (index === -1) {
+        this.checkedItems.push(cartId);
+      } else {
+        this.checkedItems.splice(index, 1);
       }
-    }
-  },
-  computed: {
-    checkedItems() {
+      console.log('Selected Items:', this.checkedItems);
+    },
+
+    getcheckedItems() {
       return this.cart.filter(item => item.selected);
     },
+
   },
+
 
 };
 </script>
@@ -334,4 +369,5 @@ export default {
   margin: 0 8px;
   font-weight: bold;
   font-size: 16px;
-}</style>
+}
+</style>

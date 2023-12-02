@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class OrdersModel extends Model
+class OrderListModel extends Model
 {
-    protected $table            = 'orders';
-    protected $primaryKey       = 'order_id';
+    protected $table            = 'order_list';
+    protected $primaryKey       = 'order_list_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id','status','created_at','updated_at','total_price'];
+    protected $allowedFields    = ['id','order_id','total_price','shop_id','quantity'];
 
     // Dates
     protected $useTimestamps = false;

@@ -120,6 +120,11 @@
 	</div>
 	<!-- Newsletter Start -->
 	<End/>
+	<Notification
+  :show="notification.show"
+  :type="notification.type"
+  :message="notification.message"
+/>
 </template>
 <style scoped>
 	@import '@/assets/css/bootstrap.min.css'; @import '@/assets/css/style.css';
@@ -134,6 +139,7 @@
 	import End from '@/components/End.vue';
 	import StarRating from '@/components/StarRating.vue';
 	import spinner from '@/components/spinner.vue';
+	import Notification from '@/components/Notification.vue';
 
 	import axios from 'axios'
 
@@ -141,7 +147,8 @@
 		name:
 		'shop',
 		components: {
-			spinner,
+			Notification,
+spinner,
 			Top,
 			navbar,
 			End,
@@ -152,11 +159,14 @@
 			return {
 				feed: [],
 				shop: [],
-				successMessage: "",
 				name: [], 
 				quantity: 1,
 				selectedQuantity: 1, // default quantity
-
+				notification: {
+      show: false,
+      type: "", // "success" or "error"
+      message: "",
+    },
 			}
 		},
 		mounted() {
@@ -220,7 +230,7 @@
         quantity: quantity, 
       });
 
-      this.successMessage = response.data.message;
+	  this.showSuccessNotification("Product added to cart successfully");
 
       product.prod_quantity -= quantity;
 
@@ -228,12 +238,33 @@
         this.successMessage = "";
       }, 2000);
     } else {
-      this.successMessage = "Product is out of stock";
+        this.showErrorNotification("Product is out of stock");
     }
   } catch (error) {
     console.error("Error adding to cart", error);
   }
-},
+},  showSuccessNotification(message) {
+    this.notification = {
+      show: true,
+      type: "success",
+      message: message,
+    };
+
+    setTimeout(() => {
+      this.notification.show = false;
+    }, 2000);
+  },
+  showErrorNotification(message) {
+    this.notification = {
+      show: true,
+      type: "error",
+      message: message,
+    };
+
+    setTimeout(() => {
+      this.notification.show = false;
+    }, 2000);
+  },
 async checkout() {
         const confirmed = window.confirm("Proceed to checkout?");
         if (confirmed) {

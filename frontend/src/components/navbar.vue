@@ -68,16 +68,17 @@
 
                 <router-link to="/contact" class="nav-item nav-link"
                   :class="{ active: $route.path === '/contact' }">Contact</router-link>
-              </div>
-              <router-link to="/shopcart" class="text-primary">
-                <i class="fa fa-shopping-cart"></i>
-              </router-link>
-
-              <button @click="logout" class="btn btn-primary logout-logo-btn">
-                <i class="fas fa-power-off logout-icon"></i>
-                Logout
-              </button>
-            </div>
+                  <div class="col-lg-5 px-5 text-end d-flex align-items-center justify-content-end">
+          <router-link to="/shopcart" class="text-primary me-3">
+            <i class="fa fa-shopping-cart"></i>
+          </router-link>
+          <button @click="logout" class="btn btn-primary logout-logo-btn">
+            <i class="fas fa-power-off logout-icon"></i>
+            Logout
+          </button>
+        </div>
+      </div>
+      </div>
           </nav>
         </div>
       </div>

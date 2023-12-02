@@ -30,6 +30,7 @@ $routes->get('/getbook','MainController::getbook');
 $routes->post('/submit-rating','MainController::submitRating');
 $routes->post('/checkout', 'MainController::checkout');
 $routes->get('/search/(:any)', 'MainController::search/$1');
+$routes->get('/getInvoice','MainController::getInvoice');
 
 
 

@@ -12,7 +12,7 @@ class InvoiceModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['created_at','id'];
+    protected $allowedFields    = ['created_at','id','order_id'];
 
     // Dates
     protected $useTimestamps = false;

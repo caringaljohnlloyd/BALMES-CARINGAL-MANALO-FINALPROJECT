@@ -171,86 +171,101 @@
 
 
                 
-                <!-- Table Product -->
                 <div class="row">
-                  <div class="col-12">
-                    <div class="card card-default">
-                      <div class="card-header">
-                        <h2>Shop Inventory</h2>
-                        <button @click="openAddModal">Add</button>
-                        <div class="dropdown">
-                          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false"> Yearly Chart
-                          </a>
+  <!-- Table Product -->
+  <div class="col-12">
+    <div class="card card-default">
+      <div class="card-header">
+        <h2>Shop Inventory</h2>
+        <button @click="openAddModal">Add</button>
+        <div class="dropdown">
+          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false"> Yearly Chart
+          </a>
 
-                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="card-body">
-                        <table id="productsTable" class="table table-hover table-product" style="width:100%">
-                          <thead>
-                            <tr>
-                             
-                              <th>Product Name</th>
-                              <th>Quantity</th>
-                              <th>Description</th>
-                              <th>Price</th>
-                              <th>Action</th>
-                            </tr>
-                          
-                          </thead>
-                         
-                          <tbody>
-                            <tr v-for="(info, index) in infos" :key="info.id">
-      <td>{{ info.prod_name }}</td>
-      <td>{{ info.prod_quantity }}</td>
-      <td>{{ info.prod_desc }}</td>
-      <td>{{ info.prod_price }}</td>
-      <td>
-        <button >Edit</button>
-      </td>
-    </tr>
-  </tbody>
-    </table>
-  </div>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </div>
+      </div>
 
-   <!-- Modal for Adding -->
-   <div class="modal" :class="{ 'show': addModalVisible }">
-      <!-- Modal content for adding -->
-      <span class="close" @click="closeAddModal">&times;</span>
-      <!-- Add form -->
-      <form @submit.prevent="saveShop('add')">
-        <!-- Your form inputs -->
-        <label for="prod_name">Product Name</label>
-        <input type="text" placeholder="Name" v-model="prod_name">
-        <br>
-        <label for="prod_quantity">Product Quantity</label>
-        <input type="text" placeholder="Quantity" v-model="prod_quantity">
-        <br>
-        <label for="prod_desc">Product Description</label>
-        <input type="text" placeholder="Description" v-model="prod_desc">
-        <br>
-        <label for="prod_price">Product Price</label>
-        <input type="number" placeholder="Price" v-model="prod_price">
-        <button type="submit">Add</button>
-      </form>
+      <div class="card-body">
+        <table id="productsTable" class="table table-hover table-product" style="width:100%">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Quantity</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr v-for="(info, index) in infos" :key="info.id">
+              <td>{{ info.prod_name }}</td>
+              <td>{{ info.prod_quantity }}</td>
+              <td>{{ info.prod_desc }}</td>
+              <td>{{ info.prod_price }}</td>
+              <td>
+                <button>Edit</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-
-    
-  
-  
-
-
-
-  
   </div>
 
+  <!-- Modal for Adding -->
+  <div class="col-12">
+    <div class="modal" :class="{ 'show': addModalVisible }">
+      <!-- Modal content for adding -->
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Product</h5>
+            <button type="button" class="close" @click="closeAddModal">&times;</button>
+          </div>
+
+          <!-- Add form -->
+<form @submit.prevent="saveShop('add')" enctype="multipart/form-data">
+            <div class="modal-body">
+              <!-- Your form inputs -->
+              <div class="form-group">
+                <label for="prod_name">Product Name</label>
+                <input type="text" class="form-control" placeholder="Name" v-model="prod_name">
+              </div>
+
+              <div class="form-group">
+                <label for="prod_quantity">Product Quantity</label>
+                <input type="text" class="form-control" placeholder="Quantity" v-model="prod_quantity">
+              </div>
+
+              <div class="form-group">
+                <label for="prod_desc">Product Description</label>
+                <input type="text" class="form-control" placeholder="Description" v-model="prod_desc">
+              </div>
+
+              <div class="form-group">
+                <label for="prod_price">Product Price</label>
+                <input type="number" class="form-control" placeholder="Price" v-model="prod_price">
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" @click="closeAddModal">Close</button>
+              <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-</div>
+
                 <div class="row">
                   <div class="col-xl-4">
                     <!-- Top Customers -->

@@ -12,7 +12,7 @@ class ReceiptModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['invoice_id','payment_method','created_at'];
+    protected $allowedFields    = ['invoice_id','payment_method','created_at','order_id'];
 
     // Dates
     protected $useTimestamps = false;

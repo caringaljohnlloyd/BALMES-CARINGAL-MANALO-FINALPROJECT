@@ -1,25 +1,28 @@
-<!-- ForgotPassword.vue -->
 <template>
-    <div class="row">
-      <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 mt-5 pt-3 pb-3 bg-dark form-wrapper">
-        <div class="container">
-          <h3 class="text-primary">Forgot Password</h3>
-          <hr />
-          <form @submit.prevent="resetPassword()">
-            <div class="form-floating mb-3">
-              <input type="email" class="form-control" v-model="email" required />
-              <label for="email" class="form-label">Email address</label>
-            </div>
-            <p class="alert-danger">{{ errorMessage }}</p>
-  
-            <button type="submit" class="btn btn-primary mx-auto w-100 mb-3">Reset Password</button>
-  
-            <router-link to="/">Remembered your password? Sign in</router-link>
-          </form>
-        </div>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-8 col-md-6 col-lg-4 mt-3 p-4 form-wrapper bg-dark shadow">
+        <h3 class="text-primary text-center">Forgot Password</h3>
+        <hr />
+        <form @submit.prevent="resetPassword">
+          <!-- Email Input -->
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" v-model="email" required placeholder="Email" />
+            <label for="email" class="form-label">Email address</label>
+          </div>
+          <!-- Error Message -->
+          <p class="alert-danger text-center">{{ errorMessage }}</p>
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary w-100 mb-3">Reset Password</button>
+          <!-- Links -->
+          <div class="text-center">
+            <router-link class="text-muted" to="/">Remembered your password? Sign in</router-link>
+          </div>
+        </form>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script>
   import axios from 'axios';
@@ -61,4 +64,27 @@
     },
   };
   </script>
-  
+  <style scoped>
+  .form-wrapper {
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease-in-out;
+  }
+
+  .form-wrapper:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .text-primary {
+    color: #007bff;
+  }
+
+  .alert-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .text-muted {
+    color: #6c757d;
+  }
+  </style>
