@@ -298,8 +298,8 @@ class MainController extends ResourceController
         $updateResult = $cart->update($existing['cart_id'], $existing);
 
         if ($updateResult) {
-            $newQuantity = $product['prod_quantity'] - $quantity;
-            $shopModel->update($shop_id, ['prod_quantity' => $newQuantity]);
+            // $newQuantity = $product['prod_quantity'] - $quantity;
+            // $shopModel->update($shop_id, ['prod_quantity' => $newQuantity]);
 
             return $this->respond(['message' => 'Item quantity updated in the cart'], 200);
         } else {
@@ -315,8 +315,8 @@ class MainController extends ResourceController
         $addcart = $cart->save($data);
 
         if ($addcart) {
-            $newQuantity = $product['prod_quantity'] - $quantity;
-            $shopModel->update($shop_id, ['prod_quantity' => $newQuantity]);
+            // $newQuantity = $product['prod_quantity'] - $quantity;
+            // $shopModel->update($shop_id, ['prod_quantity' => $newQuantity]);
 
             return $this->respond(['message' => 'Item added to cart successfully'], 200);
         } else {
@@ -324,7 +324,6 @@ class MainController extends ResourceController
         }
     }
 }
-
     public function updateCartQuantity()
     {
       $json = $this->request->getJSON();
@@ -373,7 +372,6 @@ class MainController extends ResourceController
 
 
 
-
     public function checkout()
     {
         $this->invoice = new InvoiceModel();
@@ -381,17 +379,17 @@ class MainController extends ResourceController
         $this->orders = new OrderSModel();
         $json = $this->request->getJSON();
         $id = $json->id;
-
+    
         $order = [
             'id' => $id,
             'status' => $json->status,
             'total_price' => $json->total_price,
         ];
-
+    
         $this->orders->save($order);
-
+    
         $order_id = $this->orders->insertID();
-
+    
         foreach ($json->items as $item) {
             $orderitem = [
                 'id' => $id,
@@ -400,21 +398,33 @@ class MainController extends ResourceController
                 'total_price' => $item->total_price,
                 'order_id' => $order_id,
             ];
-
+    
             $this->orderitems->save($orderitem);
+    
+            $shopModel = new ShopModel();
+            $product = $shopModel->find($item->shop_id);
+    
+            if ($product) {
+                $newQuantity = $product['prod_quantity'] - $item->quantity;
+                $shopModel->update($item->shop_id, ['prod_quantity' => $newQuantity]);
+            }
         }
+    
         $inv = [
             'id' => $id,
             'order_id' => $order_id,
         ];
+    
         $this->invoice->save($inv);
-        
-        if ($this->orders->affectedRows() > 0 && $this->orderitems->affectedRows() > 0  && $this->invoice->affectedRows() > 0) {
+    
+        if ($this->orders->affectedRows() > 0 && $this->orderitems->affectedRows() > 0 && $this->invoice->affectedRows() > 0) {
             return $this->respond(['message' => 'Checkout successful'], 200);
         } else {
+            // Handle checkout failure
             return $this->respond(['message' => 'Checkout failed'], 500);
         }
     }
+    
 
 
 

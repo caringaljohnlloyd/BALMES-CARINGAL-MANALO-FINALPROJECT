@@ -47,6 +47,7 @@
 				</h1>
 			</div>
 			<div class="row g-4">
+				
 				<div v-for="shop in shop" class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
 					<div class="room-item shadow rounded overflow-hidden">
 						<div class="position-relative">
@@ -232,7 +233,6 @@ spinner,
 
 	  this.showSuccessNotification("Product added to cart successfully");
 
-      product.prod_quantity -= quantity;
 
       setTimeout(() => {
         this.successMessage = "";

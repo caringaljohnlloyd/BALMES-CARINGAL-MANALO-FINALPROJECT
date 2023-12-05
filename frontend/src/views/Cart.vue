@@ -181,9 +181,11 @@ export default {
     },
 
     getInfo(prod) {
-      return this.prod_name.find(shop => shop.shop_id === prod.shop_id) || {};
+  const shop = this.prod_name.find(shop => shop.shop_id === prod.shop_id) || {};
+  console.log(`Product Name: ${shop.prod_name}, Price: ${shop.prod_price}`);
+  return shop;
+},
 
-    },
     getPrice(prod) {
       return this.prod_price.find(shop => shop.shop_id === prod.shop_id) || {};
 
@@ -253,45 +255,57 @@ export default {
     },
 
     calculateSubtotal() {
-  return this.cart.reduce((total, prod) => {
-    const item = this.getInfo(prod);
-    const subtotal = (item.prod_price || 0) * prod.quantity;
-    return total + subtotal;
+  const subtotal = this.checkedItems.reduce((total, cartId) => {
+    const prod = this.cart.find(item => item.cart_id === cartId);
+    if (prod) {
+      const item = this.getInfo(prod);
+      const itemTotal = (item.prod_price || 0) * prod.quantity;
+      console.log(`Cart ID: ${cartId}, Product Name: ${item.prod_name}, Price: ${item.prod_price}, Item Total: ${itemTotal}`);
+      return total + itemTotal;
+    }
+    return total;
   }, 0).toFixed(2);
+
+  console.log('Selected Items:', this.checkedItems);
+
+  return subtotal;
 },
+
 
 
 async checkout() {
   try {
     const id = sessionStorage.getItem("id");
 
-    const orderItems = Array.isArray(this.checkedItems)
-      ? this.checkedItems.map(cartId => {
-          const cart = this.cart.find(cart => cart.cart_id === cartId);
-          const shop_id = cart ? cart.shop_id : null;
+    const orderItems = this.checkedItems.map(cartId => {
+      const cart = this.cart.find(cart => cart.cart_id === cartId);
+      const shop_id = cart ? cart.shop_id : null;
 
-          return {
-            shop_id: shop_id,
-            quantity: cart ? cart.quantity : 0,
-            total_price: this.getTotal(cart),
-          };
-        })
-      : [];
+      return {
+        shop_id: shop_id,
+        quantity: cart ? cart.quantity : 0,
+        total_price: this.getTotal(cart),
+      };
+    });
 
     const orderData = {
       id: id,
       status: 'pending',
-      total_price: parseFloat(this.calculateSubtotal()), 
+      total_price: parseFloat(this.calculateSubtotal()),
       items: orderItems,
     };
 
     const response = await axios.post('checkout', orderData);
 
-    console.log('Checkout Response:', response);
-    this.checkoutSuccess = true;
-        setTimeout(() => {
-          this.checkoutSuccess = false;
-        }, 2000);
+    if (response.status === 200) {
+      this.checkoutSuccess = true;
+      setTimeout(() => {
+        this.checkoutSuccess = false;
+      }, 2000);
+    } else {
+      // Handle checkout failure
+      console.error('Checkout failed:', response.data.message);
+    }
   } catch (error) {
     console.error('Checkout Error:', error);
   }
