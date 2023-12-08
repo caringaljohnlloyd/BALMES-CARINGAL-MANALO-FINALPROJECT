@@ -23,6 +23,7 @@ import Email_inbox from '../views/Email_inbox.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import UpdatePassword from '../views/UpdatePassword.vue'
 import Cart from '../views/Cart.vue'
+import AuditHistory from '@/views/AuditHistory.vue';
 
 
 
@@ -148,6 +149,14 @@ component: ForgotPassword,
   path: '/update-password',
   component: UpdatePassword,
 },
+{ 
+   path: '/audit-history/:shopId',
+    name: 'auditHistory',
+    component: AuditHistory, // Replace with the actual component for Audit History
+    props: true, // This allows passing route.params as props to the component
+},
+
+
 ]
 
 const router = createRouter({

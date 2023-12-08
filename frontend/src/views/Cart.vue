@@ -59,54 +59,51 @@
           </tbody>
         </table>
       </div>
-      <div class="container">
-        <div class="shopping-cart-footer">
-          <div class="column">
-            <form class="coupon-form" method="post">
-              <input class="form-control form-control-sm" type="text" placeholder="Coupon code" required>
-              <br>
-              <div>
-                <button class="btn btn-outline-primary btn-sm" type="submit">Apply Coupon</button>
-              </div>
-            </form>
-          </div>
-<!-- invoice section-->
-          <div class="column text-lg">
-            <h4>Products to Pay:</h4>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Product Name</th>
-                  <th>Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="checkedItem in checkedItems" :key="checkedItem.cart_id">
-                  <td>{{ getInfo(checkedItem).prod_name }}</td>
-                  <td>${{ getPrice(checkedItem).prod_price }}</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <div>
-              <h4>Total:</h4> <span class="text-medium">${{ calculateSubtotal() }}</span>
+      <div class="floating-container">
+        <div class="container">
+          <div class="shopping-cart-footer">
+            <div class="column coupon-section">
+              <form class="coupon-form" method="post">
+                <input class="form-control form-control-sm" type="text" placeholder="Coupon code" required>
+                <br>
+                <div>
+                  <button class="btn btn-outline-primary btn-sm" type="submit">Apply Coupon</button>
+                </div>
+              </form>
             </div>
-          </div>
-
-
-          <div class="column">
-            <div class="shopping-cart-footer">
-              <div class="column">
-                <a class="btn btn-dark" @click="checkout">Proceed to Checkout</a>
+<!-- invoice section-->
+          
+<div class="column text-lg invoice-section sticky-column">
+              <h4>Products to Pay:</h4>
+              <table class="table">
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="cartId in checkedItems" :key="cartId">
+        <!-- Use getInfo and getPrice methods to get product information -->
+        <td>{{ getInfo(getCartItem(cartId)).prod_name }}</td>
+        <td>${{ getPrice(getCartItem(cartId)).prod_price }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+          <h4>Total:</h4> <span class="text-medium">${{ calculateSubtotal() }}</span>
+        </div>
+      </div>
+      <div class="column checkout-button-section">
+              <div class="shopping-cart-footer">
+                <div class="column">
+                  <a class="btn btn-dark" @click="checkout">Proceed to Checkout</a>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-
-    </div>
-  </div>
   <br><br>
   <br>
   <br>
@@ -115,6 +112,9 @@
 
   <End />
   <spinner />
+</div>
+</div>
+
 </template>
 
 <script>
@@ -156,7 +156,9 @@ export default {
 
   },
   methods: {
-
+    getCartItem(cartId) {
+    return this.cart.find(cart => cart.cart_id === cartId) || {};
+  },
     async getCart() {
       const id = sessionStorage.getItem("id");
       try {
@@ -311,16 +313,17 @@ async checkout() {
   }
 },
 
-    check(cartId) {
-      const index = this.checkedItems.indexOf(cartId);
+check(cartId) {
+  const index = this.checkedItems.indexOf(cartId);
 
-      if (index === -1) {
-        this.checkedItems.push(cartId);
-      } else {
-        this.checkedItems.splice(index, 1);
-      }
-      console.log('Selected Items:', this.checkedItems);
-    },
+  if (index === -1) {
+    this.checkedItems = [...this.checkedItems, cartId];
+  } else {
+    this.checkedItems = this.checkedItems.filter(item => item !== cartId);
+  }
+  console.log('Selected Items:', this.checkedItems);
+},
+  
 
     getcheckedItems() {
       return this.cart.filter(item => item.selected);
@@ -336,6 +339,30 @@ async checkout() {
 @import '@/assets/css/bootstrap.min.css';
 @import '@/assets/css/style.css';
 @media (max-width: 768px) {
+  .floating-container {
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+  }
+
+  .shopping-cart-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    /* ... existing styles ... */
+  }
+
+  .column {
+    flex: 1;
+    margin-right: 10px;
+    /* ... existing styles ... */
+  }
+
+  .invoice-section {
+    position: sticky;
+    top: 20px;
+  }
   .product-item {
     text-align: center;
   }

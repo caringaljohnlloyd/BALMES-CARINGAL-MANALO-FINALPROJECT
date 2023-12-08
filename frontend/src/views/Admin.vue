@@ -1,35 +1,30 @@
 <template>
+  <div id="app">
+    <TopAdmin />
 
-  <TopAdmin/>
-  <HeaderAdmin/>
-  <div id="main-content">
-    <SidebarAdmin/>
-    <ContentAdmin/>
+    <div id="main-content">
+      <ContentAdmin />
+    </div>
+
+    <EndAdmin />
   </div>
-  <EndAdmin/>   
-
 </template>
-  
- 
-    
-    <script>
-        import TopAdmin from '@/components/TopAdmin.vue';
-        import HeaderAdmin from '@/components/HeaderAdmin.vue';
-        import SidebarAdmin from '@/components/SidebarAdmin.vue';
-        import ContentAdmin from '@/components/ContentAdmin.vue';
-        import EndAdmin from '@/components/EndAdmin.vue';
 
-        export default {
-      name: 'admin',
-      components: {
-        TopAdmin,
-        HeaderAdmin,
-        SidebarAdmin,
-        ContentAdmin,
-        EndAdmin
-      }
-    }
-    </script>
+<script>
+import TopAdmin from '@/components/TopAdmin.vue';
+import ContentAdmin from '@/components/ContentAdmin.vue';
+import EndAdmin from '@/components/EndAdmin.vue';
+
+export default {
+  name: 'admin',
+  components: {
+    TopAdmin,
+    ContentAdmin,
+    EndAdmin,
+  },
+};
+</script>
+
 
 
 

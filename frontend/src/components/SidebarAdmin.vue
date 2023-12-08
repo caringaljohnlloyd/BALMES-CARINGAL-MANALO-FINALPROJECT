@@ -1,18 +1,19 @@
 <template>
   <aside class="left-sidebar sidebar-dark" id="left-sidebar">
     <div id="sidebar" class="sidebar sidebar-with-footer">
-      <!-- Aplication Brand -->
+      
+      <!-- Application Brand -->
       <div class="app-brand">
         <a href="/index.html">
           <img :src="require('../assets/images/logo1.png.png')" alt="Mono">
           <span class="brand-name"></span>
         </a>
       </div>
+
       <!-- begin sidebar scrollbar -->
       <div class="sidebar-left" data-simplebar style="height: 100%;">
-        <!-- sidebar menu -->
+        <!-- Sidebar menu -->
         <ul class="nav sidebar-inner" id="sidebar-menu">
-
 
 
           <li class="active">
@@ -21,11 +22,6 @@
               <span class="nav-text">Business Dashboard</span>
             </a>
           </li>
-
-
-
-
-
           <li>
             <a class="sidenav-item-link" href="/analytics">
               <i class="mdi mdi-chart-line"></i>
@@ -403,8 +399,7 @@
         <div class="sidebar-footer-content">
           <ul class="d-flex">
             <li>
-              <a href="user-account-settings.html" data-toggle="tooltip" title="Profile settings"><i
-                  class="mdi mdi-settings"></i></a>
+              <a href="user-account-settings.html" data-toggle="tooltip" title="Profile settings"><i class="mdi mdi-settings"></i></a>
             </li>
             <li>
               <a href="#" data-toggle="tooltip" title="No chat messages"><i class="mdi mdi-chat-processing"></i></a>
@@ -473,6 +468,19 @@
   box-sizing: border-box;
 }
 
+#left-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1000; 
+  overflow-y: auto;
+}
+
+.sidebar-left {
+  /* Add this style to ensure proper height for the scrollbar */
+  height: 100%;
+}
 html {
   font-family: sans-serif;
   line-height: 1.15;
@@ -20956,4 +20964,5 @@ html[dir=rtl] .sidebar li>a .caret:before {
 }
 
 /*# sourceMappingURL=style.css.map */
-@import '@/assets/css/bootstrap.min.css';</style>
+@import '@/assets/css/bootstrap.min.css';
+</style>

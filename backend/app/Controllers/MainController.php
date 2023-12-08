@@ -14,9 +14,9 @@ use App\Models\PoolModel;
 use App\Models\CartModel;
 use App\Models\ManifestModel;
 use App\Models\InvoiceModel;
-use App\Models\ReceiptModel;
 use App\Models\OrderListModel;
 use App\Models\OrdersModel;
+use App\Models\AuditModel;
 
 
 
@@ -34,6 +34,60 @@ class MainController extends ResourceController
     {
         //
     }
+    
+    public function getAuditHistory($shopId)
+    {
+        $shopModel = new ShopModel();
+    
+        $shopData = $shopModel->find($shopId);
+    
+        if (!$shopData) {
+            return $this->respond(['message' => 'Shop not found'], 404);
+        }
+    
+        $auditModel = new AuditModel();
+    
+        $auditHistory = $auditModel->where('shop_id', $shopId)->findAll();
+    
+        return $this->respond($auditHistory, 200);
+    }
+    
+    public function updateProduct($id)
+    {
+      $data = $this->request->getJSON();
+       $model = new ShopModel();
+       $model->update($id, $data);
+
+       return $this->respond(['status' => 'success', 'message' => 'Product updated successfully']);
+    }
+    public function updateQuantity($id)
+{
+    $quantity = (int) $this->request->getVar('quantity');
+    
+    $shopModel = new ShopModel();
+    $product = $shopModel->find($id);
+
+    if (!$product) {
+        return $this->failNotFound('Product not found');
+    }
+
+    $newQuantity = $product['prod_quantity'] + $quantity;
+
+    $shopModel->update($id, ['prod_quantity' => $newQuantity]);
+
+    $auditModel = new AuditModel();
+    $data = [
+        'shop_id' => $product['shop_id'],
+        'old_quantity' => $product['prod_quantity'],
+        'new_quantity' => $newQuantity,
+        'type' => 'inbound',
+    ];
+    $auditModel->save($data);
+
+    return $this->respond(['new_quantity' => $newQuantity, 'message' => 'Quantity updated successfully']);
+}
+
+    
     public function getInvoice()
     {
         $invoice = new InvoiceModel();

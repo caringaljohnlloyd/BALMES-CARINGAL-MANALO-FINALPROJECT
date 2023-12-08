@@ -5,6 +5,7 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+
 $routes->get('/', 'Home::index');
 $routes->get('/getData','MainController::getData');
 $routes->get('/getDataShop','MainController::getDataShop');
@@ -31,7 +32,9 @@ $routes->post('/submit-rating','MainController::submitRating');
 $routes->post('/checkout', 'MainController::checkout');
 $routes->get('/search/(:any)', 'MainController::search/$1');
 $routes->get('/getInvoice','MainController::getInvoice');
-
+$routes->put('updateQuantity/(:num)', 'MainController::updateQuantity/$1');
+$routes->post('updateQuantity', 'MainController::updateQuantity');
+$routes->get('api/auditHistory/(:num)', 'MainController::getAuditHistory/$1');
 
 
 
