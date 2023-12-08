@@ -340,9 +340,6 @@
           <EndAdmin/>
      </template>
 
-     <style>
- @import '@/assets/css/style.css';
-    </style>
     <script>
     import TopAdmin from '@/components/TopAdmin.vue';
     import SidebarAdmin from '@/components/SidebarAdmin.vue';
