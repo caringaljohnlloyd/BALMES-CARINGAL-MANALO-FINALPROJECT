@@ -35,6 +35,8 @@ $routes->get('/getInvoice','MainController::getInvoice');
 $routes->put('updateQuantity/(:num)', 'MainController::updateQuantity/$1');
 $routes->post('updateQuantity', 'MainController::updateQuantity');
 $routes->get('api/auditHistory/(:num)', 'MainController::getAuditHistory/$1');
+$routes->post('/api/feedback/delete/(:num)', 'MainController::deleteFeedback/$1');
+
 
 
 

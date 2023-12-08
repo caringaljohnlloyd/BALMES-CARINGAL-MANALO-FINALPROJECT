@@ -34,7 +34,17 @@ class MainController extends ResourceController
     {
         //
     }
+    public function deleteFeedback($feedId)
+    {
+        $feedbackModel = new FeedbackModel();
     
+        try {
+            $feedbackModel->delete($feedId);
+            return $this->respond(['message' => 'Feedback deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return $this->respond(['error' => 'Failed to delete feedback: ' . $e->getMessage()], 500);
+        }
+    }
     public function getAuditHistory($shopId)
     {
         $shopModel = new ShopModel();
