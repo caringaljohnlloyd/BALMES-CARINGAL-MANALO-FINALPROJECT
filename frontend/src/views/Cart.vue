@@ -98,6 +98,7 @@
               <div class="shopping-cart-footer">
                 <div class="column">
                   <a class="btn btn-dark" @click="checkout">Proceed to Checkout</a>
+                  
                 </div>
               </div>
             </div>
@@ -109,6 +110,7 @@
   <br>
 
   <Notification v-if="checkoutSuccess" :show="checkoutSuccess" type="success" message="Checkout successful!" />
+  <Notification v-if="checkoutError" :show="checkoutError" type="error" message="Please select items before proceeding with the checkout." />
 
   <End />
   <spinner />
@@ -130,7 +132,8 @@ export default {
   components: {
     spinner, Top,
     navbar,
-    End,    Notification,
+    End,    Notification,    
+
 
   },
   data() {
@@ -144,6 +147,7 @@ export default {
       checkedItems: [],
       deleteSuccess: false,
       checkoutSuccess: false,
+      checkoutError: false,
 
     };
   },
@@ -279,6 +283,16 @@ async checkout() {
   try {
     const id = sessionStorage.getItem("id");
 
+    if (this.checkedItems.length === 0) {
+      console.warn("No items selected for checkout.");
+      this.checkoutError = true;
+      setTimeout(() => {
+        this.checkoutError = false;
+      }, 3000);
+
+      return;
+    }
+
     const orderItems = this.checkedItems.map(cartId => {
       const cart = this.cart.find(cart => cart.cart_id === cartId);
       const shop_id = cart ? cart.shop_id : null;
@@ -300,18 +314,21 @@ async checkout() {
     const response = await axios.post('checkout', orderData);
 
     if (response.status === 200) {
+      const invoice_id = response.data.invoice_id; 
       this.checkoutSuccess = true;
       setTimeout(() => {
         this.checkoutSuccess = false;
+        this.$router.push({ name: 'invoice', params: { invoice_id: invoice_id } });
       }, 2000);
     } else {
-      // Handle checkout failure
       console.error('Checkout failed:', response.data.message);
     }
   } catch (error) {
     console.error('Checkout Error:', error);
   }
 },
+
+
 
 check(cartId) {
   const index = this.checkedItems.indexOf(cartId);

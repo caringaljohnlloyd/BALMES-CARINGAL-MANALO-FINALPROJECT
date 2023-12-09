@@ -19,22 +19,14 @@
           <div class="card card-default">
             <div class="card-header">
               <h2>Shop Inventory</h2>
-              <button @click="openAddModal">Add</button>
-              <div class="dropdown">
-                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false"> Yearly Chart
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </div>
+              <button type="button" class="btn btn-primary" @click="openAddModal">Add Room</button>
+              
             </div>
             <div class="card-body">
               <table id="productsTable" class="table table-hover table-product" style="width:100%">
                 <thead>
                   <tr>
+                    <th>Product Image</th>
                     <th>Product Name</th>
                     <th>Quantity</th>
                     <th>Description</th>
@@ -46,6 +38,7 @@
                 </thead>
                 <tbody>
                   <tr v-for="(info, index) in infos" :key="info.id">
+                    <td>{{ info.prod_img }}</td>
                     <td>{{ info.prod_name }}</td>
                     <td>{{ info.prod_quantity }}</td>
                     <td>{{ info.prod_desc }}</td>
@@ -53,9 +46,9 @@
                     <td>{{ info.prod_quantity * info.prod_price }}</td>
                     <td>
                       <button @click="openQuantityModal(info)">Add Quantity</button> |
-                      <router-link :to="{ name: 'auditHistory', params: { shopId: info.shop_id } }">Audit
-                        History</router-link> |
-                      <button>Edit</button>
+                      <router-link style="color: black;" :to="{ name: 'auditHistory', params: { shopId: info.shop_id } }">Audit History</router-link>
+ |
+                        <button @click="openEditModal(info)">Edit</button>
                     </td>
                   </tr>
                 </tbody>
@@ -100,9 +93,59 @@
           </div>
         </div>
       </div>
+<!-- Edit Modal -->
+<div v-if="editModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Product</h5>
+                <button type="button" class="close" @click="closeEditModal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Edit form -->
+                <form @submit.prevent="saveEdit" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="edit_prod_image">Product Image</label>
+                        <input type="file" ref="editImageInput" @change="handleEditImageUpload" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit_prod_name">Product Name</label>
+                        <input type="text" class="form-control" placeholder="Name" v-model="editedInfo.prod_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_prod_quantity">Product Quantity</label>
+                        <input type="number" class="form-control" placeholder="Quantity" v-model="editedInfo.prod_quantity">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_prod_desc">Product Description</label>
+                        <input type="text" class="form-control" placeholder="Description" v-model="editedInfo.prod_desc">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_prod_price">Product Price</label>
+                        <input type="number" class="form-control" placeholder="Price" v-model="editedInfo.prod_price">
+                    </div>
+                    <!-- Add other fields as needed -->
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" @click="closeEditModal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+          
+        </div>
+    </div>
+</div>
+
+
+
+
       <!-- Modal for Adding -->
       <div class="col-12">
-        <div class="modal" :class="{ 'show': addModalVisible }">
+        <div class="modal " :class="{ 'show': addModalVisible }">
           <!-- Modal content for adding -->
           <div class="modal-dialog">
             <div class="modal-content">
@@ -115,12 +158,17 @@
                 <div class="modal-body">
                   <!-- Your form inputs -->
                   <div class="form-group">
+    <label for="prod_image">Product Image</label>
+    <input type="file" ref="imageInput" @change="handleImageUpload" class="form-control" />
+  </div>
+
+                  <div class="form-group">
                     <label for="prod_name">Product Name</label>
                     <input type="text" class="form-control" placeholder="Name" v-model="prod_name">
                   </div>
                   <div class="form-group">
                     <label for="prod_quantity">Product Quantity</label>
-                    <input type="text" class="form-control" placeholder="Quantity" v-model="prod_quantity">
+                    <input type="number" class="form-control" placeholder="Quantity" v-model="prod_quantity">
                   </div>
                   <div class="form-group">
                     <label for="prod_desc">Product Description</label>
@@ -146,9 +194,10 @@
     <div class="card card-default">
       <div class="card-header">
         <h2 class="mdi mdi-desktop-mac">Rooms</h2>
+        <button type="button" class="btn btn-primary" @click="openAddRoomModal">Add Room</button>
+
       </div>
-      <div class="card-body pt-26"          
->
+      <div class="card-body pt-26" >
         <table class="table">
           <thead >
             <tr >
@@ -183,6 +232,77 @@
 
 </div>
  
+
+<div class="col-12">
+  <div class="modal" :class="{ 'show': addRoomModalVisible }">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Room</h5>
+          <button type="button" class="close" @click="closeAddRoomModal">&times;</button>
+        </div>
+        <form @submit.prevent="saveRoom">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="image">Room Image</label>
+              <input type="file" ref="roomImageInput" @change="handleRoomImageUpload" class="form-control-file">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="room_name">Room Name</label>
+                <input type="text" class="form-control" placeholder="Name" v-model="room_name">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="price">Room Price</label>
+                <input type="number" class="form-control" placeholder="Price" v-model="price">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="bed">Number of Beds</label>
+                <input type="number" class="form-control" placeholder="Beds" v-model="bed">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="bath">Number of Baths</label>
+                <input type="number" class="form-control" placeholder="Baths" v-model="bath">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="description">Room Description</label>
+              <textarea class="form-control" placeholder="Description" v-model="description"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" @click="closeAddRoomModal">Close</button>
+            <button type="submit" class="btn btn-primary">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="row">
         <!-- Table Product -->
         <div class="col-12">
@@ -279,11 +399,14 @@ export default {
   },
   data() {
     return {
+      editModalVisible: false,
+        editedInfo: null,
       room: [],
 book:[],
       infos: [],
       shop: [], 
       addModalVisible: false,
+      prod_img: '',
       prod_name: '',
       prod_quantity: '',
       prod_desc: '',
@@ -298,6 +421,13 @@ book:[],
         type: "",
         message: "",
       },
+    addRoomModalVisible: false,
+    room_name: '',
+    price: '',
+    bed: '',
+    bath: '',
+    description: '',
+    room_img: '',
     };
   },
 
@@ -309,6 +439,48 @@ book:[],
   },
  
   methods: {
+    openAddRoomModal() {
+    this.addRoomModalVisible = true;
+  },
+  closeAddRoomModal() {
+    this.addRoomModalVisible = false;
+  },
+  handleRoomImageUpload() {
+    const fileInput = this.$refs.roomImageInput;
+    const file = fileInput.files[0];
+
+    // Create a FormData object and append the file to it
+    const formData = new FormData();
+    formData.append('image', file);
+
+    // Add the FormData object to the data property
+    this.room_img = formData;
+  },
+  async saveRoom() {
+    try {
+      // Use FormData for room image uploads
+      const data = this.room_img;
+      data.append('room_name', this.room_name);
+      data.append('price', this.price);
+      data.append('bed', this.bed);
+      data.append('bath', this.bath);
+      data.append('description', this.description);
+
+      const ins = await axios.post('saveRoom', data);
+
+      this.closeAddRoomModal();
+      this.room_img = '';
+      this.room_name = '';
+      this.price = '';
+      this.bed = '';
+      this.bath = '';
+      this.description = '';
+      // ... other form fields
+      this.getRoomInfo(); // Assuming you have a method to fetch room information
+    } catch (error) {
+      console.error(error);
+    }
+  },
     async markAsPaid(booking_id) {
         try {
             const response = await axios.post(`/mark-as-paid/${booking_id}`);
@@ -430,36 +602,112 @@ book:[],
     closeAddModal() {
       this.addModalVisible = false;
     },
+    handleImageUpload() {
+    const fileInput = this.$refs.imageInput;
+    const file = fileInput.files[0];
 
-    async saveShop(mode) {
-      try {
-        let data = {};
-        if (mode === 'add') {
-          data = {
-            prod_name: this.prod_name,
-            prod_quantity: this.prod_quantity,
-            prod_desc: this.prod_desc,
-            prod_price: this.prod_price,
-          };
-        }
-        const ins = await axios.post('saveShop', data);
+    // Create a FormData object and append the file to it
+    const formData = new FormData();
+    formData.append('prod_image', file);
 
-        if (mode === 'add') {
-          // Close the modal after successfully inserting the data
-          this.closeAddModal();
-          // Clear input fields after adding
-          this.prod_name = '';
-          this.prod_quantity = '';
-          this.prod_desc = '';
-          this.prod_price = '';
-          // Refresh data after adding
-          this.getInfo();
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    },
+    // Add the FormData object to the data property
+    this.prod_img = formData;
   },
+
+  async saveShop(mode) {
+  try {
+    let data = {};
+    if (mode === 'add') {
+      // Use FormData for image uploads
+      if (this.prod_img instanceof FormData) {
+        data = this.prod_img;
+        data.append('prod_name', this.prod_name);
+        data.append('prod_quantity', this.prod_quantity);
+        data.append('prod_desc', this.prod_desc);
+        data.append('prod_price', this.prod_price);
+      } else {
+        // If no image is selected, send as usual
+        data = {
+          prod_name: this.prod_name,
+          prod_quantity: this.prod_quantity,
+          prod_desc: this.prod_desc,
+          prod_price: this.prod_price,
+        };
+      }
+    }
+
+    const ins = await axios.post('saveShop', data);
+
+    if (mode === 'add') {
+      this.closeAddModal();
+      this.prod_img = ''; 
+      this.prod_name = '';
+      this.prod_quantity = '';
+      this.prod_desc = '';
+      this.prod_price = '';
+      // ... other form fields
+      this.getInfo();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+},
+openEditModal(info) {
+      this.editedInfo = { ...info }; // Create a copy to avoid modifying the original data
+      this.editModalVisible = true;
+    },
+
+    closeEditModal() {
+      this.editedInfo = null;
+      this.editModalVisible = false;
+    },
+    async saveEdit() {
+    try {
+        const data = new FormData();
+
+        // Append the edited data
+        data.append('prod_name', this.editedInfo.prod_name);
+        data.append('prod_quantity', this.editedInfo.prod_quantity);
+        data.append('prod_desc', this.editedInfo.prod_desc);
+        data.append('prod_price', this.editedInfo.prod_price);
+
+        // Check if a new image is selected
+        if (this.editedInfo.newImage instanceof File) {
+            data.append('prod_image', this.editedInfo.newImage);
+        }
+
+        // Make an HTTP PUT request to update the product
+        const apiUrl = `/updateShop/${this.editedInfo.shop_id}`;
+        const response = await axios.put(apiUrl, data);
+
+        // Handle the success response
+        console.log('Product updated successfully:', response.data);
+
+        // Close the edit modal after saving
+        this.closeEditModal();
+
+        // Optionally, you may want to refresh the product list or take other actions
+        // For example, you can emit an event to notify the parent component about the update
+        // this.$emit('product-updated', response.data);
+    } catch (error) {
+        // Handle the error response
+        console.error('Error updating product:', error);
+
+        // Optionally, show an error message to the user
+        // You can set a data property for an error message and bind it to your template
+        // this.editErrorMessage = 'Failed to update product. Please try again.';
+    }
+},
+
+handleEditImageUpload() {
+        const fileInput = this.$refs.editImageInput;
+        const file = fileInput.files[0];
+
+        // Update the newImage property of editedInfo with the selected file
+        this.editedInfo.newImage = file;
+    },
+  }
+
 };
 </script>
 

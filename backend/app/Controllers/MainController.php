@@ -517,7 +517,7 @@ class MainController extends ResourceController
     
         $order = [
             'id' => $id,
-            'status' => $json->status,
+            'order_status' => 'pending', 
             'total_price' => $json->total_price,
         ];
     
@@ -532,6 +532,7 @@ class MainController extends ResourceController
                 'quantity' => $item->quantity,
                 'total_price' => $item->total_price,
                 'order_id' => $order_id,
+
             ];
     
             $this->orderitems->save($orderitem);
@@ -563,6 +564,66 @@ class MainController extends ResourceController
 
 
 
+   
+    
+    
+        // // public function save()
+        // // {
+        // //
+        // //     $data = $this->request->getPost();
+        // //
+        // //
+        // //     $image = $this->request->getFile('image');
+        // //     $imageName = $image->getRandomName();
+        // //     $image->move(WRITEPATH . 'uploads', $imageName);
+        // //
+        // //     $data['image'] = $imageName;
+        // //
+        // //     $main = new MainModel();
+        // //     $result = $main->save($data);
+        // //
+        // //     if ($result) {
+        // //         return $this->respond(['message' => 'Product saved successfully.'], 201);
+        // //     } else {
+        // //         return $this->respond(['error' => 'Unable to save product.'], 500);
+        // //     }
+        // // }
+    
+        // public function ssave()
+        // {
+        //     try {
+        //         // Use CodeIgniter's file helper to handle file uploads
+        //         $partsImage = $this->request->getFile('image');
+    
+        //         // Use the provided image name
+        //         $imageName = $partsImage->getName();
+    
+        //         $data = [
+        //             'name' => $this->request->getPost('name'),
+        //             'description' => $this->request->getPost('description'),
+        //             'brand' => $this->request->getPost('brand'),
+        //             'model' => $this->request->getPost('model'),
+        //             'quantity' => $this->request->getPost('quantity'),
+        //             'image' => base_url() . $this->handleImageUpload($partsImage, $imageName),
+    
+        //         ];
+    
+        //         $partsModel = new PartsModel();
+        //         $savedData = $partsModel->save($data);
+    
+        //         return $this->respond($savedData, 200);
+        //     } catch (\Exception $e) {
+        //         log_message('error', 'Error saving data:' . $e->getMessage());
+        //         return $this->failServerError('An error occurred while saving the data.');
+        //     }
+        // }
+    
+        // public function handleImageUpload($partsImage, $imageName)
+        // {
+        //     $partsImage->move(ROOTPATH . 'public/uploads/' , $imageName);
+        //     return 'uploads/' .$imageName;
+        // }
+    
 
 
 
@@ -570,62 +631,121 @@ class MainController extends ResourceController
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function saveShop() {
-        $request = $this->request->getJSON();
-
-        $data = [
-            'prod_name' => $request->prod_name,
-            'prod_quantity' => $request->prod_quantity,
-            'prod_desc' => $request->prod_desc,
-            'prod_price' => $request->prod_price,
-        ];
-
-        $shopModel = new ShopModel();
-
-        try {
-            $shopModel->insert($data);
-            return $this->respond(["message" => "Data saved successfully"], 200);
-        } catch (\Exception $e) {
-            return $this->respond(["message" => "Failed to save data: " . $e->getMessage()], 500);
+    
+        public function saveShop()
+        {
+            $request = $this->request;
+        
+            $data = [
+                'prod_name' => $request->getPost('prod_name'),
+                'prod_quantity' => $request->getPost('prod_quantity'),
+                'prod_desc' => $request->getPost('prod_desc'),
+                'prod_price' => $request->getPost('prod_price'),
+            ];
+        
+            if ($request->getFile('prod_image')->isValid()) {
+                $image = $request->getFile('prod_image');
+        
+                $imageName = $image->getName();
+        
+                $data['prod_img'] = $this->handleImageUpload($image, $imageName);
+            }
+        
+            $shopModel = new ShopModel();
+        
+            try {
+                $shopModel->insert($data);
+                return $this->respond(["message" => "Data saved successfully"], 200);
+            } catch (\Exception $e) {
+                return $this->respond(["message" => "Failed to save data: " . $e->getMessage()], 500);
+            }
         }
+        
+        public function handleImageUpload($image, $imageName)
+        {
+            $uploadPath = 'C:/laragon/www/BALMES-CARINGAL-MANALO-FINALPROJECT/frontend/src/assets/img';
+
+            $image->move($uploadPath, $imageName);
+                        return  $imageName;
+        }
+
+        public function saveRoom()
+{
+    $request = $this->request;
+
+    $data = [
+        'room_name' => $request->getPost('room_name'),
+        'price' => $request->getPost('price'),
+        'bed' => $request->getPost('bed'),
+        'bath' => $request->getPost('bath'),
+        'description' => $request->getPost('description'),
+    ];
+
+    if ($request->getFile('image')->isValid()) {
+        $image = $request->getFile('image');
+
+        $imageName = $image->getName();
+
+        $data['image'] = $this->handleRoomImageUpload($image, $imageName);
     }
 
+    $roomModel = new RoomModel(); // Assuming you have a RoomModel
 
+    try {
+        $roomModel->insert($data);
+        return $this->respond(["message" => "Room data saved successfully"], 200);
+    } catch (\Exception $e) {
+        return $this->respond(["message" => "Failed to save room data: " . $e->getMessage()], 500);
+    }
+}
+public function handleRoomImageUpload($image, $imageName)
+{
+    $uploadPath = 'C:/laragon/www/BALMES-CARINGAL-MANALO-FINALPROJECT/frontend/src/assets/img';
+
+    $image->move($uploadPath, $imageName);
+                return  $imageName;
+}
+        public function updateShop($shop_id)
+        {
+            $request = $this->request;
+        
+            // Fetch existing data for the specified ID
+            $shopModel = new ShopModel();
+            $existingData = $shopModel->find($shop_id);
+        
+            if (empty($existingData)) {
+                // Handle not found scenario
+                return $this->respond(["message" => "Record not found"], 404);
+            }
+        
+            // Get the new data from the request
+            $data = [
+                'prod_name' => $request->getVar('prod_name') ?? $existingData['prod_name'],
+                'prod_quantity' => $request->getVar('prod_quantity') ?? $existingData['prod_quantity'],
+                'prod_desc' => $request->getVar('prod_desc') ?? $existingData['prod_desc'],
+                'prod_price' => $request->getVar('prod_price') ?? $existingData['prod_price'],
+            ];
+        
+            // Check if a new image is uploaded
+            if ($request->getFile('prod_image')->isValid()) {
+                $image = $request->getFile('prod_image');
+                $imageName = $image->getName();
+                $data['prod_img'] = $this->handleImageUpload($image, $imageName);
+            } else {
+                // If no new image, keep the existing image
+                $data['prod_img'] = $existingData['prod_img'];
+            }
+        
+            try {
+                // Use the where clause to update the existing data
+                $shopModel->set($data)->where('shop_id', $shop_id)->update();
+        
+                return $this->respond(["message" => "Data updated successfully"], 200);
+            } catch (\Exception $e) {
+                return $this->respond(["message" => "Failed to update data: " . $e->getMessage()], 500);
+            }
+        }
+        
 
 
 
@@ -695,7 +815,26 @@ class MainController extends ResourceController
         return json_encode($filteredData);
     }
 
- 
+    public function getInvoices($invoice_id)
+    {
+        $shopModel = new ShopModel();
+        $orderListModel = new OrderListModel();
+        $ordersModel = new OrdersModel();
+        $invoiceModel = new InvoiceModel();
+        $userModel = new UserModel();
+    
+        $result = $shopModel
+            ->select('shop.*, order_list.*, orders.*, invoices.*, user.*')
+            ->join('order_list', 'order_list.shop_id = shop.shop_id')
+            ->join('orders', 'orders.order_id = order_list.order_id')
+            ->join('invoices', 'invoices.order_id = orders.order_id')
+            ->join('user', 'user.id = orders.id')
+            ->where('invoices.invoice_id', $invoice_id)
+            ->findAll();
+    
+        return $this->respond($result, 200);
+    }
+    
 }
 
     

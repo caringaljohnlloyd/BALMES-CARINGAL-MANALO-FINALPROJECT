@@ -18,13 +18,13 @@ import Analytics from '../views/Analytics.vue'
 import Chat from '../views/Chat.vue'
 import Contacts from '../views/Contacts.vue'
 import TeamAdmin from '../views/TeamAdmin.vue'
-import Calendar from '../views/Calendar.vue'
+import monitorusers from '../views/Calendar.vue'
 import Email_inbox from '../views/Email_inbox.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import UpdatePassword from '../views/UpdatePassword.vue'
 import Cart from '../views/Cart.vue'
 import AuditHistory from '@/views/AuditHistory.vue';
-
+import Invoice from '@/components/Invoice.vue';
 
 
 
@@ -134,8 +134,8 @@ const routes = [
   component: TeamAdmin,
 },
 {
-  path: '/calendar',
-  component: Calendar,
+  path: '/monitorusers',
+  component: monitorusers,
 },
 {
   path: '/email_inbox',
@@ -152,10 +152,15 @@ component: ForgotPassword,
 { 
    path: '/audit-history/:shopId',
     name: 'auditHistory',
-    component: AuditHistory, // Replace with the actual component for Audit History
-    props: true, // This allows passing route.params as props to the component
+    component: AuditHistory, 
+    props: true, 
 },
-
+{
+  path: '/getInvoices/:invoice_id',
+  name: 'invoice',
+  component: Invoice, 
+  meta: { requiresAuth: true },
+},
 
 ]
 

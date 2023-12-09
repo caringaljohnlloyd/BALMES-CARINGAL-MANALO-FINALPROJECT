@@ -38,8 +38,12 @@ $routes->get('api/auditHistory/(:num)', 'MainController::getAuditHistory/$1');
 $routes->post('/api/feedback/delete/(:num)', 'MainController::deleteFeedback/$1');
 $routes->post('/accept-booking/(:num)', 'MainController::acceptBooking/$1');
 $routes->post('/mark-as-paid/(:num)', 'MainController::markAsPaid/$1');
+$routes->get('/getInvoices/(:num)', 'MainController::getInvoices/$1');
+$routes->get('/getImage/(:segment)', 'MainController::getImage/$1');
+$routes->post('/saveShop', 'MainController::saveShop');
+$routes->put('/updateShop/(:num)', 'MainController::updateShop/$1');
 
-
+$routes->post('/saveRoom', 'MainController::saveRoom');
 
 
 

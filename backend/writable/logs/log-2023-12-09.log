@@ -53,3 +53,152 @@ in APPPATH\Controllers\MainController.php on line 242.
  4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
  5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
  6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-09 05:08:20 --> Too few arguments to function App\Controllers\MainController::displayInvoice(), 0 passed in C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\system\CodeIgniter.php on line 942 and exactly 1 expected
+in APPPATH\Controllers\MainController.php on line 698.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->displayInvoice()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-09 05:44:42 --> Too few arguments to function App\Controllers\MainController::getInvoices(), 0 passed in C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\system\CodeIgniter.php on line 942 and exactly 1 expected
+in APPPATH\Controllers\MainController.php on line 698.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getInvoices()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-09 08:39:43 --> Undefined property: stdClass::$prod_img
+in APPPATH\Controllers\MainController.php on line 612.
+ 1 APPPATH\Controllers\MainController.php(612): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$prod_img', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 612)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->saveShop()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-09 08:40:05 --> Undefined property: stdClass::$prod_img
+in APPPATH\Controllers\MainController.php on line 612.
+ 1 APPPATH\Controllers\MainController.php(612): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$prod_img', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 612)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->saveShop()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-09 08:40:23 --> Undefined property: stdClass::$prod_img
+in APPPATH\Controllers\MainController.php on line 612.
+ 1 APPPATH\Controllers\MainController.php(612): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$prod_img', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 612)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->saveShop()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-09 08:41:12 --> Undefined property: stdClass::$prod_img
+in APPPATH\Controllers\MainController.php on line 567.
+ 1 APPPATH\Controllers\MainController.php(567): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$prod_img', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 567)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->saveShop()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-09 10:25:34 --> move_uploaded_file(/frontend/src/assets/img/Screenshot (631).png): Failed to open stream: No such file or directory
+in APPPATH\Controllers\MainController.php on line 571.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'move_uploaded_file(/frontend/src/assets/img/Screenshot (631).png): Failed to open stream: No such file or directory', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 571)
+ 2 APPPATH\Controllers\MainController.php(571): move_uploaded_file('C:\\Users\\acer\\AppData\\Local\\Temp\\phpD63F.tmp', '/frontend/src/assets/img/Screenshot (631).png')
+ 3 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->saveShop()
+ 4 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 5 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-09 10:26:49 --> move_uploaded_file(/frontend/src/assets/img/Screenshot (631).png): Failed to open stream: No such file or directory
+in APPPATH\Controllers\MainController.php on line 571.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'move_uploaded_file(/frontend/src/assets/img/Screenshot (631).png): Failed to open stream: No such file or directory', 'C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 571)
+ 2 APPPATH\Controllers\MainController.php(571): move_uploaded_file('C:\\Users\\acer\\AppData\\Local\\Temp\\phpFBB5.tmp', '/frontend/src/assets/img/Screenshot (631).png')
+ 3 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->saveShop()
+ 4 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 5 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+ERROR - 2023-12-09 10:28:10 --> Error saving data: move_uploaded_file(C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\public\frontend/src/assets/img/Screenshot (641).png): Failed to open stream: No such file or directory
+ERROR - 2023-12-09 10:31:16 --> Error saving data: move_uploaded_file(C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\public\frontend/src/assets/img/Screenshot (641).png): Failed to open stream: No such file or directory
+ERROR - 2023-12-09 10:31:48 --> Error saving data: move_uploaded_file(C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\public\frontend/src/assets/img/Screenshot (641).png): Failed to open stream: No such file or directory
+ERROR - 2023-12-09 10:33:28 --> Error saving data: move_uploaded_file(C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\public\/src/assets/img/Screenshot (681).png): Failed to open stream: No such file or directory
+ERROR - 2023-12-09 10:44:01 --> Error saving data: move_uploaded_file(C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\public\frontend/src/assets/img/Screenshot (641).png): Failed to open stream: No such file or directory
+ERROR - 2023-12-09 10:46:04 --> Error saving data: move_uploaded_file(C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\public\/frontend/src/assets/img/Screenshot (653).png): Failed to open stream: No such file or directory
+ERROR - 2023-12-09 10:54:43 --> Error saving data: move_uploaded_file(C:\laragon\www\BALMES-CARINGAL-MANALO-FINALPROJECT\backend\public\/frontend/src/assets/img/Screenshot (654).png): Failed to open stream: No such file or directory
+ERROR - 2023-12-09 11:10:57 --> Error saving data: Undefined property: App\Controllers\MainController::$security
+CRITICAL - 2023-12-09 14:08:25 --> Call to a member function isValid() on null
+in APPPATH\Controllers\MainController.php on line 693.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateShop('19')
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-09 14:10:03 --> Call to a member function isValid() on null
+in APPPATH\Controllers\MainController.php on line 693.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateShop('19')
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-09 14:10:10 --> Call to a member function isValid() on null
+in APPPATH\Controllers\MainController.php on line 693.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateShop('19')
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-09 14:12:54 --> Call to a member function isValid() on null
+in APPPATH\Controllers\MainController.php on line 693.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateShop('19')
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-09 14:13:03 --> Call to a member function isValid() on null
+in APPPATH\Controllers\MainController.php on line 693.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateShop('19')
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-09 14:16:50 --> Call to a member function isValid() on null
+in APPPATH\Controllers\MainController.php on line 693.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateShop('20')
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-09 14:16:58 --> Call to a member function isValid() on null
+in APPPATH\Controllers\MainController.php on line 693.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateShop('20')
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-09 14:17:20 --> Call to a member function isValid() on null
+in APPPATH\Controllers\MainController.php on line 693.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateShop('20')
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-09 14:26:56 --> Call to a member function isValid() on null
+in APPPATH\Controllers\MainController.php on line 694.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateShop('19')
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-09 14:27:07 --> Call to a member function isValid() on null
+in APPPATH\Controllers\MainController.php on line 694.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateShop('19')
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-09 14:28:03 --> Call to a member function isValid() on null
+in APPPATH\Controllers\MainController.php on line 694.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateShop('19')
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
