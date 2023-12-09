@@ -1,271 +1,294 @@
 <template>
-    <TopAdmin />
-    <div class="content-wrapper">
-      <HeaderAdmin />
-    </div>
-  
-    <!-- ====================================
+  <TopAdmin />
+  <div class="content-wrapper">
+    <HeaderAdmin />
+  </div>
+
+  <!-- ====================================
           ——— CONTENT WRAPPER
           ===================================== -->
-    <div class="container-fluid">
-  
-      <div class="row">
-        <div class="col-md-3">
-          <SidebarAdmin />
-        </div>
-        <div class="col-md-9"> <!-- Adjusted the column width -->
-          <div class="row">
-            <table class="table">
-  
-  
-  <!-- User Sessions Bounce -->
-  <!-- User Sessions Bounce -->
-  <tr>
-    <td class="col-xl-4">
-      <!-- User -->
-      <div class="card card-default" style="height: 250px; width: 100%;">
-        <div class="card-header">
-          <h2>Users</h2>
-        </div>
-        <div class="card-body">
-          <div v-if="loading">
-            Loading...
-          </div>
-          <div v-else>
-            <div class="bg-primary d-flex justify-content-between flex-wrap p-4 text-white align-items-lg-end" style="height: 100%; width: 100%;">
-              <div class="d-flex flex-column">
-                <span class="h3 text-white">{{ numberOfClients }}</span>
-                <span class="text-white">Total Clients</span>
-              </div>
-            </div>
-          </div>
-        </div>
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-md-3">
+        <SidebarAdmin />
       </div>
-    </td>
-    <td class="col-xl-4">
-      <!-- Session -->
-      <div class="card card-default" style="height: 250px; width: 100%;">
-        <div class="card-header">
-          <h2>E-Shop</h2>
-        </div>
-        <div class="card-body">
-          <div class="bg-success d-flex justify-content-between flex-wrap p-4 text-white align-items-lg-end" style="height: 100%; width: 100%;">
-            <div class="d-flex flex-column">
-              <span class="h3 text-white">{{ numberOfItems }}</span>
-              <span class="text-white">Items</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </td>
-  
-  </tr>
-  
-  
-  
-      <!-- User Acquisition Statistics -->
-  <tr >
-    <td colspan="2">
-      <div class="card card-default" id="user-acquisition">
-        <div class="card-header border-bottom pb-0">
-          <h2>User Acquisition</h2>
+      <div class="col-md-9"> <!-- Adjusted the column width -->
+        <div class="row">
           <table class="table">
-            <thead>
-              <tr>
-                <th>User</th>
-                <th>Feedback</th>
-                <th>Action</th>
-  
-              </tr>
-            </thead>
-            <tbody  v-for="feed in feed" :key="name.id">
-              <tr>
-                <td>{{ getName(feed).name }}</td>
-                <td>
-                  {{ feed.feedback }}
-                </td>
-                <td><button @click="deletefeed(feed.feed_id)">Delete</button></td>
-              </tr>
-          
-            </tbody>
-          </table>
+
+            <tr>
+              <td class="col-xl-4">
+                <!-- User -->
+                <div class="card card-default" style="height: 250px; width: 100%;">
+                  <div class="card-header">
+                    <h2>Users</h2>
+                  </div>
+                  <div class="card-body">
+                    <div v-if="loading">
+                      Loading...
+                    </div>
+                    <div v-else>
+                      <div class="bg-primary d-flex justify-content-between flex-wrap p-4 text-white align-items-lg-end"
+                        style="height: 100%; width: 100%;">
+                        <div class="d-flex flex-column">
+                          <span class="h3 text-white">{{ numberOfClients }}</span>
+                          <span class="text-white">Total Clients</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="col-xl-4">
+                <!-- shop -->
+                <div class="card card-default" style="height: 250px; width: 100%;">
+                  <div class="card-header">
+                    <h2>E-Shop</h2>
+                  </div>
+                  <div class="card-body">
+                    <div class="bg-success d-flex justify-content-between flex-wrap p-4 text-white align-items-lg-end"
+                      style="height: 100%; width: 100%;">
+                      <div class="d-flex flex-column">
+                        <span class="h3 text-white">{{ numberOfItems }}</span>
+                        <span class="text-white">Items</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="col-xl-4">
+                <!-- shop -->
+                <div class="card card-default" style="height: 250px; width: 100%;">
+                  <div class="card-header">
+                    <h2>Booking Count</h2>
+                  </div>
+                  <div class="card-body">
+                    <div class="bg-success d-flex justify-content-between flex-wrap p-4 text-white align-items-lg-end"
+                      style="height: 100%; width: 100%;">
+                      <div class="d-flex flex-column">
+                        <span class="h3 text-white">{{ numberOfbooking }}</span>
+                        <span class="text-white">Booking</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+
+            </tr>
+
+
+
+            <!-- User Acquisition Statistics -->
+            <tr>
+              <td colspan="5">
+                <div class="card card-default" id="user-acquisition">
+                  <div class="card-header border-bottom pb-0">
+                    <h2>User Acquisition</h2>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>User</th>
+                          <th>Feedback</th>
+                          <th>Action</th>
+
+                        </tr>
+                      </thead>
+                      <tbody v-for="feed in feed" :key="name.id">
+                        <tr>
+                          <td>{{ getName(feed).name }}</td>
+                          <td>
+                            {{ feed.feedback }}
+                          </td>
+                          <td><button @click="deletefeed(feed.feed_id)">Delete</button></td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="card-footer d-flex flex-wrap bg-white">
+                    <a href="#" class="text-uppercase py-3">Acquisition Report</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+
+
+
+            <!-- User Map, Page Views, Current Users -->
+            <tr>
+              <td colspan="2">
+                <div class="row">
+              <td class="col-xl-4">
+                <!-- User Map -->
+                <div class="card card-default">
+                  <div class="card-header">
+                    <h2>User Map</h2>
+                  </div>
+                  <div class="card-body">
+                    <div id="us-vector-map-marker"></div>
+                    <ul class="list-unstyled mt-4">
+                      <li class="d-flex flex-wrap justify-content-between border-top py-2 text-dark">
+                        Oregon
+                        <span class="text-primary">35</span>
+                      </li>
+                      <li class="d-flex flex-wrap justify-content-between border-top py-2 text-dark">
+                        Indiana
+                        <span class="text-success">10</span>
+                      </li>
+                      <li class="d-flex flex-wrap justify-content-between border-top py-2 text-dark">
+                        Colorado
+                        <span class="text-danger">25</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </td>
+              <td class="col-xl-4">
+                <!-- Page Views -->
+                <div class="card card-default" id="page-views">
+                  <div class="card-header">
+                    <h2>Page Views</h2>
+                  </div>
+                  <div class="card-body py-0" data-simplebar style="height: 392px;">
+                    <table class="table table-borderless table-thead-border">
+                      <thead>
+                        <tr>
+                          <th>Page</th>
+                          <th class="text-right px-3">Page Views</th>
+                          <th class="text-right">Avg Time</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="text-primary"><a class="link" href="/analytics">/analytics.html</a></td>
+                          <td class="text-right px-3">521</td>
+                          <td class="text-right">2m:14s</td>
+                        </tr>
+                        <tr>
+                          <td class="text-primary"><a class="link" href="email-inbox.html">/email-inbox.html</a>
+                          </td>
+                          <td class="text-right px-3">356</td>
+                          <td class="text-right">2m:23s</td>
+                        </tr>
+                        <!-- ... Repeat for other rows ... -->
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="card-footer bg-white py-4">
+                    <a href="#" class="text-uppercase">Audience Overview</a>
+                  </div>
+                </div>
+              </td>
+              <td class="col-xl-4">
+                <!-- Current Users -->
+                <div class="card card-default">
+                  <div class="card-header">
+                    <h2>Current Users</h2>
+                    <span>Realtime</span>
+                  </div>
+                  <div class="card-body">
+                    <div id="barchartlg2"></div>
+                  </div>
+                  <div class="card-footer bg-white py-4">
+                    <a href="#" class="text-uppercase">Current Users Overview</a>
+                  </div>
+                </div>
+              </td>
         </div>
-        <div class="card-footer d-flex flex-wrap bg-white">
-          <a href="#" class="text-uppercase py-3">Acquisition Report</a>
-        </div>
+        </td>
+        </tr>
+        </table>
       </div>
-    </td>
-  </tr>
-  
-
-
-  
-              <!-- User Map, Page Views, Current Users -->
-              <tr>
-                <td colspan="2">
-                  <div class="row">
-                <td class="col-xl-4">
-                  <!-- User Map -->
-                  <div class="card card-default">
-                    <div class="card-header">
-                      <h2>User Map</h2>
-                    </div>
-                    <div class="card-body">
-                      <div id="us-vector-map-marker"></div>
-                      <ul class="list-unstyled mt-4">
-                        <li class="d-flex flex-wrap justify-content-between border-top py-2 text-dark">
-                          Oregon
-                          <span class="text-primary">35</span>
-                        </li>
-                        <li class="d-flex flex-wrap justify-content-between border-top py-2 text-dark">
-                          Indiana
-                          <span class="text-success">10</span>
-                        </li>
-                        <li class="d-flex flex-wrap justify-content-between border-top py-2 text-dark">
-                          Colorado
-                          <span class="text-danger">25</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </td>
-                <td class="col-xl-4">
-                  <!-- Page Views -->
-                  <div class="card card-default" id="page-views">
-                    <div class="card-header">
-                      <h2>Page Views</h2>
-                    </div>
-                    <div class="card-body py-0" data-simplebar style="height: 392px;">
-                      <table class="table table-borderless table-thead-border">
-                        <thead>
-                          <tr>
-                            <th>Page</th>
-                            <th class="text-right px-3">Page Views</th>
-                            <th class="text-right">Avg Time</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td class="text-primary"><a class="link" href="/analytics">/analytics.html</a></td>
-                            <td class="text-right px-3">521</td>
-                            <td class="text-right">2m:14s</td>
-                          </tr>
-                          <tr>
-                            <td class="text-primary"><a class="link" href="email-inbox.html">/email-inbox.html</a>
-                            </td>
-                            <td class="text-right px-3">356</td>
-                            <td class="text-right">2m:23s</td>
-                          </tr>
-                          <!-- ... Repeat for other rows ... -->
-                        </tbody>
-                      </table>
-                    </div>
-                    <div class="card-footer bg-white py-4">
-                      <a href="#" class="text-uppercase">Audience Overview</a>
-                    </div>
-                  </div>
-                </td>
-                <td class="col-xl-4">
-                  <!-- Current Users -->
-                  <div class="card card-default">
-                    <div class="card-header">
-                      <h2>Current Users</h2>
-                      <span>Realtime</span>
-                    </div>
-                    <div class="card-body">
-                      <div id="barchartlg2"></div>
-                    </div>
-                    <div class="card-footer bg-white py-4">
-                      <a href="#" class="text-uppercase">Current Users Overview</a>
-                    </div>
-                  </div>
-                </td>
-          </div>
-          </td>
-          </tr>
-          </table>
-        </div>
-      </div>
-  
     </div>
-  
-    </div>
-  
-    <EndAdmin />
-  </template>
-  
-  <script>
-  import axios from 'axios';
-  
-  import TopAdmin from '@/components/TopAdmin.vue';
-  import SidebarAdmin from '@/components/SidebarAdmin.vue';
-  import EndAdmin from '@/components/EndAdmin.vue';
-  import HeaderAdmin from '@/components/HeaderAdmin.vue';
-  
-  export default {
-    name: 'analytics',
-    components: {
-      TopAdmin,
-      SidebarAdmin,
-      EndAdmin,
-      HeaderAdmin,
-    },
-    data() {
-      return {
-        name: [],
-        feed: [],
-        numberOfClients: 0,
-        numberOfItems: 0,
-      };
-    },
-    mounted() {
-      this.getData();
-      this.getShop();
-      this.getFeed();
-      this.getName();
 
-    },
-    methods: {
-    
-      async deletefeed(feedId) {
-      const confirmResult = window.confirm("Do you want to DELETE this item?");
+  </div>
+
+  </div>
+
+  <EndAdmin />
+</template>
   
-      if (confirmResult) {
-          try {
-              await axios.post(`/api/feedback/delete/${feedId}`);
-              this.feed = this.feed.filter(feed => feed.feed_id !== feedId);
-              console.log('Feedback deleted successfully');
-          } catch (error) {
-              console.error('Error deleting feedback:', error);
-          }
-      }
+<script>
+import axios from 'axios';
+
+import TopAdmin from '@/components/TopAdmin.vue';
+import SidebarAdmin from '@/components/SidebarAdmin.vue';
+import EndAdmin from '@/components/EndAdmin.vue';
+import HeaderAdmin from '@/components/HeaderAdmin.vue';
+
+export default {
+  name: 'analytics',
+  components: {
+    TopAdmin,
+    SidebarAdmin,
+    EndAdmin,
+    HeaderAdmin,
   },
-  
-      async getFeed() {
-        const [g, n] = await Promise.all([
-          axios.get("/getFeedback"),
-          axios.get("/getData"),
-        ]);
-        this.feed = g.data;
-        this.name = n.data;
-      },
-      getName(g) {
-        return this.name.find((n) => n.id === g.id) || {};
-      },
-      async getData() {
-        const response = await axios.get("/getData");
-        this.data = response.data;
-        this.numberOfClients = this.data.length;
-      },
-      async getShop() {
-        const items = await axios.get("/getShop");
-        this.data = items.data;
-        this.numberOfItems = this.data.length;
-      },
+  data() {
+    return {
+      name: [],
+      feed: [],
+      numberOfClients: 0,
+      numberOfItems: 0,
+      numberOfbooking: 0,
+    };
+  },
+  mounted() {
+    this.getData();
+    this.getShop();
+    this.getFeed();
+    this.getName();
+    this.getbook();
+
+  },
+  methods: {
+
+    async deletefeed(feedId) {
+      const confirmResult = window.confirm("Do you want to DELETE this item?");
+
+      if (confirmResult) {
+        try {
+          await axios.post(/api/feedback/delete/${feedId});
+          this.feed = this.feed.filter(feed => feed.feed_id !== feedId);
+          console.log('Feedback deleted successfully');
+        } catch (error) {
+          console.error('Error deleting feedback:', error);
+        }
+      }
     },
-  };
-  </script>
-  
+
+    async getFeed() {
+      const [g, n] = await Promise.all([
+        axios.get("/getFeedback"),
+        axios.get("/getData"),
+      ]);
+      this.feed = g.data;
+      this.name = n.data;
+    },
+    getName(g) {
+      return this.name.find(👎 => n.id === g.id) || {};
+    },
+    async getData() {
+      const response = await axios.get("/getData");
+      this.data = response.data;
+      this.numberOfClients = this.data.length;
+    },
+    async getShop() {
+      const items = await axios.get("/getShop");
+      this.data = items.data;
+      this.numberOfItems = this.data.length;
+    },
+    async getbook() {
+      const items = await axios.get("/getbook");
+      this.data = items.data;
+      this.numberOfbooking = this.data.length;
+    },
+  },
+};
+</script>
+
   <style scoped>
   /**
       * WEBSITE: https://themefisher.com
