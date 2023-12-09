@@ -34,6 +34,7 @@ class MainController extends ResourceController
     {
         //
     }
+ 
     public function deleteFeedback($feedId)
     {
         $feedbackModel = new FeedbackModel();
@@ -154,12 +155,110 @@ class MainController extends ResourceController
         $data = $main->findAll();
         return $this->respond($data, 200);
     }
+
+    
+    
     public function getbook()
     {
-        $book = new BookingModel();
-        $data = $book->findAll();
-        return $this->respond($data, 200);
+        $bookingModel = new BookingModel();
+        $result = $bookingModel
+            ->select('booking.*, user.*, room.*')
+            ->join('user', 'user.id = booking.id') 
+            ->join('room', 'room.room_id = booking.room_id')
+            ->findAll();
+    
+        return $this->respond($result, 200);
     }
+    public function acceptBooking($booking_id)
+    {
+        $roomModel = new RoomModel();
+        $bookingModel = new BookingModel();
+    
+        $booking = $bookingModel->find($booking_id);
+    
+        if ($booking) {
+            $updatedBooking = $bookingModel->update($booking['book_id'], ['booking_status' => 'confirmed']);
+    
+            if ($updatedBooking) {
+                $updatedRoom = $roomModel->update($booking['room_id'], ['room_status' => 'booked']);
+    
+                if ($updatedRoom) {
+                    return $this->respond(['message' => 'Booking and room status updated successfully', 'booking_id' => $booking['book_id']], 200);
+                } else {
+                    $bookingModel->update($booking['book_id'], ['booking_status' => 'pending']);
+                    return $this->respond(['message' => 'Failed to update room status'], 500);
+                }
+            } else {
+                return $this->respond(['message' => 'Failed to update booking status'], 500);
+            }
+        } else {
+            return $this->respond(['message' => 'Booking not found'], 404);
+        }
+    }
+    
+    public function markAsPaid($booking_id)
+    {
+        $roomModel = new RoomModel();
+        $bookingModel = new BookingModel();
+    
+        $booking = $bookingModel->find($booking_id);
+    
+        if ($booking) {
+            $updatedBooking = $bookingModel->update($booking['book_id'], ['booking_status' => 'paid']);
+    
+            if ($updatedBooking) {
+                $updatedRoom = $roomModel->update($booking['room_id'], ['room_status' => 'available']);
+    
+                if ($updatedRoom) {
+                    return $this->respond(['message' => 'Booking status updated to "Paid" and room status updated to "Available"', 'booking_id' => $booking['book_id']], 200);
+                } else {
+                    $bookingModel->update($booking['book_id'], ['booking_status' => 'confirmed']);
+                    return $this->respond(['message' => 'Failed to update room status'], 500);
+                }
+            } else {
+                return $this->respond(['message' => 'Failed to update booking status'], 500);
+            }
+        } else {
+            return $this->respond(['message' => 'Booking not found'], 404);
+        }
+    }
+    
+    public function booking()
+    {
+        $json = $this->request->getJSON();
+        $room_id = $json->room_id;
+        $this->room = new RoomModel();
+        $booked = $this->room->where(['room_id' => $room_id])->first();
+    
+        $data = [
+            'id' => $json->id,
+            'checkin' => $json->checkin,
+            'checkout' => $json->checkout,
+            'adult' => $json->adult,
+            'child' => $json->child,
+            'specialRequest' => $json->specialRequest,
+            'room_id' => $json->room_id,
+            'booking_status' => 'pending',
+            'payment_method' => $json->payment_method, 
+        ];
+    
+        $booking = new BookingModel();
+        $r = $booking->save($data);
+    
+        if ($r) {
+            $bookedr = $this->room->update($booked['room_id'], ['room_status' => 'pending']);
+    
+            if ($bookedr) {
+                return $this->respond(['message' => 'Booked successfully', 'booking' => $r, 'room' => $booked], 200);
+            } else {
+                return $this->respond(['message' => 'Failed to update room status'], 500);
+            }
+        } else {
+            return $this->respond(['message' => 'Booking failed'], 500);
+        }
+    }
+    
+
     
     public function getDataShop()
     {
@@ -196,36 +295,8 @@ class MainController extends ResourceController
         return $this->respond(['message' => 'Manifest submitted successfully', $result], 200);
     }
 
-    public function booking()
-    {
-        $json = $this->request->getJSON();
-        $room_id = $json->room_id;
-        $this->room = new RoomModel();
-        $booked = $this->room->where(['room_id' => $room_id])->first();
-        
-        $data = [
-            'id' => $json->id,
-            'checkin' => $json->checkin,
-            'checkout' => $json->checkout,
-            'adult' => $json->adult,
-            'child' => $json->child,
-            'specialRequest' => $json->specialRequest,
-            'room_id' => $json->room_id,
-        ];
     
-        $booking = new BookingModel();
-        $r = $booking->save($data);
-    
-        if ($r) {
-            $bookedr = $this->room->update($booked['room_id'], ['room_status' => 'booked']); 
-            if ($bookedr) {
-                return $this->respond(['message' => 'Booked successfully', 'booking' => $r, 'room' => $booked], 200);
-            }
-        } else {
-            return $this->respond(['message' => 'Booking failed'], 500);
-        }
-    }
-    
+
 
     public function register()
     {

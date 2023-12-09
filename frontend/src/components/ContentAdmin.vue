@@ -10,44 +10,7 @@
 
       
 <!-- Current Users -->
-<div class="row">
-  <!-- Current Users -->
-  <div class="col-12">
-    <div class="card card-default">
-      <div class="card-header">
-        <h2>Current Users</h2>
-        <span>Realtime</span>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>User ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Status</th>
-                <!-- Add more columns as needed -->
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="user in users" :key="user.id">
-                <td>{{ user.id }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.status }}</td>
-                <!-- Add more cells as needed -->
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="card-footer bg-white py-4">
-        <a href="#" class="text-uppercase">Current Users Overview</a>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 
       <div class="row">
@@ -177,9 +140,125 @@
           </div>
         </div>
       </div>
+
+      <div class="row">
+  <div class="col-12">
+    <div class="card card-default">
+      <div class="card-header">
+        <h2 class="mdi mdi-desktop-mac">Rooms</h2>
+      </div>
+      <div class="card-body pt-26"          
+>
+        <table class="table">
+          <thead >
+            <tr >
+              <th>Room ID</th>
+              <th>Image</th>
+              <th>Room Name</th>
+              <th>Price</th>
+              <th>Bed</th>
+              <th>Bath</th>
+              <th>Description</th>
+              <th>Room Status</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="room in room">
+              <td>{{ room.room_id }}</td>
+              <td>{{ room.image }}</td>
+              <td>{{ room.room_name }}</td>
+              <td>{{ room.price }}</td>
+              <td>{{ room.bed }}</td>
+              <td>{{ room.bath }}</td>
+              <td>{{ room.description }}</td>
+              <td>{{ room.room_status }}</td>
+              
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
+</div>
+ 
+<div class="row">
+        <!-- Table Product -->
+        <div class="col-12">
+          <div class="card card-default">
+            <div class="card-header">
+              <h2>Booking Inventory</h2>
+              <div class="dropdown">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false"> Yearly Chart
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <table id="productsTable" class="table table-hover table-product" style="width:100%">
+                <thead>
+                  <tr>
+                    <th>Booking Id</th>
+                    <th>User</th>
+                    <th>Checkin</th>
+                    <th>Checkout</th>
+                    <th>Adult</th>
+                    <th>Child</th>
+                    <th>Special Request</th>
+                    <th>Room</th>
+                    <th>Booking Status</th>
+                    <th>Booking Payment</th>
+
+                    <th>Action</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="book in book">
+                    <td>{{ book.book_id }}</td>
+                    <td>{{ book.name }}</td>
+                    <td>{{ book.checkin }}</td>
+                    <td>{{ book.checkout }}</td>
+                    <td>{{ book.adult }}</td>
+                    <td>{{ book.child }}</td>
+                    <td>{{ book.specialRequest }}</td>
+                    <td>{{ book.room_id }}</td>
+                    <td>{{ book.booking_status }}</td>
+                    <td>{{ book.payment_method }}</td>
+
+                    <td>
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Actions
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" @click="markAsPaid(book.book_id)">Paid</a>
+      <a class="dropdown-item" @click="acceptBooking(book.book_id)">Confirm</a>
+    </div>
+  </div>
+</td>
+
+                  </tr>
+                </tbody>
+              </table>
+              <!-- Quantity Modal -->
+             
+              <!-- Success Message -->
+              <div v-if="successMessage" class="alert alert-success" role="alert">
+                {{ successMessage }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
   <Notification :show="notification.show" :type="notification.type" :message="notification.message" />
@@ -200,8 +279,8 @@ export default {
   },
   data() {
     return {
-      users: [], // Array to store the user data
-
+      room: [],
+book:[],
       infos: [],
       shop: [], 
       addModalVisible: false,
@@ -221,25 +300,54 @@ export default {
       },
     };
   },
-  mounted() {
-    // Fetch user data from the backend (CI4)
-    this.fetchUserData();
-  },
+
   created() {
     this.getInfo();
-    this.fetchUserData();
+    this.getRoom();
+    this.getbook();
 
   },
+ 
   methods: {
+    async markAsPaid(booking_id) {
+        try {
+            const response = await axios.post(`/mark-as-paid/${booking_id}`);
 
-    async fetchUserData() {
-      try {
-        const response = await axios.get('getData');
-        this.users = response.data;
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
+            if (response.status === 200) {
+                this.showSuccessNotification(`Booking ${booking_id} Marked as Paid`);
+                this.$emit('data-saved');
+            } else {
+                console.error('Failed to mark as paid:', response.data.message);
+            }
+        } catch (error) {
+            console.error('Error marking as paid:', error);
+        }
     },
+    async acceptBooking(booking_id) {
+    try {
+        const response = await axios.post(`/accept-booking/${booking_id}`);
+
+        if (response.status === 200) {
+            const updatedBookingId = response.data.booking_id;
+            this.showSuccessNotification(`Booking ${updatedBookingId} Accepted`);
+            this.$emit('data-saved');
+        } else {
+            console.error('Failed to accept booking:', response.data.message);
+        }
+    } catch (error) {
+        console.error('Error accepting booking:', error);
+    }
+},
+
+    async getbook() {
+      const b = await axios.get("/getbook");
+      this.book = b.data;
+    },
+    async getRoom() {
+      const r = await axios.get("/getRoom");
+      this.room = r.data;
+    },
+   
     navigateToAuditHistory(info) {
       const shopId = info.shop_id;
       this.$router.push({ name: 'auditHistory', params: { shopId } });
@@ -277,6 +385,7 @@ export default {
       this.infos[index] = updatedProduct;
       this.closeQuantityModal();
       this.showSuccessNotification("Quantity Updated Successfully");
+      this.$emit('data-saved');
 
     },
 

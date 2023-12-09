@@ -97,57 +97,8 @@
     </td>
   </tr>
   
-  
-              <!-- Sessions by Device -->
-              <tr>
-                <td class="col-xl-6">
-                  <!-- Sessions By Device -->
-                  <div class="card card-default">
-                    <div class="card-header border-bottom">
-                      <h2 class="mdi mdi-desktop-mac">Sessions by Device</h2>
-                    </div>
-                    <div class="card-body pt-6">
-                      <div class="row">
-                        <div class="col-lg-6">
-                          <div id="donut-chart-1"></div>
-                        </div>
-                        <div class="col-lg-6">
-                          <div class="media mb-4">
-                            <i class="display-4 mdi mdi-remote-desktop text-primary mr-3"></i>
-                            <div class="media-body">
-                              <p>Desktop</p>
-                              <p class="h4 my-1 text-dark">45% <span class="text-success">23.5% <i
-                                    class="mdi mdi-arrow-up-bold small"></i></span>
-                              </p>
-                              <p>vs 155,900 (prev)</p>
-                            </div>
-                          </div>
-                          <div class="media mb-4">
-                            <i class="display-4 mdi mdi-tablet-android text-primary mr-3"></i>
-                            <div class="media-body">
-                              <p>Tablet</p>
-                              <p class="h4 my-1 text-dark">30% <span class="text-success">13.5% <i
-                                    class="mdi mdi-arrow-up-bold small"></i></span>
-                              </p>
-                              <p>vs 187,900 (prev)</p>
-                            </div>
-                          </div>
-                          <div class="media mb-4">
-                            <i class="display-4 mdi mdi-cellphone-iphone text-primary mr-3"></i>
-                            <div class="media-body">
-                              <p>Mobile</p>
-                              <p class="h4 my-1 text-dark">25% <span class="text-success">35.5% <i
-                                    class="mdi mdi-arrow-up-bold small"></i></span>
-                              </p>
-                              <p>vs 309,900 (prev)</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
+
+
   
               <!-- User Map, Page Views, Current Users -->
               <tr>
@@ -263,7 +214,6 @@
       return {
         name: [],
         feed: [],
-  
         numberOfClients: 0,
         numberOfItems: 0,
       };
@@ -273,8 +223,10 @@
       this.getShop();
       this.getFeed();
       this.getName();
+
     },
     methods: {
+    
       async deletefeed(feedId) {
       const confirmResult = window.confirm("Do you want to DELETE this item?");
   

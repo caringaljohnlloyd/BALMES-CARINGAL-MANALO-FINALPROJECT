@@ -36,6 +36,8 @@ $routes->put('updateQuantity/(:num)', 'MainController::updateQuantity/$1');
 $routes->post('updateQuantity', 'MainController::updateQuantity');
 $routes->get('api/auditHistory/(:num)', 'MainController::getAuditHistory/$1');
 $routes->post('/api/feedback/delete/(:num)', 'MainController::deleteFeedback/$1');
+$routes->post('/accept-booking/(:num)', 'MainController::acceptBooking/$1');
+$routes->post('/mark-as-paid/(:num)', 'MainController::markAsPaid/$1');
 
 
 
