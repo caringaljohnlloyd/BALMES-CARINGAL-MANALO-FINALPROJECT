@@ -247,29 +247,29 @@ export default {
 
     async deletefeed(feedId) {
       const confirmResult = window.confirm("Do you want to DELETE this item?");
-
+  
       if (confirmResult) {
-        try {
-          await axios.post(/api/feedback/delete/${feedId});
-          this.feed = this.feed.filter(feed => feed.feed_id !== feedId);
-          console.log('Feedback deleted successfully');
-        } catch (error) {
-          console.error('Error deleting feedback:', error);
-        }
+          try {
+              await axios.post(`/api/feedback/delete/${feedId}`);
+              this.feed = this.feed.filter(feed => feed.feed_id !== feedId);
+              console.log('Feedback deleted successfully');
+          } catch (error) {
+              console.error('Error deleting feedback:', error);
+          }
       }
-    },
-
-    async getFeed() {
-      const [g, n] = await Promise.all([
-        axios.get("/getFeedback"),
-        axios.get("/getData"),
-      ]);
-      this.feed = g.data;
-      this.name = n.data;
-    },
-    getName(g) {
-      return this.name.find(👎 => n.id === g.id) || {};
-    },
+  },
+  
+      async getFeed() {
+        const [g, n] = await Promise.all([
+          axios.get("/getFeedback"),
+          axios.get("/getData"),
+        ]);
+        this.feed = g.data;
+        this.name = n.data;
+      },
+      getName(g) {
+        return this.name.find((n) => n.id === g.id) || {};
+      },
     async getData() {
       const response = await axios.get("/getData");
       this.data = response.data;
