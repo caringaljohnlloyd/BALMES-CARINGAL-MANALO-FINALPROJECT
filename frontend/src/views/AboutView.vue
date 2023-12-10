@@ -28,10 +28,15 @@
             <div class="row g-5 align-items-center">
                 <div class="col-lg-6">
                     
-                    <h6 class="section-title text-start text-primary text-uppercase">About Us</h6>
-                    <h1 class="mb-4">Welcome to <span class="text-primary text-uppercase">Hotelier</span></h1>
-                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
-                    <div class="row g-3 pb-4">
+                    <div style="text-align: justify;">
+                        <h6 class="section-title text-start text-primary text-uppercase">About Us</h6>
+                        <h1 class="mb-4">Welcome to <span class="text-primary text-uppercase">Eduardo's</span></h1>
+                        <p class="mb-4">Eduardo's Resort Corporation, founded by Dr. Elizalde M. Herrera, is located at Nautical Highway Bayanan II, Calapan City, Oriental Mindoro. The resort commenced operations on September 8, 2013, and operates in compliance with Philippine laws. Eduardo's Resort actively promotes tourism in the province, provides employment opportunities for local residents, supports farmers in maximizing agricultural crop yields, and contributes to the development of swimmers and athletes.</p>
+  
+                        <p class="mb-4">The establishment of Eduardo's Resort Swimming Foundation, Inc. aims to promote swimming as the primary sport in Oriental Mindoro and the rest of the MIMAROPA Region. The foundation is dedicated to providing excellent training, state-of-the-art competition facilities, and other athletic support to its members and beneficiaries. Additionally, the foundation seeks to extend pool access and swimming lessons to individuals who are eager and passionate about learning the sport of swimming.</p>
+  
+                        <p class="mb-4">Furthermore, the foundation aims to create programs, incentives, and scholarship opportunities for competitive swimmers, coaches, and officials. It strives to establish strong partnerships and linkages with local, national, and international entities—both private and government—that can provide opportunities for the members and beneficiaries of the foundation.</p>
+                    </div> <div class="row g-3 pb-4">
                         <div class="col-sm-4 wow fadeIn" data-wow-delay="0.1s">
                             <div class="border rounded p-1">
                                 <div class="border rounded text-center p-4">
