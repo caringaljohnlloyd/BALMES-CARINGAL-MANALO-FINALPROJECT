@@ -78,7 +78,7 @@
               <div class="border rounded p-1">
                 <div class="border rounded text-center p-4">
                   <i class="fa fa-users-cog fa-2x text-primary mb-2"></i>
-                  <h2 class="mb-1" data-toggle="counter-up">3</h2>
+                  <h2 class="mb-1" data-toggle="counter-up">{{numberOfStaffs}}</h2>
                   <p class="mb-0">Staffs</p>
                 </div>
               </div>
@@ -331,6 +331,7 @@ export default {
       feedbackSent: false,
       numberOfClients: 0,
       numberOfRooms: 0,
+      numberOfStaffs: 0,
       pool: [],
       room:[],
       name: [],
@@ -356,6 +357,8 @@ export default {
     async getStaff() {
                 const response = await axios.get("/getStaff");
                 this.staff = response.data;
+                this.numberOfStaffs = this.staff.length;
+
         },
     async getFeed() {
       const [g, n] = await Promise.all([
