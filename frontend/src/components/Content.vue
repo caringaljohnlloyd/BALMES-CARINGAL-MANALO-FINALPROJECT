@@ -263,84 +263,33 @@
   <insert />
 
   <!-- Team Start -->
-  <div class="container-xxl py-5">
-    <div class="container">
-      <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-        <h6 class="section-title text-center text-primary text-uppercase">
-          Our Team
-        </h6>
-        <h1 class="mb-5">
-          Explore Our <span class="text-primary text-uppercase">Staffs</span>
-        </h1>
-      </div>
-      <div class="row g-4">
-        <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-          <div class="rounded shadow overflow-hidden">
-            <div class="position-relative">
-              <img :src="require('../assets/img/team-1.jpg')" class="img-fluid" alt="" />
-              <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
-                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-              </div>
+  <div  class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title text-center text-primary text-uppercase">Our Team</h6>
+                    <h1 class="mb-5">Explore Our <span class="text-primary text-uppercase">Staffs</span></h1>
+                </div>
+                <div class="row g-4">
+                    <div v-for="staff in staff" class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="rounded shadow overflow-hidden">
+                            <div class="position-relative">
+                                <img class="img-fluid menu" style="width: 100%; max-width: 1000px; height: 330px;" :src="require('../assets/img/' + staff.staff_image)" alt="">
+                                <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
+                                    <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                </div>
+                            </div>
+                            <div class="text-center p-4 mt-3">
+                                <h5 class="fw-bold mb-0">{{ staff.staff_name }}</h5>
+                                <small>{{ staff.staff_email }}</small><br>
+                                <small>0{{ staff.contactNum }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="text-center p-4 mt-3">
-              <h5 class="fw-bold mb-0">Full Name</h5>
-              <small>Designation</small>
-            </div>
-          </div>
         </div>
-        <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-          <div class="rounded shadow overflow-hidden">
-            <div class="position-relative">
-              <img :src="require('../assets/img/team-2.jpg')" class="img-fluid" alt="" />
-              <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
-                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-              </div>
-            </div>
-            <div class="text-center p-4 mt-3">
-              <h5 class="fw-bold mb-0">Full Name</h5>
-              <small>Designation</small>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-          <div class="rounded shadow overflow-hidden">
-            <div class="position-relative">
-              <img :src="require('../assets/img/team-3.jpg')" class="img-fluid" alt="" />
-              <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
-                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-              </div>
-            </div>
-            <div class="text-center p-4 mt-3">
-              <h5 class="fw-bold mb-0">Full Name</h5>
-              <small>Designation</small>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
-          <div class="rounded shadow overflow-hidden">
-            <div class="position-relative">
-              <img :src="require('../assets/img/team-4.jpg')" class="img-fluid" alt="" />
-              <div class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
-                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-              </div>
-            </div>
-            <div class="text-center p-4 mt-3">
-              <h5 class="fw-bold mb-0">Full Name</h5>
-              <small>Designation</small>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
   <div class="container newsletter mt-5 wow fadeIn" data-wow-delay="0.1s">
     <div class="row justify-content-center">
       <div class="col-lg-10 border rounded p-1">
@@ -389,6 +338,8 @@ export default {
       manifest: "",
       successMessage: "",
       errorMessage: "",
+      staff:[],
+
     };
   },
   mounted() {
@@ -398,8 +349,14 @@ export default {
     this.getName();
     this.getUser();
     this.getRoom();
+    this.getStaff();
+
   },
   methods: {
+    async getStaff() {
+                const response = await axios.get("/getStaff");
+                this.staff = response.data;
+        },
     async getFeed() {
       const [g, n] = await Promise.all([
         axios.get("/getFeedback"),
