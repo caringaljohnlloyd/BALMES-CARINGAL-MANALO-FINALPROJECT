@@ -305,37 +305,15 @@
                   <!-- User Account -->
                   <li class="dropdown user-menu">
                     <button class="dropdown-toggle nav-link" data-toggle="dropdown">
-                      <img :src="require('../assets/images/user/user-xs-01.jpg')" class="user-image rounded-circle" alt="User Image" />
-                      <span class="d-none d-lg-inline-block">John Doe</span>
+                      <i class="mdi mdi-account-check"></i>
+                      <span class="d-none d-lg-inline-block">Admin</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
-                      <li>
-                        <a class="dropdown-link-item" href="user-profile.html">
-                          <i class="mdi mdi-account-outline"></i>
-                          <span class="nav-text">My Profile</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a class="dropdown-link-item" href="email-inbox.html">
-                          <i class="mdi mdi-email-outline"></i>
-                          <span class="nav-text">Message</span>
-                          <span class="badge badge-pill badge-primary">24</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a class="dropdown-link-item" href="user-activities.html">
-                          <i class="mdi mdi-diamond-stone"></i>
-                          <span class="nav-text">Activitise</span></a>
-                      </li>
-                      <li>
-                        <a class="dropdown-link-item" href="user-account-settings.html">
-                          <i class="mdi mdi-settings"></i>
-                          <span class="nav-text">Account Setting</span>
-                        </a>
-                      </li>
-
                       <li class="dropdown-footer">
-                        <a class="dropdown-link-item" href="sign-in.html"> <i class="mdi mdi-logout"></i> Log Out </a>
+                                            <a @click.prevent="logout" class=" logout-logo-btn" href="#">
+                        <i class="fas fa-power-off logout-icon"></i>
+                        Logout
+                    </a>
                       </li>
                     </ul>
                   </li>
@@ -348,7 +326,36 @@
         </div>
 </template>
 
+<script>
+export default {
 
+  data() {
+    return {
+      query: '',
+      data: [],
+      showData: false,
+      showNoMatchMessage: false,
+    };
+  },
+  methods: {
+    async logout() {
+      try {
+        const response = await axios.post("/logout");
+
+        if (response.status === 200) {
+          console.log("Logout successful");
+
+          sessionStorage.removeItem("token");
+
+          this.$router.push("/");
+        }
+      } catch (error) {
+        console.error("Error during logout", error);
+      }
+    },
+  }
+}
+</script>
 <style scoped>
 /**
  * WEBSITE: https://themefisher.com

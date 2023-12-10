@@ -42,6 +42,13 @@ $routes->get('/getInvoices/(:num)', 'MainController::getInvoices/$1');
 $routes->get('/getImage/(:segment)', 'MainController::getImage/$1');
 $routes->post('/saveShop', 'MainController::saveShop');
 $routes->put('/updateShop/(:num)', 'MainController::updateShop/$1');
+$routes->put('/updateRoom/(:num)', 'MainController::updateRoom/$1');
+$routes->get('/getStaff','MainController::getStaff');
+$routes->post('/saveStaff', 'MainController::saveStaff');
+$routes->put('/updateStaff/(:num)', 'MainController::updateStaff/$1');
+$routes->delete('/deleteStaff/(:num)', 'MainController::deleteStaff/$1');
+$routes->delete('/deleteShop/(:num)', 'MainController::deleteShop/$1');
+$routes->delete('/deleteRoom/(:num)', 'MainController::deleteRoom/$1');
 
 $routes->post('/saveRoom', 'MainController::saveRoom');
 

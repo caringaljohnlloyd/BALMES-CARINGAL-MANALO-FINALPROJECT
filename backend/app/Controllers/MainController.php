@@ -17,6 +17,7 @@ use App\Models\InvoiceModel;
 use App\Models\OrderListModel;
 use App\Models\OrdersModel;
 use App\Models\AuditModel;
+use App\Models\StaffModel;
 
 
 
@@ -98,7 +99,12 @@ class MainController extends ResourceController
     return $this->respond(['new_quantity' => $newQuantity, 'message' => 'Quantity updated successfully']);
 }
 
-    
+public function getStaff()
+{
+    $staff = new StaffModel();
+    $data = $staff->findAll();
+    return $this->respond($data, 200);
+}   
     public function getInvoice()
     {
         $invoice = new InvoiceModel();
@@ -207,7 +213,7 @@ class MainController extends ResourceController
             $updatedBooking = $bookingModel->update($booking['book_id'], ['booking_status' => 'paid']);
     
             if ($updatedBooking) {
-                $updatedRoom = $roomModel->update($booking['room_id'], ['room_status' => 'available']);
+                $updatedRoom = $roomModel->update($booking['room_id'], ['room_status' => 'Available']);
     
                 if ($updatedRoom) {
                     return $this->respond(['message' => 'Booking status updated to "Paid" and room status updated to "Available"', 'booking_id' => $booking['book_id']], 200);
@@ -567,65 +573,6 @@ class MainController extends ResourceController
    
     
     
-        // // public function save()
-        // // {
-        // //
-        // //     $data = $this->request->getPost();
-        // //
-        // //
-        // //     $image = $this->request->getFile('image');
-        // //     $imageName = $image->getRandomName();
-        // //     $image->move(WRITEPATH . 'uploads', $imageName);
-        // //
-        // //     $data['image'] = $imageName;
-        // //
-        // //     $main = new MainModel();
-        // //     $result = $main->save($data);
-        // //
-        // //     if ($result) {
-        // //         return $this->respond(['message' => 'Product saved successfully.'], 201);
-        // //     } else {
-        // //         return $this->respond(['error' => 'Unable to save product.'], 500);
-        // //     }
-        // // }
-    
-        // public function ssave()
-        // {
-        //     try {
-        //         // Use CodeIgniter's file helper to handle file uploads
-        //         $partsImage = $this->request->getFile('image');
-    
-        //         // Use the provided image name
-        //         $imageName = $partsImage->getName();
-    
-        //         $data = [
-        //             'name' => $this->request->getPost('name'),
-        //             'description' => $this->request->getPost('description'),
-        //             'brand' => $this->request->getPost('brand'),
-        //             'model' => $this->request->getPost('model'),
-        //             'quantity' => $this->request->getPost('quantity'),
-        //             'image' => base_url() . $this->handleImageUpload($partsImage, $imageName),
-    
-        //         ];
-    
-        //         $partsModel = new PartsModel();
-        //         $savedData = $partsModel->save($data);
-    
-        //         return $this->respond($savedData, 200);
-        //     } catch (\Exception $e) {
-        //         log_message('error', 'Error saving data:' . $e->getMessage());
-        //         return $this->failServerError('An error occurred while saving the data.');
-        //     }
-        // }
-    
-        // public function handleImageUpload($partsImage, $imageName)
-        // {
-        //     $partsImage->move(ROOTPATH . 'public/uploads/' , $imageName);
-        //     return 'uploads/' .$imageName;
-        // }
-    
-
-
 
 
 
@@ -705,47 +652,202 @@ public function handleRoomImageUpload($image, $imageName)
     $image->move($uploadPath, $imageName);
                 return  $imageName;
 }
-        public function updateShop($shop_id)
-        {
-            $request = $this->request;
-        
-            // Fetch existing data for the specified ID
-            $shopModel = new ShopModel();
-            $existingData = $shopModel->find($shop_id);
-        
-            if (empty($existingData)) {
-                // Handle not found scenario
-                return $this->respond(["message" => "Record not found"], 404);
-            }
-        
-            // Get the new data from the request
-            $data = [
-                'prod_name' => $request->getVar('prod_name') ?? $existingData['prod_name'],
-                'prod_quantity' => $request->getVar('prod_quantity') ?? $existingData['prod_quantity'],
-                'prod_desc' => $request->getVar('prod_desc') ?? $existingData['prod_desc'],
-                'prod_price' => $request->getVar('prod_price') ?? $existingData['prod_price'],
-            ];
-        
-            // Check if a new image is uploaded
-            if ($request->getFile('prod_image')->isValid()) {
-                $image = $request->getFile('prod_image');
-                $imageName = $image->getName();
-                $data['prod_img'] = $this->handleImageUpload($image, $imageName);
-            } else {
-                // If no new image, keep the existing image
-                $data['prod_img'] = $existingData['prod_img'];
-            }
-        
-            try {
-                // Use the where clause to update the existing data
-                $shopModel->set($data)->where('shop_id', $shop_id)->update();
-        
-                return $this->respond(["message" => "Data updated successfully"], 200);
-            } catch (\Exception $e) {
-                return $this->respond(["message" => "Failed to update data: " . $e->getMessage()], 500);
-            }
+public function updateShop($shop_id = null)
+{
+    $request = $this->request;
+
+    $shopModel = new ShopModel();
+    $existingData = $shopModel->find($shop_id);
+
+    if (empty($existingData)) {
+        return $this->respond(["message" => "Record not found"], 404);
+    }
+
+    $data = [
+        'prod_name' => $request->getVar('prod_name') ?? $existingData['prod_name'],
+        'prod_desc' => $request->getVar('prod_desc') ?? $existingData['prod_desc'],
+        'prod_price' => $request->getVar('prod_price') ?? $existingData['prod_price'],
+    ];
+
+    try {
+        if ($data !== array_intersect_key($existingData, $data)) {
+            $shopModel->update($shop_id, $data);
+            return $this->respond(["message" => "Data updated successfully"], 200);
+        } else {
+            return $this->respond(["message" => "No changes detected, data not updated"], 200);
         }
+    } catch (\Exception $e) {
+        return $this->respond(["message" => "Failed to update data: " . $e->getMessage()], 500);
+    }
+}
+
+public function updateRoom($room_id = null)
+{
+    $request = $this->request;
+
+    $roomModel = new RoomModel();
+    $existingData = $roomModel->find($room_id);
+
+    if (empty($existingData)) {
+        return $this->respond(["message" => "Record not found"], 404);
+    }
+
+    $data = [
+        'room_name' => $request->getVar('room_name') ?? $existingData['room_name'],
+        'price' => $request->getVar('price') ?? $existingData['price'],
+        'bed' => $request->getVar('bed') ?? $existingData['bed'],
+        'bath' => $request->getVar('bath') ?? $existingData['bath'],
+        'description' => $request->getVar('description') ?? $existingData['description'],
+    ];
+
+    try {
+        if ($data !== array_intersect_key($existingData, $data)) {
+            $roomModel->update($room_id, $data);
+            return $this->respond(["message" => "Data updated successfully"], 200);
+        } else {
+            return $this->respond(["message" => "No changes detected, data not updated"], 200);
+        }
+    } catch (\Exception $e) {
+        return $this->respond(["message" => "Failed to update data: " . $e->getMessage()], 500);
+    }
+}
+
+
+public function handleEditImageUpload($image, $imageName)
+{
+    $uploadPath = 'C:/laragon/www/BALMES-CARINGAL-MANALO-FINALPROJECT/frontend/src/assets/img';
+
+    $image->move($uploadPath, $imageName);
+                return  $imageName;
+}
         
+
+
+
+public function saveStaff()
+{
+    $request = $this->request;
+
+    $data = [
+        'staff_name' => $request->getPost('staff_name'),
+        'staff_email' => $request->getPost('staff_email'),
+        'contactNum' => $request->getPost('contactNum'),
+    ];
+
+    if ($request->getFile('staff_image')->isValid()) {
+        $image = $request->getFile('staff_image');
+
+        $imageName = $image->getName();
+
+        $data['staff_image'] = $this->handleStaffImageUpload($image, $imageName);
+    }
+
+    $staff = new StaffModel();
+
+    try {
+        $staff->insert($data);
+        return $this->respond(["message" => "Data saved successfully"], 200);
+    } catch (\Exception $e) {
+        return $this->respond(["message" => "Failed to save data: " . $e->getMessage()], 500);
+    }
+}
+
+public function handleStaffImageUpload($image, $imageName)
+{
+    $uploadPath = 'C:/laragon/www/BALMES-CARINGAL-MANALO-FINALPROJECT/frontend/src/assets/img';
+
+    $image->move($uploadPath, $imageName);
+                return  $imageName;
+}
+
+
+
+public function updateStaff($staff_id = null)
+{
+    $request = $this->request;
+
+    $staffModel = new StaffModel();
+    $existingData = $staffModel->find($staff_id);
+
+    if (empty($existingData)) {
+        return $this->respond(["message" => "Record not found"], 404);
+    }
+
+    $data = [
+        'staff_name' => $request->getVar('staff_name') ?? $existingData['staff_name'],
+        'staff_email' => $request->getVar('staff_email') ?? $existingData['staff_email'],
+        'contactNum' => $request->getVar('contactNum') ?? $existingData['contactNum'],
+    ];
+
+    try {
+        if ($data !== array_intersect_key($existingData, $data)) {
+            $staffModel->update($staff_id, $data);
+            return $this->respond(["message" => "Data updated successfully"], 200);
+        } else {
+            return $this->respond(["message" => "No changes detected, data not updated"], 200);
+        }
+    } catch (\Exception $e) {
+        return $this->respond(["message" => "Failed to update data: " . $e->getMessage()], 500);
+    }
+}
+
+
+public function deleteStaff($staff_id = null)
+{
+    $staffModel = new StaffModel();
+    $existingData = $staffModel->find($staff_id);
+
+    if (empty($existingData)) {
+        return $this->respond(["message" => "Record not found"], 404);
+    }
+
+    try {
+        $staffModel->delete($staff_id);
+        return $this->respond(["message" => "Data deleted successfully"], 200);
+    } catch (\Exception $e) {
+        return $this->respond(["message" => "Failed to delete data: " . $e->getMessage()], 500);
+    }
+}
+
+public function deleteRoom($room_id = null)
+{
+    $RoomModel = new RoomModel();
+    $existingData = $RoomModel->find($room_id);
+
+    if (empty($existingData)) {
+        return $this->respond(["message" => "Record not found"], 404);
+    }
+
+    try {
+        $RoomModel->delete($room_id);
+        return $this->respond(["message" => "Data deleted successfully"], 200);
+    } catch (\Exception $e) {
+        return $this->respond(["message" => "Failed to delete data: " . $e->getMessage()], 500);
+    }
+}
+public function deleteShop($shop_id = null)
+{
+    $ShopModel = new ShopModel();
+    $existingData = $ShopModel->find($shop_id);
+
+    if (empty($existingData)) {
+        return $this->respond(["message" => "Record not found"], 404);
+    }
+
+    try {
+        $ShopModel->delete($shop_id);
+        return $this->respond(["message" => "Data deleted successfully"], 200);
+    } catch (\Exception $e) {
+        return $this->respond(["message" => "Failed to delete data: " . $e->getMessage()], 500);
+    }
+}
+
+
+
+
+
+
+
 
 
 

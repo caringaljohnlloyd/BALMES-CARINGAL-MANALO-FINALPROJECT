@@ -1,26 +1,20 @@
 <template>
-<div class="col-md-2">
-          <SidebarAdmin />
-        </div>
+  <div class="col-md-2">
+    <SidebarAdmin />
+  </div>
 
   <div class="content-wrapper">
     <HeaderAdmin />
 
     <div class="content">
-
-      
-<!-- Current Users -->
-
-
-
       <div class="row">
         <!-- Table Product -->
         <div class="col-12">
           <div class="card card-default">
             <div class="card-header">
               <h2>Shop Inventory</h2>
-              <button type="button" class="btn btn-primary" @click="openAddModal">Add Room</button>
-              
+              <button type="button" class="btn btn-primary" @click="openAddModal">Add Item</button>
+
             </div>
             <div class="card-body">
               <table id="productsTable" class="table table-hover table-product" style="width:100%">
@@ -46,9 +40,12 @@
                     <td>{{ info.prod_quantity * info.prod_price }}</td>
                     <td>
                       <button @click="openQuantityModal(info)">Add Quantity</button> |
-                      <router-link style="color: black;" :to="{ name: 'auditHistory', params: { shopId: info.shop_id } }">Audit History</router-link>
- |
-                        <button @click="openEditModal(info)">Edit</button>
+                      <router-link style="color: black;"
+                        :to="{ name: 'auditHistory', params: { shopId: info.shop_id } }">Audit History</router-link>
+                      |
+                      <button @click="openEditModal(info)">Edit</button> | <button
+                        @click="confirmDeleteInfo(info)">Delete</button>
+
                     </td>
                   </tr>
                 </tbody>
@@ -93,56 +90,66 @@
           </div>
         </div>
       </div>
-<!-- Edit Modal -->
-<div v-if="editModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
+      <!-- Delete Confirmation Modal -->
+      <div v-if="deleteInfoVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Product</h5>
-                <button type="button" class="close" @click="closeEditModal">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+              <h5 class="modal-title">Confirm Delete</h5>
+              <button type="button" class="close" @click="cancelDeleteInfo">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
             <div class="modal-body">
-                <!-- Edit form -->
-                <form @submit.prevent="saveEdit" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="edit_prod_image">Product Image</label>
-                        <input type="file" ref="editImageInput" @change="handleEditImageUpload" class="form-control" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="edit_prod_name">Product Name</label>
-                        <input type="text" class="form-control" placeholder="Name" v-model="editedInfo.prod_name">
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_prod_quantity">Product Quantity</label>
-                        <input type="number" class="form-control" placeholder="Quantity" v-model="editedInfo.prod_quantity">
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_prod_desc">Product Description</label>
-                        <input type="text" class="form-control" placeholder="Description" v-model="editedInfo.prod_desc">
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_prod_price">Product Price</label>
-                        <input type="number" class="form-control" placeholder="Price" v-model="editedInfo.prod_price">
-                    </div>
-                    <!-- Add other fields as needed -->
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" @click="closeEditModal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </div>
-                </form>
+              <p>Are you sure you want to delete this Item?</p>
             </div>
-          
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" @click="cancelDeleteInfo">Cancel</button>
+              <button type="button" class="btn btn-danger" @click="deleteInfoConfirmed">Delete</button>
+            </div>
+          </div>
         </div>
-    </div>
-</div>
+      </div>
 
+      <!-- Edit Modal -->
+      <div v-if="editModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Product</h5>
+              <button type="button" class="close" @click="closeEditModal">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Edit form -->
+              <form @submit.prevent="saveEdit">
+                <div class="form-group">
+                  <label for="edit_prod_name">Product Name</label>
+                  <input type="text" class="form-control" placeholder="Name" v-model="editedInfo.prod_name">
+                </div>
+                <div class="form-group">
+                  <label for="edit_prod_desc">Product Description</label>
+                  <input type="text" class="form-control" placeholder="Description" v-model="editedInfo.prod_desc">
+                </div>
+                <div class="form-group">
+                  <label for="edit_prod_price">Product Price</label>
+                  <input type="number" class="form-control" placeholder="Price" v-model="editedInfo.prod_price">
+                </div>
+                <!-- Add other fields as needed -->
 
-
-
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" @click="closeEditModal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div v-if="successMessage" class="alert alert-success" role="alert">
+          {{ successMessage }}
+        </div>
+      </div>
       <!-- Modal for Adding -->
       <div class="col-12">
         <div class="modal " :class="{ 'show': addModalVisible }">
@@ -155,32 +162,212 @@
               </div>
               <!-- Add form -->
               <form @submit.prevent="saveShop('add')" enctype="multipart/form-data">
-                <div class="modal-body">
-                  <!-- Your form inputs -->
-                  <div class="form-group">
-    <label for="prod_image">Product Image</label>
-    <input type="file" ref="imageInput" @change="handleImageUpload" class="form-control" />
+  <div class="modal-body">
+    <!-- Your form inputs -->
+    <div class="form-group">
+      <label for="prod_image">Product Image</label>
+      <input type="file" ref="imageInput" @change="handleImageUpload" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+      <label for="prod_name">Product Name</label>
+      <input type="text" class="form-control" placeholder="Name" v-model="prod_name" required />
+    </div>
+    <div class="form-group">
+      <label for="prod_quantity">Product Quantity</label>
+      <input type="number" class="form-control" placeholder="Quantity" v-model="prod_quantity" required />
+    </div>
+    <div class="form-group">
+      <label for="prod_desc">Product Description</label>
+      <input type="text" class="form-control" placeholder="Description" v-model="prod_desc" required />
+    </div>
+    <div class="form-group">
+      <label for="prod_price">Product Price</label>
+      <input type="number" class="form-control" placeholder="Price" v-model="prod_price" required />
+    </div>
   </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" @click="closeAddModal">Close</button>
+    <button type="submit" class="btn btn-primary">Add</button>
+  </div>
+</form>
+
+            </div>
+          </div>
+        </div>
+        <div v-if="successMessage" class="alert alert-success" role="alert">
+          {{ successMessage }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="card card-default">
+            <div class="card-header">
+              <h2 class="mdi mdi-desktop-mac">Rooms</h2>
+              <button type="button" class="btn btn-primary" @click="openAddRoomModal">Add Room</button>
+
+            </div>
+            <div class="card-body pt-26">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Room ID</th>
+                    <th>Image</th>
+                    <th>Room Name</th>
+                    <th>Price</th>
+                    <th>Bed</th>
+                    <th>Bath</th>
+                    <th>Description</th>
+                    <th>Room Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="room in room">
+                    <td>{{ room.room_id }}</td>
+                    <td>{{ room.image }}</td>
+                    <td>{{ room.room_name }}</td>
+                    <td>{{ room.price }}</td>
+                    <td>{{ room.bed }}</td>
+                    <td>{{ room.bath }}</td>
+                    <td>{{ room.description }}</td>
+                    <td>{{ room.room_status }}</td>
+                    <td><button @click="openRoomEditModal(room)">Edit</button> |
+                      <button @click="confirmDeleteRoom(room)">Delete</button>
+
+                    </td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div v-if="successMessage" class="alert alert-success" role="alert">
+          {{ successMessage }}
+        </div>
+      </div>
+      <!-- Delete Confirmation Modal -->
+      <div v-if="deleteConfirmationVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Confirm Delete</h5>
+              <button type="button" class="close" @click="cancelDelete">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure you want to delete this staff member?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" @click="cancelDelete">Cancel</button>
+              <button type="button" class="btn btn-danger" @click="deleteRoomConfirmed">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+      <!-- Edit Room Modal -->
+      <div v-if="editRoomModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Room</h5>
+              <button type="button" class="close" @click="closeRoomEditModal">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Edit form for rooms -->
+              <form @submit.prevent="saveRoomEdit">
+                <div class="form-group">
+                  <label for="room_name">Room Name</label>
+                  <input type="text" class="form-control" placeholder="Name" v-model="editedRoom.room_name">
+                </div>
+                <div class="form-group">
+                  <label for="price">Room Price</label>
+                  <input type="number" class="form-control" placeholder="Price" v-model="editedRoom.price">
+                </div>
+                <div class="form-group">
+                  <label for="bed">Number of Beds</label>
+                  <input type="number" class="form-control" placeholder="Beds" v-model="editedRoom.bed">
+                </div>
+                <div class="form-group">
+                  <label for="bath">Number of Baths</label>
+                  <input type="number" class="form-control" placeholder="Baths" v-model="editedRoom.bath">
+                </div>
+                <div class="form-group">
+                  <label for="description">Room Description</label>
+                  <textarea class="form-control" placeholder="Description" v-model="editedRoom.description"></textarea>
+                </div>
+
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" @click="closeRoomEditModal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div v-if="successMessage" class="alert alert-success" role="alert">
+          {{ successMessage }}
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="modal" :class="{ 'show': addRoomModalVisible }">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Add Room</h5>
+                <button type="button" class="close" @click="closeAddRoomModal">&times;</button>
+              </div>
+              <form @submit.prevent="saveRoom">
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="image">Room Image</label>
+                    <input type="file" ref="roomImageInput" @change="handleRoomImageUpload" class="form-control-file" required>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="room_name">Room Name</label>
+                      <input type="text" class="form-control" placeholder="Name" v-model="room_name" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="price">Room Price</label>
+                      <input type="number" class="form-control" placeholder="Price" v-model="price" required>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="bed">Number of Beds</label>
+                      <input type="number" class="form-control" placeholder="Beds" v-model="bed" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="bath">Number of Baths</label>
+                      <input type="number" class="form-control" placeholder="Baths" v-model="bath" required>
+                    </div>
+                  </div>
 
                   <div class="form-group">
-                    <label for="prod_name">Product Name</label>
-                    <input type="text" class="form-control" placeholder="Name" v-model="prod_name">
-                  </div>
-                  <div class="form-group">
-                    <label for="prod_quantity">Product Quantity</label>
-                    <input type="number" class="form-control" placeholder="Quantity" v-model="prod_quantity">
-                  </div>
-                  <div class="form-group">
-                    <label for="prod_desc">Product Description</label>
-                    <input type="text" class="form-control" placeholder="Description" v-model="prod_desc">
-                  </div>
-                  <div class="form-group">
-                    <label for="prod_price">Product Price</label>
-                    <input type="number" class="form-control" placeholder="Price" v-model="prod_price">
+                    <label for="description">Room Description</label>
+                    <textarea class="form-control" placeholder="Description" v-model="description" required></textarea>
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" @click="closeAddModal">Close</button>
+                  <button type="button" class="btn btn-secondary" @click="closeAddRoomModal">Close</button>
                   <button type="submit" class="btn btn-primary">Add</button>
                 </div>
               </form>
@@ -190,120 +377,6 @@
       </div>
 
       <div class="row">
-  <div class="col-12">
-    <div class="card card-default">
-      <div class="card-header">
-        <h2 class="mdi mdi-desktop-mac">Rooms</h2>
-        <button type="button" class="btn btn-primary" @click="openAddRoomModal">Add Room</button>
-
-      </div>
-      <div class="card-body pt-26" >
-        <table class="table">
-          <thead >
-            <tr >
-              <th>Room ID</th>
-              <th>Image</th>
-              <th>Room Name</th>
-              <th>Price</th>
-              <th>Bed</th>
-              <th>Bath</th>
-              <th>Description</th>
-              <th>Room Status</th>
-
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="room in room">
-              <td>{{ room.room_id }}</td>
-              <td>{{ room.image }}</td>
-              <td>{{ room.room_name }}</td>
-              <td>{{ room.price }}</td>
-              <td>{{ room.bed }}</td>
-              <td>{{ room.bath }}</td>
-              <td>{{ room.description }}</td>
-              <td>{{ room.room_status }}</td>
-              
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-</div>
- 
-
-<div class="col-12">
-  <div class="modal" :class="{ 'show': addRoomModalVisible }">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Add Room</h5>
-          <button type="button" class="close" @click="closeAddRoomModal">&times;</button>
-        </div>
-        <form @submit.prevent="saveRoom">
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="image">Room Image</label>
-              <input type="file" ref="roomImageInput" @change="handleRoomImageUpload" class="form-control-file">
-            </div>
-
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="room_name">Room Name</label>
-                <input type="text" class="form-control" placeholder="Name" v-model="room_name">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="price">Room Price</label>
-                <input type="number" class="form-control" placeholder="Price" v-model="price">
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="bed">Number of Beds</label>
-                <input type="number" class="form-control" placeholder="Beds" v-model="bed">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="bath">Number of Baths</label>
-                <input type="number" class="form-control" placeholder="Baths" v-model="bath">
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="description">Room Description</label>
-              <textarea class="form-control" placeholder="Description" v-model="description"></textarea>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" @click="closeAddRoomModal">Close</button>
-            <button type="submit" class="btn btn-primary">Add</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="row">
         <!-- Table Product -->
         <div class="col-12">
           <div class="card card-default">
@@ -353,22 +426,23 @@
                     <td>{{ book.payment_method }}</td>
 
                     <td>
-  <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Actions
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <a class="dropdown-item" @click="markAsPaid(book.book_id)">Paid</a>
-      <a class="dropdown-item" @click="acceptBooking(book.book_id)">Confirm</a>
-    </div>
-  </div>
-</td>
+                      <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Actions
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" @click="markAsPaid(book.book_id)">Paid</a>
+                          <a class="dropdown-item" @click="acceptBooking(book.book_id)">Confirm</a>
+                        </div>
+                      </div>
+                    </td>
 
                   </tr>
                 </tbody>
               </table>
               <!-- Quantity Modal -->
-             
+
               <!-- Success Message -->
               <div v-if="successMessage" class="alert alert-success" role="alert">
                 {{ successMessage }}
@@ -376,12 +450,14 @@
             </div>
           </div>
         </div>
+       
       </div>
+
     </div>
   </div>
-
-
   <Notification :show="notification.show" :type="notification.type" :message="notification.message" />
+
+
 </template>
 
 <script>
@@ -395,16 +471,18 @@ export default {
   components: {
     SidebarAdmin,
     HeaderAdmin,
- Notification,
+    Notification,
   },
   data() {
     return {
+      editRoomModalVisible: false,
+      editedRoom: null,
       editModalVisible: false,
-        editedInfo: null,
+      editedInfo: null,
       room: [],
-book:[],
+      book: [],
       infos: [],
-      shop: [], 
+      shop: [],
       addModalVisible: false,
       prod_img: '',
       prod_name: '',
@@ -421,13 +499,16 @@ book:[],
         type: "",
         message: "",
       },
-    addRoomModalVisible: false,
-    room_name: '',
-    price: '',
-    bed: '',
-    bath: '',
-    description: '',
-    room_img: '',
+      addRoomModalVisible: false,
+      room_name: '',
+      price: '',
+      bed: '',
+      bath: '',
+      description: '',
+      room_img: '',
+      deleteConfirmationVisible: false,
+      deleteInfoVisible: false,
+
     };
   },
 
@@ -437,79 +518,171 @@ book:[],
     this.getbook();
 
   },
- 
+
   methods: {
+
+    confirmDeleteInfo(info) {
+      this.editedInfo = { ...info };
+      this.deleteInfoVisible = true;
+    },
+
+    cancelDeleteInfo() {
+      this.editedInfo = null;
+      this.deleteInfoVisible = false;
+    },
+
+    async deleteInfoConfirmed() {
+      try {
+        const apiUrl = `/deleteShop/${this.editedInfo.shop_id}`;
+        const response = await axios.delete(apiUrl);
+
+        console.log('Item deleted successfully:', response.data);
+        this.cancelDeleteInfo();
+        this.showSuccessNotification("Item Deleted Successfully");
+        this.getInfo();
+
+      } catch (error) {
+        console.error('Error deleting Item:', error);
+        this.showErrorNotification("Failed to delete Item");
+      }
+    },
+    confirmDeleteRoom(room) {
+      this.editedRoom = { ...room };
+      this.deleteConfirmationVisible = true;
+    },
+
+    cancelDelete() {
+      this.editedRoom = null;
+      this.deleteConfirmationVisible = false;
+    },
+
+    async deleteRoomConfirmed() {
+      try {
+        const apiUrl = `/deleteRoom/${this.editedRoom.room_id}`;
+        const response = await axios.delete(apiUrl);
+
+        console.log('Room deleted successfully:', response.data);
+        this.cancelDelete();
+        this.showSuccessNotification("Room Deleted Successfully");
+        this.getRoom();
+
+      } catch (error) {
+        console.error('Error deleting Room:', error);
+        this.showErrorNotification("Failed to delete Room");
+      }
+    },
+
+    openRoomEditModal(room) {
+      this.editedRoom = { ...room };
+      this.editRoomModalVisible = true;
+    },
+
+    closeRoomEditModal() {
+      this.editedRoom = null;
+      this.editRoomModalVisible = false;
+    },
+
+    async saveRoomEdit() {
+      try {
+        const data = {
+          room_name: this.editedRoom.room_name,
+          price: this.editedRoom.price,
+          bed: this.editedRoom.bed,
+          bath: this.editedRoom.bath,
+          description: this.editedRoom.description,
+        };
+
+        const apiUrl = `/updateRoom/${this.editedRoom.room_id}`;
+        const response = await axios.put(apiUrl, data);
+
+        console.log('Room updated successfully:', response.data);
+        this.closeRoomEditModal();
+        this.showSuccessNotification("Room Updated Successfully");
+        this.getRoom();
+
+      } catch (error) {
+        console.error('Error updating room:', error);
+        this.showErrorNotification("Failed to update room");
+      }
+    },
+
+
+
     openAddRoomModal() {
-    this.addRoomModalVisible = true;
-  },
-  closeAddRoomModal() {
-    this.addRoomModalVisible = false;
-  },
-  handleRoomImageUpload() {
-    const fileInput = this.$refs.roomImageInput;
-    const file = fileInput.files[0];
+      this.addRoomModalVisible = true;
+    },
+    closeAddRoomModal() {
+      this.addRoomModalVisible = false;
 
-    // Create a FormData object and append the file to it
-    const formData = new FormData();
-    formData.append('image', file);
+    },
+    handleRoomImageUpload() {
+      const fileInput = this.$refs.roomImageInput;
+      const file = fileInput.files[0];
 
-    // Add the FormData object to the data property
-    this.room_img = formData;
-  },
-  async saveRoom() {
-    try {
-      // Use FormData for room image uploads
-      const data = this.room_img;
-      data.append('room_name', this.room_name);
-      data.append('price', this.price);
-      data.append('bed', this.bed);
-      data.append('bath', this.bath);
-      data.append('description', this.description);
+      const formData = new FormData();
+      formData.append('image', file);
 
-      const ins = await axios.post('saveRoom', data);
+      this.room_img = formData;
+    },
+    async saveRoom() {
+      try {
+        // Use FormData for room image uploads
+        const data = this.room_img;
+        data.append('room_name', this.room_name);
+        data.append('price', this.price);
+        data.append('bed', this.bed);
+        data.append('bath', this.bath);
+        data.append('description', this.description);
+        this.showSuccessNotification("Room Added Successfully");
 
-      this.closeAddRoomModal();
-      this.room_img = '';
-      this.room_name = '';
-      this.price = '';
-      this.bed = '';
-      this.bath = '';
-      this.description = '';
-      // ... other form fields
-      this.getRoomInfo(); // Assuming you have a method to fetch room information
-    } catch (error) {
-      console.error(error);
-    }
-  },
+        const ins = await axios.post('saveRoom', data);
+
+        this.closeAddRoomModal();
+        this.room_img = '';
+        this.room_name = '';
+        this.price = '';
+        this.bed = '';
+        this.bath = '';
+        this.description = '';
+
+        this.getRoom();
+        this.getbook();
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async markAsPaid(booking_id) {
-        try {
-            const response = await axios.post(`/mark-as-paid/${booking_id}`);
+      try {
+        const response = await axios.post(`/mark-as-paid/${booking_id}`);
 
-            if (response.status === 200) {
-                this.showSuccessNotification(`Booking ${booking_id} Marked as Paid`);
-                this.$emit('data-saved');
-            } else {
-                console.error('Failed to mark as paid:', response.data.message);
-            }
-        } catch (error) {
-            console.error('Error marking as paid:', error);
+        if (response.status === 200) {
+          this.showSuccessNotification(`Booking ${booking_id} Marked as Paid`);
+          this.getbook();
+
+          this.$emit('data-saved');
+        } else {
+          console.error('Failed to mark as paid:', response.data.message);
         }
+      } catch (error) {
+        console.error('Error marking as paid:', error);
+      }
     },
     async acceptBooking(booking_id) {
-    try {
+      try {
         const response = await axios.post(`/accept-booking/${booking_id}`);
 
         if (response.status === 200) {
-            const updatedBookingId = response.data.booking_id;
-            this.showSuccessNotification(`Booking ${updatedBookingId} Accepted`);
-            this.$emit('data-saved');
+          const updatedBookingId = response.data.booking_id;
+          this.showSuccessNotification(`Booking ${updatedBookingId} Accepted`);
+          this.getbook();
+          this.$emit('data-saved');
         } else {
-            console.error('Failed to accept booking:', response.data.message);
+          console.error('Failed to accept booking:', response.data.message);
         }
-    } catch (error) {
+      } catch (error) {
         console.error('Error accepting booking:', error);
-    }
-},
+      }
+    },
 
     async getbook() {
       const b = await axios.get("/getbook");
@@ -518,8 +691,10 @@ book:[],
     async getRoom() {
       const r = await axios.get("/getRoom");
       this.room = r.data;
+      this.getbook();
+
     },
-   
+
     navigateToAuditHistory(info) {
       const shopId = info.shop_id;
       this.$router.push({ name: 'auditHistory', params: { shopId } });
@@ -544,12 +719,13 @@ book:[],
       this.selectedProduct = null;
       this.quantityToAdd = 0;
       this.quantityModalVisible = false;
+
     },
 
-   async addQuantity() {
+    async addQuantity() {
       const updatedProduct = { ...this.selectedProduct };
       updatedProduct.prod_quantity += parseInt(this.quantityToAdd);
-        const response = await axios.put(`/updateQuantity/${updatedProduct.shop_id}`, {
+      const response = await axios.put(`/updateQuantity/${updatedProduct.shop_id}`, {
         id: updatedProduct.id,
         quantity: this.quantityToAdd,
       });
@@ -557,6 +733,7 @@ book:[],
       this.infos[index] = updatedProduct;
       this.closeQuantityModal();
       this.showSuccessNotification("Quantity Updated Successfully");
+      this.getInfo();
       this.$emit('data-saved');
 
     },
@@ -601,110 +778,100 @@ book:[],
 
     closeAddModal() {
       this.addModalVisible = false;
+      this.showSuccessNotification("Product Added Successfully");
+
     },
     handleImageUpload() {
-    const fileInput = this.$refs.imageInput;
-    const file = fileInput.files[0];
+      const fileInput = this.$refs.imageInput;
+      const file = fileInput.files[0];
 
-    // Create a FormData object and append the file to it
-    const formData = new FormData();
-    formData.append('prod_image', file);
+      const formData = new FormData();
+      formData.append('prod_image', file);
 
-    // Add the FormData object to the data property
-    this.prod_img = formData;
-  },
+      this.prod_img = formData;
+    },
 
-  async saveShop(mode) {
-  try {
-    let data = {};
-    if (mode === 'add') {
-      // Use FormData for image uploads
-      if (this.prod_img instanceof FormData) {
-        data = this.prod_img;
-        data.append('prod_name', this.prod_name);
-        data.append('prod_quantity', this.prod_quantity);
-        data.append('prod_desc', this.prod_desc);
-        data.append('prod_price', this.prod_price);
-      } else {
-        // If no image is selected, send as usual
-        data = {
-          prod_name: this.prod_name,
-          prod_quantity: this.prod_quantity,
-          prod_desc: this.prod_desc,
-          prod_price: this.prod_price,
-        };
+    async saveShop(mode) {
+      try {
+        let data = {};
+        if (mode === 'add') {
+          // Use FormData for image uploads
+          if (this.prod_img instanceof FormData) {
+            data = this.prod_img;
+            data.append('prod_name', this.prod_name);
+            data.append('prod_quantity', this.prod_quantity);
+            data.append('prod_desc', this.prod_desc);
+            data.append('prod_price', this.prod_price);
+            this.showSuccessNotification("Product Added Successfully");
+
+          } else {
+            data = {
+              prod_name: this.prod_name,
+              prod_quantity: this.prod_quantity,
+              prod_desc: this.prod_desc,
+              prod_price: this.prod_price,
+            };
+          }
+        }
+
+        const ins = await axios.post('saveShop', data);
+
+        if (mode === 'add') {
+          this.closeAddModal();
+          this.prod_img = '';
+          this.prod_name = '';
+          this.prod_quantity = '';
+          this.prod_desc = '';
+          this.prod_price = '';
+          this.getInfo();
+
+        }
+      } catch (error) {
+        console.error(error);
       }
-    }
-
-    const ins = await axios.post('saveShop', data);
-
-    if (mode === 'add') {
-      this.closeAddModal();
-      this.prod_img = ''; 
-      this.prod_name = '';
-      this.prod_quantity = '';
-      this.prod_desc = '';
-      this.prod_price = '';
-      // ... other form fields
-      this.getInfo();
-    }
-  } catch (error) {
-    console.error(error);
-  }
-},
-openEditModal(info) {
-      this.editedInfo = { ...info }; // Create a copy to avoid modifying the original data
+    },
+    openEditModal(info) {
+      this.editedInfo = { ...info };
       this.editModalVisible = true;
     },
 
     closeEditModal() {
       this.editedInfo = null;
       this.editModalVisible = false;
+      this.showSuccessNotification("Product Updated Successfully");
     },
     async saveEdit() {
-    try {
-        const data = new FormData();
+      try {
+        const data = {
+          prod_name: this.editedInfo.prod_name,
+          prod_desc: this.editedInfo.prod_desc,
+          prod_price: this.editedInfo.prod_price,
 
-        // Append the edited data
-        data.append('prod_name', this.editedInfo.prod_name);
-        data.append('prod_quantity', this.editedInfo.prod_quantity);
-        data.append('prod_desc', this.editedInfo.prod_desc);
-        data.append('prod_price', this.editedInfo.prod_price);
+        };
 
-        // Check if a new image is selected
-        if (this.editedInfo.newImage instanceof File) {
-            data.append('prod_image', this.editedInfo.newImage);
-        }
-
-        // Make an HTTP PUT request to update the product
         const apiUrl = `/updateShop/${this.editedInfo.shop_id}`;
         const response = await axios.put(apiUrl, data);
 
-        // Handle the success response
         console.log('Product updated successfully:', response.data);
-
-        // Close the edit modal after saving
         this.closeEditModal();
+        this.showSuccessNotification("Product Updated Successfully");
 
-        // Optionally, you may want to refresh the product list or take other actions
-        // For example, you can emit an event to notify the parent component about the update
-        // this.$emit('product-updated', response.data);
-    } catch (error) {
-        // Handle the error response
+        this.getInfo();
+
+        this.$emit('data-saved');
+
+      } catch (error) {
         console.error('Error updating product:', error);
 
-        // Optionally, show an error message to the user
-        // You can set a data property for an error message and bind it to your template
-        // this.editErrorMessage = 'Failed to update product. Please try again.';
-    }
-},
+      }
+    },
 
-handleEditImageUpload() {
-        const fileInput = this.$refs.editImageInput;
-        const file = fileInput.files[0];
 
-        // Update the newImage property of editedInfo with the selected file
-        this.editedInfo.newImage = file;
+    handleEditImageUpload() {
+      const fileInput = this.$refs.editImageInput;
+      const file = fileInput.files[0];
+
+      this.editedInfo.newImage = file;
     },
   }
 
@@ -21295,4 +21462,5 @@ html[dir=rtl] .sidebar li>a .caret:before {
 .modal form button[type="submit"]:hover {
   background-color: #0056b3;
   /* Adjust hover styles as needed */
-}</style>
+}
+</style>

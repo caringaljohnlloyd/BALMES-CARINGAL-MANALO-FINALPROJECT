@@ -1,946 +1,341 @@
 <template>
-         <TopAdmin/>
-         <SidebarAdmin/>
-      <!-- ====================================
-        ——— CONTENT WRAPPER
-        ===================================== -->
-        <div class="content-wrapper">
-            <div class="content"><!-- For Components documentaion -->
   <div class="row">
-    <div class="col-xl-4">
-      <div class="card card-default">
-        <div class="card-header">
-          <h2>Progress</h2>
-        </div>
-  
-        <div class="card-body pt-3 pb-4">
-          <div class="circle circle-lg"
-            data-size="200"
-            data-value="0.83"
-            data-thickness="20"
-            data-fill="{
-              &quot;color&quot;: &quot;#35D00E&quot;
-            }">
-            <div class="circle-content">
-              <h2 class="text-uppercase font-weight-bold">83%</h2>
-  
-              <strong></strong>
+    <div class="col-md-2">
+      <SidebarAdmin />
+    </div>
+
+    <div class="col-md-10">
+      <div class="content-wrapper">
+        <HeaderAdmin />
+
+        <!-- Add your staff table here -->
+        <div class="content">
+          <div class="card card-default">
+            <div class="card-header">
+              <h2>Staff List</h2>
+              <button type="button" class="btn btn-primary" @click="openAddModal">Add Staff</button>
+            </div>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact Number</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Use v-for to iterate through your staff data -->
+                  <tr v-for="(staff, index) in staff" :key="index">
+                    <td>{{ staff.staff_id }}</td>
+                    <td>{{ staff.staff_image }}</td>
+                    <td>{{ staff.staff_name }}</td>
+                    <td>{{ staff.staff_email }}</td>
+                    <td>{{ staff.contactNum }}</td>
+                    <td>
+                      <button @click="openStaffEditModal(staff)">Edit</button> |
+
+                      <button @click="confirmDeleteStaff(staff)">Delete</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
     </div>
-  
-    <div class="col-xl-8">
-      <div class="card card-default">
-        <div class="card-header">
-          <h2>Team Activity</h2>
-          <div class="dropdown">
-            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false"> All time
-            </a>
-  
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item" href="javascript:void(0)">1 Day ago</a>
-              <a class="dropdown-item" href="javascript:void(0)">7 Day ago</a>
-              <a class="dropdown-item" href="javascript:void(0)">15 Day ago</a>
-              <a class="dropdown-item" href="javascript:void(0)">1 month ago</a>
-            </div>
-          </div>
-        </div>
-  
-        <div class="card-body" data-simplebar style="height: 241px;">
-          <ul class="list-group">
-            <li class="list-group-item list-group-item-action border-0">
-              <div class="media media-xs mb-0">
-                <div class="media-xs-wrapper bg-primary">
-                  <i class="mdi mdi-star-outline"></i>
-                </div>
-                <div class="media-body">
-                  <span class="title">Emma Smith</span>
-                  <p>Extremity sweetness difficult behaviour he of. On disposal of as landlord horrible. Afraid at highly months
-                    do things
-                    on at.</p>
-                </div>
-              </div>
-            </li>
-            <li class="list-group-item list-group-item-action border-0">
-              <div class="media media-xs mb-0">
-                <div class="media-xs-wrapper bg-success">
-                  <i class="mdi mdi-pencil"></i>
-                </div>
-                <div class="media-body">
-                  <span class="title">Emily Disuja</span>
-                  <p>Marianne or husbands if at stronger ye. Considered is as middletons uncommonly. Promotion perfectly ye
-                    consisted so.
-                  </p>
-                </div>
-              </div>
-            </li>
-            <li class="list-group-item list-group-item-action border-0">
-              <div class="media media-xs mb-0">
-                <div class="media-xs-wrapper bg-danger">
-                  <i class="mdi mdi-square-edit-outline"></i>
-                </div>
-                <div class="media-body">
-                  <span class="title">Roger Forstt</span>
-                  <p>Unpleasant nor diminution excellence apartments imprudence the met new. Draw part them he an to he roof only.
-                    Music
-                    leave say doors him.</p>
-                </div>
-              </div>
-            </li>
-            <li class="list-group-item list-group-item-action border-0">
-              <div class="media media-xs mb-0">
-                <div class="media-xs-wrapper bg-info">
-                  <i class="mdi mdi-diamond-outline"></i>
-                </div>
-                <div class="media-body">
-                  <span class="title">Aaron Varta</span>
-                  <p>Farther related bed and passage comfort civilly. Dashwoods see frankness objection abilities the. As hastened
-                    oh
-                    produced prospect formerly up am.</p>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
+<!-- Delete Confirmation Modal -->
+<div v-if="deleteConfirmationVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Delete</h5>
+        <button type="button" class="close" @click="cancelDelete">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this staff member?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" @click="cancelDelete">Cancel</button>
+        <button type="button" class="btn btn-danger" @click="deleteStaffConfirmed">Delete</button>
       </div>
     </div>
   </div>
-  
-  <div class="row">
-    <div class="col-lg-6 col-xl-4 col-xxl-3">
-      <div class="card card-default mt-7">
-        <div class="card-body text-center">
-          <a class="d-block mb-2" href="javascript:void(0)" data-toggle="modal" data-target="#modal-contact">
-            <div class="image mb-3 d-inline-flex mt-n8">
-              <img src="images/user/user-md-1.jpg" class="img-fluid rounded-circle d-inline-block" alt="Avatar Image">
+</div>
+    <!-- Add Modal -->
+    <div v-if="addModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+    <div class="modal-header">
+              <h5 class="modal-title">Add Staff</h5>
+              <button type="button" class="close" @click="closeAddModal">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-  
-            <h5 class="card-title">Emma Smith</h5>
-          </a>
-  
-          <ul class="list-unstyled d-inline-block mb-5">
-            <li class="d-flex mb-1">
-              <i class="mdi mdi-map mr-1"></i>
-              <span>Nulla vel metus 15/178</span>
-            </li>
-            <li class="d-flex">
-              <i class="mdi mdi-email mr-1"></i>
-              <span>exmaple@email.com</span>
-            </li>
-          </ul> 
-  
-          <div class="row justify-content-center">
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.90"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#35D00E&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">html</h6>
-                  <h6>90%</h6>
-                  <strong></strong>
+            <div class="modal-body">
+              <!-- Add form -->
+              <form @submit.prevent="saveStaff('add')">
+                <div class="form-group">
+                  <label for="staff_image">Staff Image</label>
+                  <input type="file" @change="handleStaffImageUpload" accept="image/*" required>
                 </div>
-              </div>
-            </div>
-  
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.65"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#fec400&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">css</h6>
-                  <h6>65%</h6>
-                  <strong></strong>
+
+                <div class="form-group">
+                  <label for="staff_name">Staff Name</label>
+                  <input type="text" class="form-control" placeholder="Name" v-model="staff_name" required>
                 </div>
-              </div>
-            </div>
-  
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.35"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#fe5461&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">js</h6>
-                  <h6>25%</h6>
-                  <strong></strong>
+                <div class="form-group">
+                  <label for="staff_email">Staff Email</label>
+                  <input type="email" class="form-control" placeholder="Email" v-model="staff_email" required>
                 </div>
-              </div>
+                <div class="form-group">
+                  <label for="contactNum">Contact Number</label>
+                  <input type="text" class="form-control" placeholder="Contact Number" v-model="contactNum" required>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" @click="closeAddModal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save Staff</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </div>
-  
-    <div class="col-lg-6 col-xl-4 col-xxl-3">
-      <div class="card card-default mt-7">
-        <div class="card-body text-center">
-          <a class="d-block mb-2" href="javascript:void(0)" data-toggle="modal" data-target="#modal-contact">
-            <div class="image mb-3 d-inline-flex mt-n8">
-              <img src="images/user/user-md-2.jpg" class="img-fluid rounded-circle d-inline-block" alt="Avatar Image">
-            </div>
-  
-            <h5 class="card-title">Sophia Amanda</h5>
-          </a>
-  
-          <ul class="list-unstyled d-inline-block mb-5">
-            <li class="d-flex mb-1">
-              <i class="mdi mdi-map mr-1"></i>
-              <span>Nulla vel metus 15/178</span>
-            </li>
-            <li class="d-flex">
-              <i class="mdi mdi-email mr-1"></i>
-              <span>exmaple@email.com</span>
-            </li>
-          </ul> 
-  
-          <div class="row justify-content-center">
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.70"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#fec400&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">html</h6>
-                  <h6>70%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.20"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#fe5461&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">css</h6>
-                  <h6>20%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
-  
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.95"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#35D00E&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">js</h6>
-                  <h6>95%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+
+    <!-- Edit Staff Modal -->
+    <div v-if="editStaffModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Staff</h5>
+        <button type="button" class="close" @click="closeStaffEditModal">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    </div>
-  
-    <div class="col-lg-6 col-xl-4 col-xxl-3">
-      <div class="card card-default mt-7">
-        <div class="card-body text-center">
-          <a class="d-block mb-2" href="javascript:void(0)" data-toggle="modal" data-target="#modal-contact">
-            <div class="image mb-3 d-inline-flex mt-n8">
-              <img src="images/user/user-md-3.jpg" class="img-fluid rounded-circle d-inline-block" alt="Avatar Image">
-            </div>
-  
-            <h5 class="card-title">Emily Disuja</h5>
-          </a>
-  
-          <ul class="list-unstyled d-inline-block mb-5">
-            <li class="d-flex mb-1">
-              <i class="mdi mdi-map mr-1"></i>
-              <span>Nulla vel metus 15/178</span>
-            </li>
-            <li class="d-flex">
-              <i class="mdi mdi-email mr-1"></i>
-              <span>exmaple@email.com</span>
-            </li>
-          </ul> 
-  
-          <div class="row justify-content-center">
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.15"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#fe5461&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">html</h6>
-                  <h6>15%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.80"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#35D00E&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">css</h6>
-                  <h6>80%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
-  
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.40"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#fec400&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">js</h6>
-                  <h6>40%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
+      <div class="modal-body">
+        <!-- Edit form for staff -->
+        <form @submit.prevent="saveStaffEdit">
+          <div class="form-group">
+            <label for="staff_name">Staff Name</label>
+            <input type="text" class="form-control" placeholder="Name" v-model="editedStaff.staff_name">
           </div>
-        </div>
-      </div>
-    </div>
-  
-    <div class="col-lg-6 col-xl-4 col-xxl-3">
-      <div class="card card-default mt-7">
-        <div class="card-body text-center">
-          <a class="d-block mb-2" href="javascript:void(0)" data-toggle="modal" data-target="#modal-contact">
-            <div class="image mb-3 d-inline-flex mt-n8">
-              <img src="images/user/user-md-4.jpg" class="img-fluid rounded-circle d-inline-block" alt="Avatar Image">
-            </div>
-  
-            <h5 class="card-title">William Camble</h5>
-          </a>
-  
-          <ul class="list-unstyled d-inline-block mb-5">
-            <li class="d-flex mb-1">
-              <i class="mdi mdi-map mr-1"></i>
-              <span>Nulla vel metus 15/178</span>
-            </li>
-            <li class="d-flex">
-              <i class="mdi mdi-email mr-1"></i>
-              <span>exmaple@email.com</span>
-            </li>
-          </ul>
-          
-          <div class="row justify-content-center">
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.55"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#fec400&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">html</h6>
-                  <h6>55%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="1"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#35D00E&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">css</h6>
-                  <h6>100%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
-  
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.20"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#fe5461&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">js</h6>
-                  <h6>20%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
+          <div class="form-group">
+            <label for="staff_email">Staff Email</label>
+            <input type="email" class="form-control" placeholder="Email" v-model="editedStaff.staff_email">
           </div>
-        </div>
-      </div>
-    </div>
-  
-    <div class="col-lg-6 col-xl-4 col-xxl-3">
-      <div class="card card-default mt-7">
-        <div class="card-body text-center">
-          <a class="d-block mb-2" href="javascript:void(0)" data-toggle="modal" data-target="#modal-contact">
-            <div class="image mb-3 d-inline-flex mt-n8">
-              <img src="images/user/user-md-5.jpg" class="img-fluid rounded-circle d-inline-block" alt="Avatar Image">
-            </div>
-  
-            <h5 class="card-title">Albrecht Straub</h5>
-          </a>
-  
-          <ul class="list-unstyled d-inline-block mb-5">
-            <li class="d-flex mb-1">
-              <i class="mdi mdi-map mr-1"></i>
-              <span>Nulla vel metus 15/178</span>
-            </li>
-            <li class="d-flex">
-              <i class="mdi mdi-email mr-1"></i>
-              <span>exmaple@email.com</span>
-            </li>
-          </ul>
-  
-          <div class="row justify-content-center">
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.15"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#fe5461&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">html</h6>
-                  <h6>15%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.40"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#fec400&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">css</h6>
-                  <h6>40%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
-  
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.80"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#35D00E&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">js</h6>
-                  <h6>80%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
+          <div class="form-group">
+            <label for="contactNum">Contact Number</label>
+            <input type="text" class="form-control" placeholder="Contact Number" v-model="editedStaff.contactNum">
           </div>
-        </div>
-      </div>
-    </div>
-  
-    <div class="col-lg-6 col-xl-4 col-xxl-3">
-      <div class="card card-default mt-7">
-        <div class="card-body text-center">
-          <a class="d-block mb-2" href="javascript:void(0)" data-toggle="modal" data-target="#modal-contact">
-            <div class="image mb-3 d-inline-flex mt-n8">
-              <img src="images/user/u6.jpg" class="img-fluid rounded-circle d-inline-block" alt="Avatar Image">
-            </div>
-  
-            <h5 class="card-title">Kean Barn</h5>
-          </a>
-  
-          <ul class="list-unstyled d-inline-block mb-5">
-            <li class="d-flex mb-1">
-              <i class="mdi mdi-map mr-1"></i>
-              <span>Nulla vel metus 15/178</span>
-            </li>
-            <li class="d-flex">
-              <i class="mdi mdi-email mr-1"></i>
-              <span>exmaple@email.com</span>
-            </li>
-          </ul>
-  
-          <div class="row justify-content-center">
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.95"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#35D00E&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">html</h6>
-                  <h6>95%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.25"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#fe5461&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">css</h6>
-                  <h6>25%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
-  
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.65"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#fec400&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">js</h6>
-                  <h6>65%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
+          <!-- Add other fields as needed -->
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" @click="closeStaffEditModal">Close</button>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
           </div>
-        </div>
-      </div>
-    </div>
-  
-    <div class="col-lg-6 col-xl-4 col-xxl-3">
-      <div class="card card-default mt-7">
-        <div class="card-body text-center">
-          <a class="d-block mb-2" href="javascript:void(0)" data-toggle="modal" data-target="#modal-contact">
-            <div class="image mb-3 d-inline-flex mt-n8">
-              <img src="images/user/u7.jpg" class="img-fluid rounded-circle d-inline-block" alt="Avatar Image">
-            </div>
-  
-            <h5 class="card-title">Sophia Amanda</h5>
-          </a>
-  
-          <ul class="list-unstyled d-inline-block mb-5">
-            <li class="d-flex mb-1">
-              <i class="mdi mdi-map mr-1"></i>
-              <span>Nulla vel metus 15/178</span>
-            </li>
-            <li class="d-flex">
-              <i class="mdi mdi-email mr-1"></i>
-              <span>exmaple@email.com</span>
-            </li>
-          </ul>
-  
-          <div class="row justify-content-center">
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.70"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#fec400&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">html</h6>
-                  <h6>70%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.20"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#fe5461&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">css</h6>
-                  <h6>20%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
-  
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.95"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#35D00E&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">js</h6>
-                  <h6>95%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  
-    <div class="col-lg-6 col-xl-4 col-xxl-3">
-      <div class="card card-default mt-7">
-        <div class="card-body text-center">
-          <a class="d-block mb-2" href="javascript:void(0)" data-toggle="modal" data-target="#modal-contact">
-            <div class="image mb-3 d-inline-flex mt-n8">
-              <img src="images/user/u8.jpg" class="img-fluid rounded-circle d-inline-block" alt="Avatar Image">
-            </div>
-  
-            <h5 class="card-title">Emily Disuja</h5>
-          </a>
-  
-          <ul class="list-unstyled d-inline-block mb-5">
-            <li class="d-flex mb-1">
-              <i class="mdi mdi-map mr-1"></i>
-              <span>Nulla vel metus 15/178</span>
-            </li>
-            <li class="d-flex">
-              <i class="mdi mdi-email mr-1"></i>
-              <span>exmaple@email.com</span>
-            </li>
-          </ul>
-  
-          <div class="row justify-content-center">
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.15"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#fe5461&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">html</h6>
-                  <h6>15%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.80"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#35D00E&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">css</h6>
-                  <h6>80%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
-  
-            <div class="col-4 px-1">
-              <div class=" circle"
-                data-size="60"
-                data-value="0.40"
-                data-thickness="4"
-                data-fill="{
-                  &quot;color&quot;: &quot;#fec400&quot;
-                }"
-                >
-                <div class="circle-content">
-                  <h6 class="text-uppercase">js</h6>
-                  <h6>40%</h6>
-                  <strong></strong>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
-  
-  <!-- Contact Modal -->
-  <div class="modal fade" id="modal-contact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header justify-content-end border-bottom-0">
-          <button type="button" class="btn-edit-icon" data-dismiss="modal" aria-label="Close">
-            <i class="mdi mdi-pencil"></i>
-                  </button>
-                  
-          <div class="dropdown">
-            <button class="btn-dots-icon" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
-              <i class="mdi mdi-dots-vertical"></i>
-                      </button>
-                      
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="javascript:void(0)">Action</a>
-              <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-              <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-            </div>
-                  </div>
-                  
-          <button type="button" class="btn-close-icon" data-dismiss="modal" aria-label="Close">
-            <i class="mdi mdi-close"></i>
-          </button>
-              </div>
-              
-        <div class="modal-body pt-0">
-          <div class="row no-gutters">
-            <div class="col-md-6">
-              <div class="profile-content-left px-4">
-                <div class="card text-center px-0 border-0">
-                  <div class="card-img mx-auto">
-                    <img class="rounded-circle" src="images/user/u6.jpg" alt="user image">
-                                  </div>
-                                  
-                  <div class="card-body">
-                    <h4 class="py-2">Albrecht Straub</h4>
-                    <p>Albrecht.straub@gmail.com</p>
-                    <a class="btn btn-primary btn-pill btn-lg my-4" href="javascript:void(0)">Follow</a>
-                  </div>
-                              </div>
-                              
-                <div class="d-flex justify-content-between ">
-                  <div class="text-center pb-4">
-                    <h6 class="pb-2">1503</h6>
-                    <p>Friends</p>
-                                  </div>
-                                  
-                  <div class="text-center pb-4">
-                    <h6 class="pb-2">2905</h6>
-                    <p>Followers</p>
-                                  </div>
-                                  
-                  <div class="text-center pb-4">
-                    <h6 class="pb-2">1200</h6>
-                    <p>Following</p>
-                  </div>
-                </div>
-              </div>
-                      </div>
-                      
-            <div class="col-md-6">
-              <div class="contact-info px-4">
-                <h4 class="mb-1">Contact Details</h4>
-                <p class="text-dark font-weight-medium pt-4 mb-2">Email address</p>
-                <p>Albrecht.straub@gmail.com</p>
-                <p class="text-dark font-weight-medium pt-4 mb-2">Phone Number</p>
-                <p>+99 9539 2641 31</p>
-                <p class="text-dark font-weight-medium pt-4 mb-2">Birthday</p>
-                <p>Nov 15, 1990</p>
-                <p class="text-dark font-weight-medium pt-4 mb-2">Event</p>
-                <p>Lorem, ipsum dolor</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div></div>
-            
-          </div>
-          
-   
-  
-      
-      
-                      <!-- Card Offcanvas -->
-                      <div class="card card-offcanvas" id="contact-off" >
-                        <div class="card-header">
-                          <h2>Contacts</h2>
-                          <a href="#" class="btn btn-primary btn-pill px-4">Add New</a>
-                        </div>
-                        <div class="card-body">
-  
-                          <div class="mb-4">
-                            <input type="text" class="form-control form-control-lg form-control-secondary rounded-0" placeholder="Search contacts...">
-                          </div>
-  
-                          <div class="media media-sm">
-                            <div class="media-sm-wrapper">
-                              <a href="user-profile.html">
-                                <img src="images/user/user-sm-01.jpg" alt="User Image">
-                                <span class="active bg-primary"></span>
-                              </a>
-                            </div>
-                            <div class="media-body">
-                              <a href="user-profile.html">
-                                <span class="title">Selena Wagner</span>
-                                <span class="discribe">Designer</span>
-                              </a>
-                            </div>
-                          </div>
-  
-                          <div class="media media-sm">
-                            <div class="media-sm-wrapper">
-                              <a href="user-profile.html">
-                                <img src="images/user/user-sm-02.jpg" alt="User Image">
-                                <span class="active bg-primary"></span>
-                              </a>
-                            </div>
-                            <div class="media-body">
-                              <a href="user-profile.html">
-                                <span class="title">Walter Reuter</span>
-                                <span>Developer</span>
-                              </a>
-                            </div>
-                          </div>
-  
-                          <div class="media media-sm">
-                            <div class="media-sm-wrapper">
-                              <a href="user-profile.html">
-                                <img src="images/user/user-sm-03.jpg" alt="User Image">
-                              </a>
-                            </div>
-                            <div class="media-body">
-                              <a href="user-profile.html">
-                                <span class="title">Larissa Gebhardt</span>
-                                <span>Cyber Punk</span>
-                              </a>
-                            </div>
-                          </div>
-  
-                          <div class="media media-sm">
-                            <div class="media-sm-wrapper">
-                              <a href="user-profile.html">
-                                <img src="images/user/user-sm-04.jpg" alt="User Image">
-                              </a>
-  
-                            </div>
-                            <div class="media-body">
-                              <a href="user-profile.html">
-                                <span class="title">Albrecht Straub</span>
-                                <span>Photographer</span>
-                              </a>
-                            </div>
-                          </div>
-  
-                          <div class="media media-sm">
-                            <div class="media-sm-wrapper">
-                              <a href="user-profile.html">
-                                <img src="images/user/user-sm-05.jpg" alt="User Image">
-                                <span class="active bg-danger"></span>
-                              </a>
-                            </div>
-                            <div class="media-body">
-                              <a href="user-profile.html">
-                                <span class="title">Leopold Ebert</span>
-                                <span>Fashion Designer</span>
-                              </a>
-                            </div>
-                          </div>
-  
-                          <div class="media media-sm">
-                            <div class="media-sm-wrapper">
-                              <a href="user-profile.html">
-                                <img src="images/user/user-sm-06.jpg" alt="User Image">
-                                <span class="active bg-primary"></span>
-                              </a>
-                            </div>
-                            <div class="media-body">
-                              <a href="user-profile.html">
-                                <span class="title">Selena Wagner</span>
-                                <span>Photographer</span>
-                              </a>
-                            </div>
-                          </div>
-  
-                        </div>
-                      </div>
-                      <EndAdmin/>
+</div>
+    <Notification :show="notification.show" :type="notification.type" :message="notification.message" />
+
 </template>
 
-   <script>
-   import TopAdmin from '@/components/TopAdmin.vue';
-   import SidebarAdmin from '@/components/SidebarAdmin.vue';
-  import EndAdmin from '@/components/EndAdmin.vue';
-  
-  export default {
-   name: 'teamadmin',
-    components: {
-      TopAdmin,SidebarAdmin,EndAdmin
+<script>
+import SidebarAdmin from '@/components/SidebarAdmin.vue';
+import HeaderAdmin from '@/components/HeaderAdmin.vue';
+import EndAdmin from '@/components/EndAdmin.vue';
+import Notification from '@/components/Notification.vue';
+
+import axios from 'axios';
+
+export default {
+  name: 'YourComponentName',
+  components: {
+    SidebarAdmin,
+    HeaderAdmin,
+    EndAdmin,
+    Notification,
+  },
+  data() {
+    return {
+    staff: [],
+    addModalVisible: false,
+    staff_image: '',
+    staff_name: '',
+    staff_email: '',
+    contactNum: '',
+    successMessage: "",
+    notification: {
+      show: false,
+      type: "",
+      message: "",
+    },
+    editStaffModalVisible: false, 
+    editedStaff: null,
+    deleteConfirmationVisible: false, 
+
+  };
+  },
+  mounted() {
+    this.getStaff();
+  },
+  methods: {
+    confirmDeleteStaff(staff) {
+    this.editedStaff = { ...staff };
+    this.deleteConfirmationVisible = true;
+  },
+
+  cancelDelete() {
+    this.editedStaff = null;
+    this.deleteConfirmationVisible = false;
+  },
+
+  async deleteStaffConfirmed() {
+    try {
+      const apiUrl = `/deleteStaff/${this.editedStaff.staff_id}`;
+      const response = await axios.delete(apiUrl);
+
+      console.log('Staff deleted successfully:', response.data);
+      this.cancelDelete();
+      this.showSuccessNotification("Staff Deleted Successfully");
+      this.getStaff();
+
+    } catch (error) {
+      console.error('Error deleting staff:', error);
+      this.showErrorNotification("Failed to delete staff");
     }
-  }
-  </script>
+  },
+
+    openStaffEditModal(staff) {
+  this.editedStaff = { ...staff }; 
+  this.editStaffModalVisible = true;
+},
+
+    closeStaffEditModal() {
+      this.editedStaff = null;
+      this.editStaffModalVisible = false;
+    },
+
+    async saveStaffEdit() {
+      try {
+        const data = {
+          staff_name: this.editedStaff.staff_name,
+          staff_email: this.editedStaff.staff_email,
+          contactNum: this.editedStaff.contactNum,
+        };
+
+        const apiUrl = `/updateStaff/${this.editedStaff.staff_id}`;
+        const response = await axios.put(apiUrl, data);
+
+        console.log('Staff updated successfully:', response.data);
+        this.closeStaffEditModal();
+        this.showSuccessNotification("Staff Updated Successfully");
+        this.getStaff();
+
+      } catch (error) {
+        console.error('Error updating staff:', error);
+        this.showErrorNotification("Failed to update staff");
+      }
+    },
+
+    showSuccessNotification(message) {
+      this.notification = {
+        show: true,
+        type: "success",
+        message: message,
+      };
+
+      setTimeout(() => {
+        this.notification.show = false;
+      }, 2000);
+    },
+
+    showErrorNotification(message) {
+      this.notification = {
+        show: true,
+        type: "error",
+        message: message,
+      };
+
+      setTimeout(() => {
+        this.notification.show = false;
+      }, 2000);
+    },
+
+    openAddModal() {
+      this.addModalVisible = true;
+    },
+
+    closeAddModal() {
+      this.addModalVisible = false;
+    },
+
+    async saveStaff(mode) {
+      try {
+        let data = {};
+
+        if (mode === 'add') {
+          if (this.staff_image instanceof FormData) {
+            data = this.staff_image;
+            data.append('staff_name', this.staff_name);
+            data.append('staff_email', this.staff_email);
+            data.append('contactNum', this.contactNum);
+          } else {
+            data = {
+              staff_name: this.staff_name,
+              staff_email: this.staff_email,
+              contactNum: this.contactNum,
+            };
+          }
+        }
+
+        const response = await axios.post('saveStaff', data);
+
+        if (mode === 'add') {
+          this.closeAddModal();
+          this.staff_image = '';
+          this.staff_name = '';
+          this.staff_email = '';
+          this.contactNum = '';
+          this.showSuccessNotification("Staff Added Successfully");
+
+          this.getStaff();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async getStaff() {
+      const response = await axios.get('/getStaff');
+      this.staff = response.data;
+    },
+
+    // Add your other methods such as editStaff and deleteStaff here
+
+    handleStaffImageUpload(event) {
+      const file = event.target.files[0];
+      const formData = new FormData();
+      formData.append('staff_image', file);
+
+      this.staff_image = formData;
+    },
+  },
+};
+</script>
+
+
+
+
   
 <style scoped>
 
