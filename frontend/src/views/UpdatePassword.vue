@@ -24,45 +24,45 @@
   </div>
 </template>
   
-  <script>
-  import axios from 'axios';
-  import router from '@/router';
-  
-  export default {
-    data() {
-      return {
-        newPassword: '',
-        confirmPassword: '',
-        errorMessage: '',
+<script>
+import axios from 'axios';
+import router from '@/router';
+
+export default {
+  data() {
+    return {
+      newPassword: '',
+      confirmPassword: '',
+      errorMessage: '',
+    };
+  },
+  methods: {
+    updatePassword() {
+      if (this.newPassword !== this.confirmPassword) {
+        this.errorMessage = 'Passwords do not match';
+        return;
+      }
+
+      const data = {
+        email: this.$route.query.email,
+        newPassword: this.newPassword,
       };
+
+      axios
+        .post('/api/update-password', data) 
+        .then((response) => {
+          if (response.data.message === 'Password updated successfully') {
+            router.push('/');
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.errorMessage = 'An error occurred. Please try again!';
+        });
     },
-    methods: {
-      updatePassword() {
-        if (this.newPassword !== this.confirmPassword) {
-          this.errorMessage = 'Passwords do not match';
-          return;
-        }
-  
-        const data = {
-          email: this.$route.query.email,
-          newPassword: this.newPassword,
-        };
-  
-        axios
-          .post('/api/update-password', data)
-          .then((response) => {
-            if (response.data.message === 'Password updated successfully') {
-              router.push('/');
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-            this.errorMessage = 'An error occurred. Please try again!';
-          });
-      },
-    },
-  };
-  </script>
+  },
+};
+</script>
   <style scoped>
   .form-wrapper {
     border-radius: 10px;

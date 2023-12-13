@@ -5,16 +5,16 @@
         <h3 class="text-primary text-center">Forgot Password</h3>
         <hr />
         <form @submit.prevent="resetPassword">
-          <!-- Email Input -->
+      
           <div class="form-floating mb-3">
             <input type="email" class="form-control" v-model="email" required placeholder="Email" />
             <label for="email" class="form-label">Email address</label>
           </div>
-          <!-- Error Message -->
+      
           <p class="alert-danger text-center">{{ errorMessage }}</p>
-          <!-- Submit Button -->
+          
           <button type="submit" class="btn btn-primary w-100 mb-3">Reset Password</button>
-          <!-- Links -->
+        
           <div class="text-center">
             <router-link class="text-muted" to="/">Remembered your password? Sign in</router-link>
           </div>
@@ -24,46 +24,45 @@
   </div>
 </template>
   
-  <script>
-  import axios from 'axios';
-  import router from '@/router';
-  
-  export default {
-    data() {
-      return {
-        email: '',
-        errorMessage: '',
+<script>
+import axios from 'axios';
+import router from '@/router';
+
+export default {
+  data() {
+    return {
+      email: '',
+      errorMessage: '',
+    };
+  },
+  methods: {
+    resetPassword() {
+      const data = {
+        email: this.email,
       };
+
+      axios
+        .post('/api/reset-password', data) 
+        .then((response) => {
+          if (response.data.message === 'Password reset successful') {
+            router.push({
+              path: '/update-password',
+              query: { email: this.email },
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          if (error.response && error.response.status === 404) {
+            this.errorMessage = 'Email not found. Please check and try again.';
+          } else {
+            this.errorMessage = 'An error occurred. Please try again!';
+          }
+        });
     },
-    methods: {
-      resetPassword() {
-        const data = {
-          email: this.email,
-        };
-  
-        axios
-          .post('/api/reset-password', JSON.stringify(data), {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          })
-          .then((response) => {
-            if (response.data.message === 'Password reset successful') {
-              router.push('/update-password');
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-            if (error.response && error.response.status === 404) {
-              this.errorMessage = 'Email not found. Please check and try again.';
-            } else {
-              this.errorMessage = 'An error occurred. Please try again!';
-            }
-          });
-      },
-    },
-  };
-  </script>
+  },
+};
+</script>
   <style scoped>
   .form-wrapper {
     border-radius: 10px;

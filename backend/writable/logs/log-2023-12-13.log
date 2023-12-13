@@ -101,3 +101,43 @@ in APPPATH\Controllers\MainController.php on line 586.
  5 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
  6 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
  7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-13 14:04:47 --> Undefined array key "email"
+in APPPATH\Controllers\MainController.php on line 923.
+ 1 APPPATH\Controllers\MainController.php(923): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "email"', 'C:\\Users\\PC\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 923)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-13 14:04:49 --> Undefined array key "email"
+in APPPATH\Controllers\MainController.php on line 923.
+ 1 APPPATH\Controllers\MainController.php(923): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "email"', 'C:\\Users\\PC\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 923)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-13 14:45:03 --> Undefined array key "email"
+in APPPATH\Controllers\MainController.php on line 923.
+ 1 APPPATH\Controllers\MainController.php(923): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "email"', 'C:\\Users\\PC\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 923)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-13 14:45:05 --> Undefined array key "email"
+in APPPATH\Controllers\MainController.php on line 923.
+ 1 APPPATH\Controllers\MainController.php(923): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "email"', 'C:\\Users\\PC\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 923)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
+CRITICAL - 2023-12-13 14:45:05 --> Undefined array key "email"
+in APPPATH\Controllers\MainController.php on line 923.
+ 1 APPPATH\Controllers\MainController.php(923): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "email"', 'C:\\Users\\PC\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\app\\Controllers\\MainController.php', 923)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updatePassword()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\BALMES-CARINGAL-MANALO-FINALPROJECT\\backend\\public\\index.php')
