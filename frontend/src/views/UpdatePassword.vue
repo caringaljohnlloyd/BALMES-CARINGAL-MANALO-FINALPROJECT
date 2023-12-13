@@ -4,16 +4,18 @@
       <div class="container">
         <h3 class="text-primary">Update Password</h3>
         <hr />
-        <form @submit.prevent="updatePassword()" class="form">
+        <form @submit.prevent="updatePassword" class="form">
           <div class="form-floating mb-3">
-            <input type="password" class="form-control" v-model="newPassword" required minlength="8" />
+            <input type="password" class="form-control" v-model="newPassword" required minlength="8" :class="{ 'is-invalid': newPasswordError }" />
             <label for="newPassword" class="form-label">New Password</label>
+            <div class="invalid-feedback">Password must be at least 8 characters.</div>
           </div>
           <div class="form-floating mb-3">
-            <input type="password" class="form-control" v-model="confirmPassword" required minlength="8" />
+            <input type="password" class="form-control" v-model="confirmPassword" required minlength="8" :class="{ 'is-invalid': confirmPasswordError }" />
             <label for="confirmPassword" class="form-label">Confirm Password</label>
+            <div class="invalid-feedback">Passwords do not match.</div>
           </div>
-          <p class="alert-danger">{{ errorMessage }}</p>
+          <p class="alert-danger" v-if="errorMessage">{{ errorMessage }}</p>
 
           <button type="submit" class="btn btn-primary mx-auto w-100 mb-3">Update Password</button>
 
@@ -23,67 +25,83 @@
     </div>
   </div>
 </template>
-  
-  <script>
-  import axios from 'axios';
-  import router from '@/router';
-  
-  export default {
-    data() {
-      return {
-        newPassword: '',
-        confirmPassword: '',
-        errorMessage: '',
+
+<script>
+import axios from 'axios';
+import router from '@/router';
+
+export default {
+  data() {
+    return {
+      newPassword: '',
+      confirmPassword: '',
+      errorMessage: '',
+      newPasswordError: false,
+      confirmPasswordError: false,
+    };
+  },
+  methods: {
+    updatePassword() {
+      // Reset error indicators
+      this.errorMessage = '';
+      this.newPasswordError = false;
+      this.confirmPasswordError = false;
+
+      // Basic password validation
+      if (this.newPassword.length < 8) {
+        this.newPasswordError = true;
+        this.errorMessage = 'Password must be at least 8 characters.';
+        return;
+      }
+
+      if (this.newPassword !== this.confirmPassword) {
+        this.confirmPasswordError = true;
+        this.errorMessage = 'Passwords do not match.';
+        return;
+      }
+
+      const data = {
+        email: this.$route.query.email,
+        newPassword: this.newPassword,
       };
+
+      axios
+        .post('/api/update-password', data)
+        .then((response) => {
+          if (response.data.message === 'Password updated successfully') {
+            router.push('/');
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.errorMessage = 'An error occurred. Please try again!';
+        });
     },
-    methods: {
-      updatePassword() {
-        if (this.newPassword !== this.confirmPassword) {
-          this.errorMessage = 'Passwords do not match';
-          return;
-        }
-  
-        const data = {
-          email: this.$route.query.email,
-          newPassword: this.newPassword,
-        };
-  
-        axios
-          .post('/api/update-password', data)
-          .then((response) => {
-            if (response.data.message === 'Password updated successfully') {
-              router.push('/');
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-            this.errorMessage = 'An error occurred. Please try again!';
-          });
-      },
-    },
-  };
-  </script>
-  <style scoped>
-  .form-wrapper {
-    border-radius: 10px;
-    transition: box-shadow 0.3s ease-in-out;
-  }
+  },
+};
+</script>
 
-  .form-wrapper:hover {
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  }
+<style scoped>
+.form-wrapper {
+  border-radius: 10px;
+  transition: box-shadow 0.3s ease-in-out;
+}
 
-  .text-primary {
-    color: #007bff;
-  }
+.form-wrapper:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
 
-  .alert-danger {
-    color: #dc3545;
-    border-color: #dc3545;
-    transition: opacity 0.3s ease-in-out;
-  }
+.text-primary {
+  color: #007bff;
+}
 
-  .text-muted {
-    color: #6c757d;
-  }
+.alert-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.text-muted {
+  color: #6c757d;
+}
 </style>

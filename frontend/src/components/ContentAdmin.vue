@@ -1,10 +1,13 @@
 <template>
+      <Notification :show="notification.show" :type="notification.type" :message="notification.message" />
+
   <div class="col-md-2">
     <SidebarAdmin />
   </div>
 
   <div class="content-wrapper">
     <HeaderAdmin />
+    <div class="notification-spacer"></div>
 
     <div class="content">
       <div class="row">
@@ -455,8 +458,12 @@
 
     </div>
   </div>
-  <Notification :show="notification.show" :type="notification.type" :message="notification.message" />
-
+  <Notification
+      :show="notification.show"
+      :type="notification.type"
+      :message="notification.message"
+      class="bottom-right-notification"
+    />
 
 </template>
 
@@ -941,6 +948,9 @@ html {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+.notification-spacer {
+  margin-top: 20px; /* Adjust this value based on your design preferences */
+}
 
 article,
 aside,
@@ -965,7 +975,11 @@ body {
   text-align: left;
   background-color: #f0f1f5;
 }
+.bottom-right-notification {
+  position: fixed;
 
+  z-index: 9999;
+}
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important;
 }

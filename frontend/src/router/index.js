@@ -39,72 +39,73 @@ const routes = [
   {
     path: '/insert',
     component: IndexPage,
-    meta: {requiresAuth: true}
+    meta: { requiresAuth: true, role: 'user' }
 
   },
   {
     path: '/about',
     component: AboutView,
-    meta: {requiresAuth: true}
+    meta: { requiresAuth: true, role: 'user' }
 
   },
   {
     path: '/service',
     component: Service,
-    meta: {requiresAuth: true}
+    meta: { requiresAuth: true, role: 'user' }
 
 
   },
   {
   path: '/room',
   component: Room,
-  meta: {requiresAuth: true}
+  meta: { requiresAuth: true, role: 'user' }
 
 },
 {
   path: '/shop',
   component: Shop,
-  meta: {requiresAuth: true}
+  meta: { requiresAuth: true, role: 'user' }
 
 },
 {
   path: '/user',
   component: Include, 
-  meta: {requiresAuth: true}
+  meta: { requiresAuth: true, role: 'user' }
 },
 {
   path: '/contact',
   component: ContactView,
-  meta: {requiresAuth: true}
+  meta: { requiresAuth: true, role: 'user' }
 
 },
 {
   path: '/table',
   component: Table,
+  meta: { requiresAuth: true, role: 'user' }
 
 },
 {
   path: '/booking/:id', 
   component: Booking,
   name:'booking',
-  meta: {requiresAuth: true}
+  meta: { requiresAuth: true, role: 'user' }
 },
 {
   path: '/team',
   component: Team,
-  meta: {requiresAuth: true}
+  meta: { requiresAuth: true, role: 'user' }
 
 },
 {
   path: '/testimonial',
   component: Testimonial,
-  meta: {requiresAuth: true}
+  meta: { requiresAuth: true, role: 'user' }
 
 },
 {
   path: '/shopcart',
   component: Cart,
-  meta: {requiresAuth: true}
+  meta: { requiresAuth: true, role: 'user' }
 
 },
 {
@@ -115,35 +116,49 @@ const routes = [
 {
   path: '/admin',
   component: Admin,
+  meta: { requiresAuth: true, role: 'admin' }
 
 },
 {
   path: '/analytics',
   component: Analytics,
+  meta: { requiresAuth: true, role: 'admin' }
+
 },
 {
   path: '/chat',
   component: Chat,
+  meta: { requiresAuth: true, role: 'admin' }
+
 },
 {
   path: '/contacts',
   component: Contacts,
+  meta: { requiresAuth: true, role: 'admin' }
+
 },
 {
   path: '/teamadmin',
   component: TeamAdmin,
+  meta: { requiresAuth: true, role: 'admin' }
+
 },
 {
   path: '/monitorusers',
   component: monitorusers,
+  meta: { requiresAuth: true, role: 'admin' }
+
 },
 {
   path: '/email_inbox',
   component: Email_inbox,
+  meta: { requiresAuth: true, role: 'admin' }
+
 },
 {
 path: '/reset-password',
 component: ForgotPassword,
+
 },
 {
   path: '/update-password',
@@ -154,6 +169,8 @@ component: ForgotPassword,
     name: 'auditHistory',
     component: AuditHistory, 
     props: true, 
+        meta: { requiresAuth: true, role: 'admin' }
+
 },
 {
   path: '/getInvoices/:invoice_id',
@@ -161,7 +178,6 @@ component: ForgotPassword,
   component: Invoice, 
   meta: { requiresAuth: true },
 },
-
 ]
 
 const router = createRouter({
@@ -170,9 +186,15 @@ const router = createRouter({
 })
 router.beforeEach((to, from, next) => {
   const isLoggedin = checkUserLogin();
+  const isAdmin = checkAdminRole();
+
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (isLoggedin) {
-      next();
+      if (isAdmin && to.path !== '/admin') {
+        next('/admin');
+      } else {
+        next();
+      }
     } else {
       next("/");
     }
@@ -180,9 +202,15 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
-function checkUserLogin(){
-  const userToken =sessionStorage.getItem("token");
+
+function checkUserLogin() {
+  const userToken = sessionStorage.getItem("token");
   return !!userToken;
+}
+
+function checkAdminRole() {
+  const userRole = sessionStorage.getItem("role");
+  return userRole === "admin";
 }
 
 export default router
