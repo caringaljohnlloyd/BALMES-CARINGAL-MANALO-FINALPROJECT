@@ -9,8 +9,8 @@
       <label for="auditType">Select Audit Type:</label>
       <select v-model="auditType" @change="fetchAuditHistory">
         <option value="all">All</option>
-        <option value="checkout">Checkouts</option>
-        <option value="sale">Sales</option>
+        <option value="inbound">Inbounds</option>
+        <option value="sold">Sold</option>
       </select>
     </div>
 

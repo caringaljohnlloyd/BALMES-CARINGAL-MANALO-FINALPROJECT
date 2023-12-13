@@ -100,6 +100,8 @@
                   <a class="btn btn-dark" @click="checkout">Proceed to Checkout</a>
                   
                 </div>
+  
+
               </div>
             </div>
           </div>
@@ -108,6 +110,8 @@
   <br><br>
   <br>
   <br>
+  <Notification v-if="insufficientStockError" :show="insufficientStockError" type="error" message="Insufficient stock for one or more items" />
+  <Notification v-if="notification.show" :show="notification.show" :type="notification.type" :message="notification.message" />
 
   <Notification v-if="checkoutSuccess" :show="checkoutSuccess" type="success" message="Checkout successful!" />
   <Notification v-if="checkoutError" :show="checkoutError" type="error" message="Please select items before proceeding with the checkout." />
@@ -138,16 +142,21 @@ export default {
   },
   data() {
     return {
-      cart: [],
+       cart: [],
       deleteSuccess: false,
       prod_name: [],
       prod_price: [],
       prod_img: [],
       user: null,
       checkedItems: [],
-      deleteSuccess: false,
       checkoutSuccess: false,
       checkoutError: false,
+      insufficientStockError: false, 
+      notification: {
+        show: false,
+        type: "",
+        message: "",
+      },
 
     };
   },
@@ -289,7 +298,6 @@ async checkout() {
       setTimeout(() => {
         this.checkoutError = false;
       }, 3000);
-
       return;
     }
 
@@ -313,12 +321,31 @@ async checkout() {
 
     const response = await axios.post('checkout', orderData);
 
+    if (response.status === 400) {
+      console.warn("Insufficient stock for one or more items");
+      this.notification = {
+        show: true,
+        type: 'error',
+        message: 'Insufficient stock for one or more items',
+      };
+      setTimeout(() => {
+        this.notification = {
+          show: false,
+          type: '',
+          message: '',
+        };
+      }, 3000);
+      return;
+    }
+
     if (response.status === 200) {
       const invoice_id = response.data.invoice_id; 
       this.checkoutSuccess = true;
       setTimeout(() => {
         this.checkoutSuccess = false;
-        this.$router.push({ name: 'invoice', params: { invoice_id: invoice_id } });
+        this.cart = this.cart.filter(cart => !this.checkedItems.includes(cart.cart_id));
+        this.checkedItems = []; 
+       // this.$router.push({ name: 'invoice', params: { invoice_id: invoice_id } });
       }, 2000);
     } else {
       console.error('Checkout failed:', response.data.message);
@@ -327,6 +354,9 @@ async checkout() {
     console.error('Checkout Error:', error);
   }
 },
+
+
+
 
 
 
@@ -367,7 +397,6 @@ check(cartId) {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    /* ... existing styles ... */
   }
 
   .column {

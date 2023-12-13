@@ -30,7 +30,7 @@ class MainController extends ResourceController
     protected $orders;
     protected $orderitems;
     protected $invoice;
-
+protected $cartModel;
     public function index()
     {
         //
@@ -58,8 +58,20 @@ class MainController extends ResourceController
         }
     
         $auditModel = new AuditModel();
+        
+        // Get the 'type' query parameter from the request
+        $type = $this->request->getGet('type');
     
-        $auditHistory = $auditModel->where('shop_id', $shopId)->findAll();
+        // Define a condition based on the 'type' parameter
+        $condition = [];
+        if ($type && $type !== 'all') {
+            $condition['type'] = $type;
+        }
+    
+        $auditHistory = $auditModel
+            ->where('shop_id', $shopId)
+            ->where($condition)
+            ->findAll();
     
         return $this->respond($auditHistory, 200);
     }
@@ -512,7 +524,6 @@ public function getStaff()
 
 
 
-
     public function checkout()
     {
         $this->invoice = new InvoiceModel();
@@ -521,9 +532,18 @@ public function getStaff()
         $json = $this->request->getJSON();
         $id = $json->id;
     
+        foreach ($json->items as $item) {
+            $shopModel = new ShopModel();
+            $product = $shopModel->find($item->shop_id);
+    
+            if (!$product || $product['prod_quantity'] < $item->quantity) {
+                return $this->respond(['message' => 'Insufficient stock for one or more items'], 400);
+            }
+        }
+    
         $order = [
             'id' => $id,
-            'order_status' => 'pending', 
+            'order_status' => 'pending',
             'total_price' => $json->total_price,
         ];
     
@@ -538,17 +558,24 @@ public function getStaff()
                 'quantity' => $item->quantity,
                 'total_price' => $item->total_price,
                 'order_id' => $order_id,
-
             ];
     
             $this->orderitems->save($orderitem);
     
-            $shopModel = new ShopModel();
             $product = $shopModel->find($item->shop_id);
     
             if ($product) {
                 $newQuantity = $product['prod_quantity'] - $item->quantity;
                 $shopModel->update($item->shop_id, ['prod_quantity' => $newQuantity]);
+    
+                $auditModel = new AuditModel();
+                $auditData = [
+                    'shop_id' => $product['shop_id'],
+                    'old_quantity' => $product['prod_quantity'],
+                    'new_quantity' => $newQuantity,
+                    'type' => 'sold',
+                ];
+                $auditModel->save($auditData);
             }
         }
     
@@ -562,10 +589,12 @@ public function getStaff()
         if ($this->orders->affectedRows() > 0 && $this->orderitems->affectedRows() > 0 && $this->invoice->affectedRows() > 0) {
             return $this->respond(['message' => 'Checkout successful'], 200);
         } else {
-            // Handle checkout failure
             return $this->respond(['message' => 'Checkout failed'], 500);
         }
     }
+    
+    
+    
     
 
 
