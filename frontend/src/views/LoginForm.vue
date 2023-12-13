@@ -80,7 +80,7 @@ export default {
     };
   },
   methods: {
-    login() {
+  login() {
     const data = {
       email: this.email,
       password: this.password,
@@ -93,17 +93,29 @@ export default {
         },
       })
       .then((response) => {
+        console.log(response.data);  
+
         if (response.data.message === 'Login successful') {
           sessionStorage.setItem("token", response.data.token);
           sessionStorage.setItem("id", response.data.id);
-          router.push('/user');
-        } 
+
+          if (response.data.role === 'admin') {
+            console.log('Redirecting to admin panel');
+            router.push('/admin');
+          } else {
+            console.log('Redirecting to user panel');
+            router.push('/user');
+          }
+        } else {
+        }
       })
       .catch((error) => {
         console.error(error);
         this.errorMessage = 'Invalid email or password, try again!';
-        });
-    },
+      });
   },
+},
+
+
 };
 </script>

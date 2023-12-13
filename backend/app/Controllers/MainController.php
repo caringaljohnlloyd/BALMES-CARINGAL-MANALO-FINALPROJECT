@@ -365,28 +365,36 @@ public function getStaff()
     public function login()
     {
         $json = $this->request->getJSON();
-
+    
         if (isset($json->email) && isset($json->password)) {
             $email = $json->email;
             $password = $json->password;
-
+    
             $userModel = new UserModel();
-            $data = $user = $userModel->where('email', $email)->first();
-
+            $data = $userModel->where('email', $email)->first();
+    
             if ($data) {
                 $pass = $data['password'];
                 $auth = password_verify($password, $pass);
+    
                 if ($auth) {
-                    return $this->respond(['message' => 'Login successful', 'token' => $data['token'], 'id' => $data['id']], 200);
+                    return $this->respond([
+                        'message' => 'Login successful',
+                        'token' => $data['token'],
+                        'id' => $data['id'],
+                        'role' => $data['role'],  
+                    ], 200);
                 } else {
                     return $this->respond(['message' => 'Invalid email or password'], 401);
                 }
             } else {
-                return $this->respond(['message' => 'Invalid JSON data'], 400);
+                return $this->respond(['message' => 'Invalid email or password'], 401);
             }
+        } else {
+            return $this->respond(['message' => 'Invalid JSON data'], 400);
         }
-
     }
+    
     public function submitRating()
     {
         $json = $this->request->getJSON();
@@ -922,20 +930,27 @@ public function deleteShop($shop_id = null)
         $jsonData = $this->request->getJSON(true);
         $email = $jsonData['email'];
         $newPassword = $jsonData['newPassword'];
-
+    
         $userModel = new UserModel();
         $user = $userModel->where('email', $email)->first();
-
+    
         if (!$user) {
             return $this->respond(['message' => 'Invalid email'], 404);
         }
-
+    
+        // Use the set method to set the password column
         $userModel->set('password', password_hash($newPassword, PASSWORD_DEFAULT));
+    
+        // Use the where method to specify the condition for the update
         $userModel->where('email', $email);
+    
+        // Use the update method to execute the update query
         $userModel->update();
-
+    
         return $this->respond(['message' => 'Password updated successfully']);
     }
+    
+
 
     public function  search($query){
         $roomModel = new RoomModel();
