@@ -25,18 +25,8 @@
           <span class="nav-text">Analytics Dashboard</span>
         </router-link>
       </li>
-      <li :class="{ active: isActive('/chat') }">
-        <router-link class="sidenav-item-link" to="/chat">
-          <i class="mdi mdi-wechat"></i>
-          <span class="nav-text">Chat</span>
-        </router-link>
-      </li>
-      <li :class="{ active: isActive('/contacts') }">
-        <router-link class="sidenav-item-link" to="/contacts">
-          <i class="mdi mdi-wechat"></i>
-          <span class="nav-text">Contacts</span>
-        </router-link>
-      </li>
+
+
       <li :class="{ active: isActive('/teamadmin') }">
         <router-link class="sidenav-item-link" to="/teamadmin">
           <i class="mdi mdi-wechat"></i>
@@ -49,12 +39,7 @@
           <span class="nav-text">Users</span>
         </router-link>
       </li>
-      <li :class="{ active: isActive('/email_inbox') }">
-        <router-link class="sidenav-item-link" to="/email_inbox">
-          <i class="mdi mdi-wechat"></i>
-          <span class="nav-text">Email</span>
-        </router-link>
-      </li>        
+        
         </ul>
       </div>
       <div class="sidebar-footer">
