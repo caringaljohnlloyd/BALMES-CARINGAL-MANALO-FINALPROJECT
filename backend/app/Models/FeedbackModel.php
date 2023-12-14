@@ -12,7 +12,7 @@ class FeedbackModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['feedback', 'id'];
+    protected $allowedFields    = ['feedback', 'id','is_hidden'];
 
     // Dates
     protected $useTimestamps = false;

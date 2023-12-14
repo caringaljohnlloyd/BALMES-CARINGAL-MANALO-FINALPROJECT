@@ -25,6 +25,7 @@ import UpdatePassword from '../views/UpdatePassword.vue'
 import Cart from '../views/Cart.vue'
 import AuditHistory from '@/views/AuditHistory.vue';
 import Invoice from '@/components/Invoice.vue';
+import Home from '../views/Home.vue'
 
 
 
@@ -177,6 +178,12 @@ component: ForgotPassword,
   name: 'invoice',
   component: Invoice, 
   meta: { requiresAuth: true },
+},
+{
+  path: '/home',
+  component: Home,
+
+
 },
 ]
 

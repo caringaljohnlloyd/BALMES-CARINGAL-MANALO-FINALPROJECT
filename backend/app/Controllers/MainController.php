@@ -41,10 +41,10 @@ protected $cartModel;
         $feedbackModel = new FeedbackModel();
     
         try {
-            $feedbackModel->delete($feedId);
-            return $this->respond(['message' => 'Feedback deleted successfully'], 200);
+            $feedbackModel->update($feedId, ['is_hidden' => 1]); 
+            return $this->respond(['message' => 'Feedback hidden successfully'], 200);
         } catch (\Exception $e) {
-            return $this->respond(['error' => 'Failed to delete feedback: ' . $e->getMessage()], 500);
+            return $this->respond(['error' => 'Failed to hide feedback: ' . $e->getMessage()], 500);
         }
     }
     public function getAuditHistory($shopId)
@@ -150,9 +150,12 @@ public function getStaff()
     public function getFeedback()
     {
         $f = new FeedbackModel();
-        $data = $f->findAll();
+    
+        $data = $f->where('is_hidden', 0)->findAll();
+    
         return $this->respond($data, 200);
     }
+    
     public function getRoom()
     {
         $room = new RoomModel();
@@ -173,9 +176,6 @@ public function getStaff()
         $data = $main->findAll();
         return $this->respond($data, 200);
     }
-
-    
-    
     public function getbook()
     {
         $bookingModel = new BookingModel();
@@ -213,7 +213,6 @@ public function getStaff()
             return $this->respond(['message' => 'Booking not found'], 404);
         }
     }
-    
     public function markAsPaid($booking_id)
     {
         $roomModel = new RoomModel();
@@ -257,14 +256,22 @@ public function getStaff()
             'specialRequest' => $json->specialRequest,
             'room_id' => $json->room_id,
             'booking_status' => 'pending',
-            'payment_method' => $json->payment_method, 
+            'payment_method' => $json->payment_method,
         ];
     
         $booking = new BookingModel();
         $r = $booking->save($data);
     
         if ($r) {
-            $bookedr = $this->room->update($booked['room_id'], ['room_status' => 'pending']);
+            $totalPersons = $json->adult + $json->child;
+    
+            $bedCapacity = $booked['bed'];
+    
+            if ($totalPersons <= $bedCapacity) {
+                $bookedr = $this->room->update($booked['room_id'], ['room_status' => 'pending']);
+            } else {
+                return $this->respond(['message' => 'Booking failed. Exceeds bed capacity.'], 400);
+            }
     
             if ($bookedr) {
                 return $this->respond(['message' => 'Booked successfully', 'booking' => $r, 'room' => $booked], 200);
@@ -274,10 +281,7 @@ public function getStaff()
         } else {
             return $this->respond(['message' => 'Booking failed'], 500);
         }
-    }
-    
-
-    
+    }  
     public function getDataShop()
     {
         $main = new ShopModel();
@@ -291,14 +295,16 @@ public function getStaff()
         $data = [
             'feedback' => $json->feedback,
             'id' => $json->id,
-
+            'is_hidden' => 0,
+    
         ];
-
+    
         $feedback = new FeedbackModel();
         $result = $feedback->save($data);
-
+    
         return $this->respond(['message' => 'Feedback submitted successfully', $result], 200);
     }
+    
     public function manifest()
     {
         $json = $this->request->getJSON();
@@ -312,10 +318,6 @@ public function getStaff()
 
         return $this->respond(['message' => 'Manifest submitted successfully', $result], 200);
     }
-
-    
-
-
     public function register()
     {
         $json = $this->request->getJSON();
@@ -508,30 +510,6 @@ public function getStaff()
         return $this->respond(['message' => 'Cart item not found'], 404);
       }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function checkout()
     {
         $this->invoice = new InvoiceModel();
@@ -599,23 +577,7 @@ public function getStaff()
         } else {
             return $this->respond(['message' => 'Checkout failed'], 500);
         }
-    }
-    
-    
-    
-    
-
-
-
-   
-    
-    
-
-
-
-
-
-    
+    }   
         public function saveShop()
         {
             $request = $this->request;
@@ -717,7 +679,6 @@ public function updateShop($shop_id = null)
         return $this->respond(["message" => "Failed to update data: " . $e->getMessage()], 500);
     }
 }
-
 public function updateRoom($room_id = null)
 {
     $request = $this->request;
@@ -748,8 +709,6 @@ public function updateRoom($room_id = null)
         return $this->respond(["message" => "Failed to update data: " . $e->getMessage()], 500);
     }
 }
-
-
 public function handleEditImageUpload($image, $imageName)
 {
     $uploadPath = 'C:/laragon/www/BALMES-CARINGAL-MANALO-FINALPROJECT/frontend/src/assets/img';
@@ -757,10 +716,6 @@ public function handleEditImageUpload($image, $imageName)
     $image->move($uploadPath, $imageName);
                 return  $imageName;
 }
-        
-
-
-
 public function saveStaff()
 {
     $request = $this->request;
@@ -879,31 +834,6 @@ public function deleteShop($shop_id = null)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function resetPassword()
     {
         $email = $this->request->getJSON()->email;
@@ -980,7 +910,9 @@ public function deleteShop($shop_id = null)
     
         return $this->respond($result, 200);
     }
+
     
+
 }
 
     

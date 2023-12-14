@@ -23,6 +23,11 @@
         </form>
       </div>
     </div>
+    <Notification
+      :show="successmessage !== '' || errorMessage !== ''"
+      :type="successmessage !== '' ? 'success' : 'error'"
+      :message="successmessage !== '' ? successmessage : errorMessage"
+    ></Notification>
   </div>
 </template>
   
@@ -30,13 +35,20 @@
 <script>
 import axios from 'axios';
 import router from '@/router';
+import Notification from '@/components/Notification.vue';
 
 export default {
+  components: {
+    Notification,
+  },
   data() {
+    
     return {
       newPassword: '',
       confirmPassword: '',
       errorMessage: '',
+      successmessage:'',
+
     };
   },
   methods: {
@@ -52,10 +64,12 @@ export default {
       };
 
       axios
-        .post('/api/update-password', data) // Assuming the backend expects this format
+        .post('/api/update-password', data)
         .then((response) => {
           if (response.data.message === 'Password updated successfully') {
+            this.$router.successfullyUpdatedPassword = true;
             router.push('/');
+            this.successmessage = 'Password updated successfully';
           }
         })
         .catch((error) => {
@@ -72,7 +86,6 @@ export default {
     transition: box-shadow 0.3s ease-in-out;
   }
 
-<style scoped>
 .form-wrapper {
   border-radius: 10px;
   transition: box-shadow 0.3s ease-in-out;

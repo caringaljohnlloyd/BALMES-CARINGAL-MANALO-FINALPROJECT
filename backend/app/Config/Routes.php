@@ -49,6 +49,8 @@ $routes->put('/updateStaff/(:num)', 'MainController::updateStaff/$1');
 $routes->delete('/deleteStaff/(:num)', 'MainController::deleteStaff/$1');
 $routes->delete('/deleteShop/(:num)', 'MainController::deleteShop/$1');
 $routes->delete('/deleteRoom/(:num)', 'MainController::deleteRoom/$1');
+$routes->post('/api/feedback/hide/(:num)', 'MainController::deleteFeedback/$1');
+
 
 $routes->post('/saveRoom', 'MainController::saveRoom');
 

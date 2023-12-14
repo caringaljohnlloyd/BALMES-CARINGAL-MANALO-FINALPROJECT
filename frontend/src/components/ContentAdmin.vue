@@ -270,15 +270,6 @@
           </div>
         </div>
       </div>
-
-
-
-
-
-
-
-
-
       <!-- Edit Room Modal -->
       <div v-if="editRoomModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
         <div class="modal-dialog modal-dialog-centered" role="document">

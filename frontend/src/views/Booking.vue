@@ -271,39 +271,46 @@ export default {
   },
   methods: {
     async save() {
-      try {
-        const id = sessionStorage.getItem("id");
-        const response = await axios.post("booking", {
-          id: id,
-          checkin: this.checkin,
-          checkout: this.checkout,
-          adult: this.adult,
-          child: this.child,
-          specialRequest: this.specialRequest,
-          room_id: this.$route.params.id,
-          payment_method: this.payment_method,
-        });
+  try {
+    const id = sessionStorage.getItem("id");
+    const response = await axios.post("booking", {
+      id: id,
+      checkin: this.checkin,
+      checkout: this.checkout,
+      adult: this.adult,
+      child: this.child,
+      specialRequest: this.specialRequest,
+      room_id: this.$route.params.id,
+      payment_method: this.payment_method,
+    });
 
-        if (response.status === 200) {
-          this.successMessage = response.data.message;
-          this.checkin = "";
+    if (response.status === 200) {
+      this.successMessage = response.data.message;
+      // Reset form fields
+      this.checkin = "";
       this.checkout = "";
       this.adult = "";
       this.child = "";
       this.specialRequest = "";
       this.payment_method = "";
-      
-          setTimeout(() => {
-            this.successMessage = "";
-          }, 2000);
-        }
-      } catch (error) {
-        console.error("Error booking", error);
-        this.errorMessage = `Error booking: ${error.message}`;
+
+      setTimeout(() => {
         this.successMessage = "";
-      }
-    },
-  },
+      }, 2000);
+    }
+  } catch (error) {
+    console.error("Error booking", error);
+    if (error.response && error.response.status === 400) {
+      // Display specific error message for exceeding bed capacity
+      this.errorMessage = error.response.data.message || "Booking failed";
+    } else {
+      // Display a generic error message for other errors
+      this.errorMessage = "Error booking";
+    }
+    this.successMessage = "";
+  }
+},
+  }
 };
 </script>
   

@@ -230,20 +230,25 @@
   </div>
   <!-- Video Start -->
 
-
-
   <!-- Testimonial Start -->
-
   <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
     <h6 class="section-title text-center text-primary text-uppercase">
       Feedbacks
     </h6>
   </div>
-  <div class="container-xxl testimonial my-5 py-5 bg-dark wow zoomIn" data-wow-delay="0.1s " style="margin-bottom: 90px">
+  <div
+    class="container-xxl testimonial my-5 py-5 bg-dark wow zoomIn"
+    data-wow-delay="0.1s "
+    style="margin-bottom: 90px"
+  >
     <div class="container">
       <div class="owl-carousel testimonial-carousel py-5">
-        <div v-for="feed in feed" :key="name.id"
-          class="testimonial-item position-relative bg-white rounded overflow-hidden">
+        <div
+          v-for="feed in feed"
+          :key="feed.id"
+          v-if="feed.is_hidden !== 1"
+          class="testimonial-item position-relative bg-white rounded overflow-hidden"
+        >
           <div class="d-flex align-items-center">
             <i class="fas fa-user-circle fa-3x"></i>
             <div class="ps-3">
@@ -259,9 +264,9 @@
     </div>
   </div>
   <!-- Testimonial End -->
-
-  <insert />
-
+  <div v-if="hasBooking">
+    <insert />
+  </div>
   <!-- Team Start -->
   <div  class="container-xxl py-5">
             <div class="container">
@@ -340,9 +345,11 @@ export default {
       successMessage: "",
       errorMessage: "",
       staff:[],
+      hasBooking: false,
 
     };
   },
+
   mounted() {
     this.getFeed();
     this.getPool();
@@ -351,6 +358,7 @@ export default {
     this.getUser();
     this.getRoom();
     this.getStaff();
+    this.checkBooking(); 
 
   },
   methods: {
@@ -360,14 +368,22 @@ export default {
                 this.numberOfStaffs = this.staff.length;
 
         },
-    async getFeed() {
-      const [g, n] = await Promise.all([
-        axios.get("/getFeedback"),
-        axios.get("/getData"),
-      ]);
-      this.feed = g.data;
-      this.name = n.data;
-    },
+        async getFeed() {
+  try {
+    const [g, n] = await Promise.all([
+      axios.get("/getFeedback"),
+      axios.get("/getData"),
+    ]);
+
+    this.feed = g.data.filter(feed => feed.is_hidden !== 1);
+
+    this.name = n.data;
+    
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+},
+
     getName(g) {
       return this.name.find((n) => n.id === g.id) || {};
     },
@@ -384,6 +400,8 @@ export default {
       const response = await axios.get("/getRoom");
       this.room = response.data;
       this.numberOfRooms = this.room.length;
+
+
     },
     async getUser(){
       const u = await axios.get("/getData");
@@ -416,7 +434,23 @@ export default {
         this.successMessage = "";
       }
     },
-  },
+    async checkBooking() {
+    try {
+      const response = await axios.get("/getbook");
+      const bookedRooms = response.data;
+
+      const userId = sessionStorage.getItem("id");
+
+      const userBookings = bookedRooms.filter(room => room.id === userId);
+
+      this.hasBooking = userBookings.length > 0;
+
+      console.log("Booking status:", this.hasBooking);
+      console.log("User bookings:", userBookings);
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+    }
+  }, },
   computed:{
     username(){
         console.log('id:', JSON.parse(sessionStorage.getItem("id")) || 'Not Found');
