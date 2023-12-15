@@ -37,8 +37,7 @@
                     <td>{{ staff.contactNum }}</td>
                     <td>
                       <button @click="openStaffEditModal(staff)">Edit</button> |
-
-                      <button @click="confirmDeleteStaff(staff)">Delete</button>
+                      <button @click="hidestaff(staff.staff_id)">Hide</button>
                     </td>
                   </tr>
                 </tbody>
@@ -189,6 +188,24 @@ export default {
     this.getStaff();
   },
   methods: {
+    async hidestaff(staffId) {
+      const confirmResult = window.confirm("Do you want to HIDE this item?");
+  
+      if (confirmResult) {
+        try {
+          await axios.post(`/api/staffback/hide/${staffId}`);
+          this.staff = this.staff.map(staff => {
+            if (staff.staff_id === staffId) {
+              return { ...staff, is_hidden: 1 };
+            }
+            return staff;
+          });
+          console.log('staffback hidden successfully');
+        } catch (error) {
+          console.error('Error hiding staffback:', error);
+        }
+      }
+    },
     confirmDeleteStaff(staff) {
     this.editedStaff = { ...staff };
     this.deleteConfirmationVisible = true;
@@ -2527,7 +2544,7 @@ textarea.form-control {
   margin-left: 0;
 }
 
-.valid-feedback {
+.valid-staffback {
   display: none;
   width: 100%;
   margin-top: 0.25rem;

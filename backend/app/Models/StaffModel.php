@@ -12,7 +12,7 @@
         protected $returnType       = 'array';
         protected $useSoftDeletes   = false;
         protected $protectFields    = true;
-        protected $allowedFields    = ['staff_image','staff_name', 'staff_email','contactNum'];
+        protected $allowedFields    = ['staff_image','staff_name', 'staff_email','contactNum','hide_staff'];
 
         // Dates
         protected $useTimestamps = false;

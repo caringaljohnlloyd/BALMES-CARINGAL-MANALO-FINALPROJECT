@@ -46,8 +46,7 @@
                       <router-link style="color: black;"
                         :to="{ name: 'auditHistory', params: { shopId: info.shop_id } }">Audit History</router-link>
                       |
-                      <button @click="openEditModal(info)">Edit</button> | <button
-                        @click="confirmDeleteInfo(info)">Delete</button>
+                      <button @click="openEditModal(info)">Edit</button> 
 
                     </td>
                   </tr>
@@ -93,26 +92,7 @@
           </div>
         </div>
       </div>
-      <!-- Delete Confirmation Modal -->
-      <div v-if="deleteInfoVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Confirm Delete</h5>
-              <button type="button" class="close" @click="cancelDeleteInfo">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>Are you sure you want to delete this Item?</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" @click="cancelDeleteInfo">Cancel</button>
-              <button type="button" class="btn btn-danger" @click="deleteInfoConfirmed">Delete</button>
-            </div>
-          </div>
-        </div>
-      </div>
+
 
       <!-- Edit Modal -->
       <div v-if="editModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
@@ -235,8 +215,7 @@
                     <td>{{ room.bath }}</td>
                     <td>{{ room.description }}</td>
                     <td>{{ room.room_status }}</td>
-                    <td><button @click="openRoomEditModal(room)">Edit</button> |
-                      <button @click="confirmDeleteRoom(room)">Delete</button>
+                    <td><button @click="openRoomEditModal(room)">Edit</button> 
 
                     </td>
 
@@ -250,74 +229,7 @@
           {{ successMessage }}
         </div>
       </div>
-      <!-- Delete Confirmation Modal -->
-      <div v-if="deleteConfirmationVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Confirm Delete</h5>
-              <button type="button" class="close" @click="cancelDelete">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>Are you sure you want to delete this staff member?</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" @click="cancelDelete">Cancel</button>
-              <button type="button" class="btn btn-danger" @click="deleteRoomConfirmed">Delete</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Edit Room Modal -->
-      <div v-if="editRoomModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Edit Room</h5>
-              <button type="button" class="close" @click="closeRoomEditModal">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <!-- Edit form for rooms -->
-              <form @submit.prevent="saveRoomEdit">
-                <div class="form-group">
-                  <label for="room_name">Room Name</label>
-                  <input type="text" class="form-control" placeholder="Name" v-model="editedRoom.room_name">
-                </div>
-                <div class="form-group">
-                  <label for="price">Room Price</label>
-                  <input type="number" class="form-control" placeholder="Price" v-model="editedRoom.price">
-                </div>
-                <div class="form-group">
-                  <label for="bed">Number of Beds</label>
-                  <input type="number" class="form-control" placeholder="Beds" v-model="editedRoom.bed">
-                </div>
-                <div class="form-group">
-                  <label for="bath">Number of Baths</label>
-                  <input type="number" class="form-control" placeholder="Baths" v-model="editedRoom.bath">
-                </div>
-                <div class="form-group">
-                  <label for="description">Room Description</label>
-                  <textarea class="form-control" placeholder="Description" v-model="editedRoom.description"></textarea>
-                </div>
-
-
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" @click="closeRoomEditModal">Close</button>
-                  <button type="submit" class="btn btn-primary">Save Changes</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div v-if="successMessage" class="alert alert-success" role="alert">
-          {{ successMessage }}
-        </div>
-      </div>
-
+     
       <div class="col-12">
         <div class="modal" :class="{ 'show': addRoomModalVisible }">
           <div class="modal-dialog modal-lg">
@@ -504,8 +416,8 @@ export default {
       bath: '',
       description: '',
       room_img: '',
-      deleteConfirmationVisible: false,
-      deleteInfoVisible: false,
+      ConfirmationVisible: false,
+    
 
     };
   },
@@ -519,56 +431,7 @@ export default {
 
   methods: {
 
-    confirmDeleteInfo(info) {
-      this.editedInfo = { ...info };
-      this.deleteInfoVisible = true;
-    },
-
-    cancelDeleteInfo() {
-      this.editedInfo = null;
-      this.deleteInfoVisible = false;
-    },
-
-    async deleteInfoConfirmed() {
-      try {
-        const apiUrl = `/deleteShop/${this.editedInfo.shop_id}`;
-        const response = await axios.delete(apiUrl);
-
-        console.log('Item deleted successfully:', response.data);
-        this.cancelDeleteInfo();
-        this.showSuccessNotification("Item Deleted Successfully");
-        this.getInfo();
-
-      } catch (error) {
-        console.error('Error deleting Item:', error);
-        this.showErrorNotification("Failed to delete Item");
-      }
-    },
-    confirmDeleteRoom(room) {
-      this.editedRoom = { ...room };
-      this.deleteConfirmationVisible = true;
-    },
-
-    cancelDelete() {
-      this.editedRoom = null;
-      this.deleteConfirmationVisible = false;
-    },
-
-    async deleteRoomConfirmed() {
-      try {
-        const apiUrl = `/deleteRoom/${this.editedRoom.room_id}`;
-        const response = await axios.delete(apiUrl);
-
-        console.log('Room deleted successfully:', response.data);
-        this.cancelDelete();
-        this.showSuccessNotification("Room Deleted Successfully");
-        this.getRoom();
-
-      } catch (error) {
-        console.error('Error deleting Room:', error);
-        this.showErrorNotification("Failed to delete Room");
-      }
-    },
+  
 
     openRoomEditModal(room) {
       this.editedRoom = { ...room };

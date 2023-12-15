@@ -84,7 +84,7 @@
     </thead>
     <tbody>
       <tr v-for="cartId in checkedItems" :key="cartId">
-        <!-- Use getInfo and getPrice methods to get product information -->
+        
         <td>{{ getInfo(getCartItem(cartId)).prod_name }}</td>
         <td>${{ getPrice(getCartItem(cartId)).prod_price }}</td>
       </tr>
@@ -107,7 +107,40 @@
           </div>
         </div>
       </div>
-  <br><br>
+
+
+
+
+
+
+      <div class="column checkout-products-section">
+  <h4>Checkout Products:</h4>
+  <table class="table">
+    <thead>
+            <tr>
+              <th class="text-center">Product Name</th>
+              <th class="text-center">Quantity</th>
+              <th class="text-center">Price</th>
+              <th class="text-center">Total Price</th>
+            </tr>
+          </thead>
+    <tbody>
+      <tr v-for="product in checkedOutProducts" :key="product.cart_id">
+        
+        <td>{{ getInfo(product).prod_name }}</td>
+        <td>${{ getPrice(product).prod_price }}</td>
+        <td>{{ product.quantity }}</td>
+        <td>${{ getTotal(product) }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+
+<br>
+<br>
+  <br>
   <br>
   <br>
   <Notification v-if="insufficientStockError" :show="insufficientStockError" type="error" message="Insufficient stock for one or more items" />
@@ -142,6 +175,9 @@ export default {
   },
   data() {
     return {
+      cartCheckedOutIds: [],
+      checkedItems: [],
+    checkedOutProducts: [],
        cart: [],
       deleteSuccess: false,
       prod_name: [],
@@ -339,13 +375,22 @@ async checkout() {
     }
 
     if (response.status === 200) {
-      const invoice_id = response.data.invoice_id; 
+      const invoice_id = response.data.invoice_id;
+
+   
+      const newlyCheckedOutProducts = this.cart.filter(cart => this.checkedItems.includes(cart.cart_id));
+
+    
+      this.checkedOutProducts.push(...newlyCheckedOutProducts);
+
+   
+      this.cart = this.cart.filter(cart => !this.checkedItems.includes(cart.cart_id));
+
       this.checkoutSuccess = true;
       setTimeout(() => {
         this.checkoutSuccess = false;
-        this.cart = this.cart.filter(cart => !this.checkedItems.includes(cart.cart_id));
         this.checkedItems = []; 
-       // this.$router.push({ name: 'invoice', params: { invoice_id: invoice_id } });
+       
       }, 2000);
     } else {
       console.error('Checkout failed:', response.data.message);

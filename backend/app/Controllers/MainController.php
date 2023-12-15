@@ -47,6 +47,17 @@ protected $cartModel;
             return $this->respond(['error' => 'Failed to hide feedback: ' . $e->getMessage()], 500);
         }
     }
+    public function hideStaff($staffId)
+    {
+        $staffbackModel = new StaffModel();
+    
+        try {
+            $staffbackModel->update($staffId, ['hide_staff' => 1]); 
+            return $this->respond(['message' => 'Staff hidden successfully'], 200);
+        } catch (\Exception $e) {
+            return $this->respond(['error' => 'Failed to hide staff: ' . $e->getMessage()], 500);
+        }
+    }
     public function getAuditHistory($shopId)
     {
         $shopModel = new ShopModel();
@@ -114,7 +125,8 @@ protected $cartModel;
 public function getStaff()
 {
     $staff = new StaffModel();
-    $data = $staff->findAll();
+    $data = $staff->where('hide_staff', 0)->findAll();
+
     return $this->respond($data, 200);
 }   
     public function getInvoice()
@@ -724,6 +736,8 @@ public function saveStaff()
         'staff_name' => $request->getPost('staff_name'),
         'staff_email' => $request->getPost('staff_email'),
         'contactNum' => $request->getPost('contactNum'),
+        'hide_staff' => 0,
+
     ];
 
     if ($request->getFile('staff_image')->isValid()) {
