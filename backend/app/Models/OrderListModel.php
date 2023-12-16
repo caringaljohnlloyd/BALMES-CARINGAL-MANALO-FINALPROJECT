@@ -12,7 +12,7 @@ class OrderListModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id','order_id','total_price','shop_id','quantity'];
+    protected $allowedFields    = ['id','order_id','final_price','shop_id','quantity'];
 
     // Dates
     protected $useTimestamps = false;

@@ -54,6 +54,10 @@ $routes->post('/api/staffback/hide/(:num)', 'MainController::hideStaff/$1');
 
 
 $routes->post('/saveRoom', 'MainController::saveRoom');
+$routes->get('/api/user-orders', 'MainController::getUserOrders');
+$routes->post('/api/mark-order-paid/(:num)', 'MainController::markOrderPaid/$1');
+$routes->post('/api/confirm-order/(:num)', 'MainController::confirmOrder/$1');
+
 
 
 

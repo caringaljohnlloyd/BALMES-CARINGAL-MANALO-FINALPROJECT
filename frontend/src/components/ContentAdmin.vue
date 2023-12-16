@@ -229,7 +229,53 @@
           {{ successMessage }}
         </div>
       </div>
-     
+           <!-- Edit Room Modal -->
+           <div v-if="editRoomModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Room</h5>
+              <button type="button" class="close" @click="closeRoomEditModal">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Edit form for rooms -->
+              <form @submit.prevent="saveRoomEdit">
+                <div class="form-group">
+                  <label for="room_name">Room Name</label>
+                  <input type="text" class="form-control" placeholder="Name" v-model="editedRoom.room_name">
+                </div>
+                <div class="form-group">
+                  <label for="price">Room Price</label>
+                  <input type="number" class="form-control" placeholder="Price" v-model="editedRoom.price">
+                </div>
+                <div class="form-group">
+                  <label for="bed">Number of Beds</label>
+                  <input type="number" class="form-control" placeholder="Beds" v-model="editedRoom.bed">
+                </div>
+                <div class="form-group">
+                  <label for="bath">Number of Baths</label>
+                  <input type="number" class="form-control" placeholder="Baths" v-model="editedRoom.bath">
+                </div>
+                <div class="form-group">
+                  <label for="description">Room Description</label>
+                  <textarea class="form-control" placeholder="Description" v-model="editedRoom.description"></textarea>
+                </div>
+
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" @click="closeRoomEditModal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div v-if="successMessage" class="alert alert-success" role="alert">
+          {{ successMessage }}
+        </div>
+      </div>
       <div class="col-12">
         <div class="modal" :class="{ 'show': addRoomModalVisible }">
           <div class="modal-dialog modal-lg">
@@ -288,16 +334,7 @@
           <div class="card card-default">
             <div class="card-header">
               <h2>Booking Inventory</h2>
-              <div class="dropdown">
-                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false"> Yearly Chart
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </div>
+
             </div>
             <div class="card-body">
               <table id="productsTable" class="table table-hover table-product" style="width:100%">
@@ -359,6 +396,70 @@
        
       </div>
 
+      <div class="row">
+    <!-- Table Product -->
+    <div class="col-12">
+      <div class="card card-default">
+        <div class="card-header">
+          <h2>Orders Inventory</h2>
+        </div>
+        <div class="card-body">
+          <table id="ordersTable" class="table table-hover table-product" style="width:100%">
+            <!-- Table headers -->
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>User</th>
+                <th>Total Price</th>
+                <th>Shop</th>
+                <th>Quantity</th>
+                <th>status</th>                
+                <th>room</th>
+
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Loop through orders and display rows -->
+              <tr v-for="order in orders" :key="order.order_id">
+                <td>{{ order.order_id }}</td>
+                <td>{{ order.user_name }}</td>
+                <td>{{ order.final_price }}</td>
+                <td>{{ order.prod_name }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>{{ order.order_status }}</td>
+                <td>{{ order.room_name }}</td>
+
+                <td>
+                  <div class="dropdown">
+                    <!-- Dropdown actions -->
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Actions
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" @click="markOrderPaid(order.order_id)">Mark as Paid</a>
+                      <a class="dropdown-item" @click="confirmOrder(order.order_id)">Confirm Order</a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Loading Indicator -->
+          <div v-if="loading" class="text-center mt-3">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+          <!-- Success Message -->
+          <div v-if="successMessage" class="alert alert-success mt-3" role="alert">
+            {{ successMessage }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
     </div>
   </div>
   <Notification
@@ -385,6 +486,9 @@ export default {
   },
   data() {
     return {
+      orders: [],
+      loading: false,
+
       editRoomModalVisible: false,
       editedRoom: null,
       editModalVisible: false,
@@ -417,7 +521,7 @@ export default {
       description: '',
       room_img: '',
       ConfirmationVisible: false,
-    
+
 
     };
   },
@@ -426,13 +530,49 @@ export default {
     this.getInfo();
     this.getRoom();
     this.getbook();
+    this.fetchOrdersForAllUsers();  
 
   },
 
   methods: {
+    fetchOrdersForAllUsers() {
+  this.loading = true;
+  axios.get(`/api/user-orders/`)
+    .then((response) => {
+      console.log(response.data);  // Add this line to log the response
+      this.orders = response.data.orders;
+      return this.orders.filter(order => order.order_status !== 'paid');
+    })
+    .catch((error) => {
+      console.error("Error fetching orders:", error);
+    })
+    .finally(() => {
+      this.loading = false;
+    });
+},
 
-  
+markOrderPaid(orderId) {
+      axios.post(`/api/mark-order-paid/${orderId}`)
+        .then(response => {
+          console.log(response.data);
+          this.fetchOrdersForAllUsers(); 
+        })
+        .catch(error => {
+          console.error('Error marking order as paid:', error);
+        });
+    },
 
+    confirmOrder(orderId) {
+      axios.post(`/api/confirm-order/${orderId}`)
+        .then(response => {
+          console.log(response.data);
+          this.fetchOrdersForAllUsers(); 
+
+        })
+        .catch(error => {
+          console.error('Error confirming order:', error);
+        });
+    },
     openRoomEditModal(room) {
       this.editedRoom = { ...room };
       this.editRoomModalVisible = true;

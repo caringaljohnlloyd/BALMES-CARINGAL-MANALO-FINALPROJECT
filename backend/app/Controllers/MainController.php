@@ -195,6 +195,7 @@ public function getStaff()
             ->select('booking.*, user.*, room.*')
             ->join('user', 'user.id = booking.id') 
             ->join('room', 'room.room_id = booking.room_id')
+            ->where('booking.booking_status !=', 'paid') // Exclude rows where status is 'paid'
             ->findAll();
     
         return $this->respond($result, 200);
@@ -522,6 +523,35 @@ public function getStaff()
         return $this->respond(['message' => 'Cart item not found'], 404);
       }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     public function checkout()
     {
         $this->invoice = new InvoiceModel();
@@ -554,29 +584,13 @@ public function getStaff()
                 'id' => $id,
                 'shop_id' => $item->shop_id,
                 'quantity' => $item->quantity,
-                'total_price' => $item->total_price,
+                'final_price' => $item->total_price,
                 'order_id' => $order_id,
             ];
     
             $this->orderitems->save($orderitem);
-    
-            $product = $shopModel->find($item->shop_id);
-    
-            if ($product) {
-                $newQuantity = $product['prod_quantity'] - $item->quantity;
-                $shopModel->update($item->shop_id, ['prod_quantity' => $newQuantity]);
-    
-                $auditModel = new AuditModel();
-                $auditData = [
-                    'shop_id' => $product['shop_id'],
-                    'old_quantity' => $product['prod_quantity'],
-                    'new_quantity' => $newQuantity,
-                    'type' => 'sold',
-                ];
-                $auditModel->save($auditData);
-            }
         }
-    
+
         $inv = [
             'id' => $id,
             'order_id' => $order_id,
@@ -589,7 +603,78 @@ public function getStaff()
         } else {
             return $this->respond(['message' => 'Checkout failed'], 500);
         }
-    }   
+    }
+    
+    public function markOrderPaid($orderId)
+    {
+        $ordersModel = new OrdersModel();
+        $shopModel = new ShopModel();
+    
+        $this->orderitems = new OrderListModel();
+    
+        $order = $ordersModel->find($orderId);
+    
+        if ($order && $order['order_status'] === 'confirmed') {
+            $ordersModel->update($orderId, ['order_status' => 'paid']);
+    
+            $orderItems = $this->orderitems->where('order_id', $orderId)->findAll();
+    
+            foreach ($orderItems as $item) {
+                $product = $shopModel->find($item['shop_id']);
+    
+                if ($product) {
+                    $newQuantity = $product['prod_quantity'] - $item['quantity'];
+                    $shopModel->update($item['shop_id'], ['prod_quantity' => $newQuantity]);
+    
+                    $auditModel = new AuditModel();
+                    $auditData = [
+                        'shop_id' => $product['shop_id'],
+                        'old_quantity' => $product['prod_quantity'],
+                        'new_quantity' => $newQuantity,
+                        'type' => 'sold',
+                    ];
+                    $auditModel->save($auditData);
+                }
+            }
+    
+            return $this->response->setJSON(['message' => 'Order marked as paid successfully']);
+        } else {
+            return $this->response->setJSON(['message' => 'Invalid order or order is not confirmed'], 400);
+        }
+    }
+    
+    
+public function confirmOrder($orderId)
+{
+    $ordersModel = new OrdersModel();
+
+    $ordersModel->update($orderId, ['order_status' => 'confirmed']);
+
+    return $this->response->setJSON(['message' => 'Order confirmed successfully']);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public function saveShop()
         {
             $request = $this->request;
@@ -885,10 +970,8 @@ public function deleteShop($shop_id = null)
         // Use the set method to set the password column
         $userModel->set('password', password_hash($newPassword, PASSWORD_DEFAULT));
     
-        // Use the where method to specify the condition for the update
         $userModel->where('email', $email);
     
-        // Use the update method to execute the update query
         $userModel->update();
     
         return $this->respond(['message' => 'Password updated successfully']);
@@ -924,9 +1007,23 @@ public function deleteShop($shop_id = null)
     
         return $this->respond($result, 200);
     }
+    public function getUserOrders()
+    {
+        $userModel = new UserModel();
+        $ordersModel = new OrdersModel();
+        $shopModel = new ShopModel();
 
+        $orders = $ordersModel->select('orders.*, order_list.*, shop.*, user.name as user_name')
+            ->join('order_list', 'order_list.order_id = orders.order_id')
+            ->join('shop', 'shop.shop_id = order_list.shop_id')
+            ->join('user', 'user.id = orders.id') 
+            ->where('orders.order_status !=', 'paid') 
+            ->findAll();
+        
+        return $this->response->setJSON(['orders' => $orders]);
+    }
     
-
+    
 }
 
     
