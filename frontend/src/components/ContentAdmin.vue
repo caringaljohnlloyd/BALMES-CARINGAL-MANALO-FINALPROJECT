@@ -446,6 +446,11 @@
               </tr>
             </tbody>
           </table>
+
+
+
+
+          
           <!-- Loading Indicator -->
           <div v-if="loading" class="text-center mt-3">
             <div class="spinner-border" role="status">
@@ -457,6 +462,20 @@
             {{ successMessage }}
           </div>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       </div>
     </div>
   </div>
@@ -469,6 +488,8 @@
       class="bottom-right-notification"
     />
 
+
+  
 </template>
 
 <script>
@@ -486,9 +507,10 @@ export default {
   },
   data() {
     return {
+
+
       orders: [],
       loading: false,
-
       editRoomModalVisible: false,
       editedRoom: null,
       editModalVisible: false,

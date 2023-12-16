@@ -26,7 +26,7 @@ import Cart from '../views/Cart.vue'
 import AuditHistory from '@/views/AuditHistory.vue';
 import Invoice from '@/components/Invoice.vue';
 import Home from '../views/Home.vue'
-
+import pos from '../views/Pos.vue'
 
 
 
@@ -147,6 +147,12 @@ const routes = [
 {
   path: '/monitorusers',
   component: monitorusers,
+  meta: { requiresAuth: true, role: 'admin' }
+
+},
+{
+  path: '/pos',
+  component: pos,
   meta: { requiresAuth: true, role: 'admin' }
 
 },

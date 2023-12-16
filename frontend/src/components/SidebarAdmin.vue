@@ -39,7 +39,12 @@
           <span class="nav-text">Users</span>
         </router-link>
       </li>
-        
+      <li :class="{ active: isActive('/pos') }">
+        <router-link class="sidenav-item-link" to="/pos">
+          <i class="mdi mdi-account"></i>
+          <span class="nav-text">POS</span>
+        </router-link>
+      </li>
         </ul>
       </div>
       <div class="sidebar-footer">
