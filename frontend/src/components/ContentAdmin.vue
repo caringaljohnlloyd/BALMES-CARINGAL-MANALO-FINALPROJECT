@@ -230,52 +230,71 @@
         </div>
       </div>
            <!-- Edit Room Modal -->
-           <div v-if="editRoomModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Edit Room</h5>
-              <button type="button" class="close" @click="closeRoomEditModal">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <!-- Edit form for rooms -->
-              <form @submit.prevent="saveRoomEdit">
-                <div class="form-group">
-                  <label for="room_name">Room Name</label>
-                  <input type="text" class="form-control" placeholder="Name" v-model="editedRoom.room_name">
-                </div>
-                <div class="form-group">
-                  <label for="price">Room Price</label>
-                  <input type="number" class="form-control" placeholder="Price" v-model="editedRoom.price">
-                </div>
-                <div class="form-group">
-                  <label for="bed">Number of Beds</label>
-                  <input type="number" class="form-control" placeholder="Beds" v-model="editedRoom.bed">
-                </div>
-                <div class="form-group">
-                  <label for="bath">Number of Baths</label>
-                  <input type="number" class="form-control" placeholder="Baths" v-model="editedRoom.bath">
-                </div>
-                <div class="form-group">
-                  <label for="description">Room Description</label>
-                  <textarea class="form-control" placeholder="Description" v-model="editedRoom.description"></textarea>
-                </div>
-
-
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" @click="closeRoomEditModal">Close</button>
-                  <button type="submit" class="btn btn-primary">Save Changes</button>
-                </div>
-              </form>
-            </div>
+<div v-if="editRoomModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Room</h5>
+        <button type="button" class="close" @click="closeRoomEditModal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Edit form for rooms -->
+        <form @submit.prevent="saveRoomEdit">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="room_name">Room Name</label>
+        <input type="text" class="form-control" placeholder="Name" v-model="editedRoom.room_name">
+      </div>
+      <div class="form-group">
+        <label for="price">Room Price</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">$</span>
           </div>
-        </div>
-        <div v-if="successMessage" class="alert alert-success" role="alert">
-          {{ successMessage }}
+          <input type="number" class="form-control" placeholder="Price" v-model="editedRoom.price">
         </div>
       </div>
+      <div class="form-group">
+        <label for="bed">Number of Beds</label>
+        <input type="number" class="form-control" placeholder="Beds" v-model="editedRoom.bed">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="bath">Number of Baths</label>
+        <input type="number" class="form-control" placeholder="Baths" v-model="editedRoom.bath">
+      </div>
+      <div class="form-group">
+        <label for="description">Room Description</label>
+        <textarea class="form-control" placeholder="Description" v-model="editedRoom.description"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="room_status">Room Status</label>
+        <select class="form-control" v-model="editedRoom.room_status">
+          <option value="Available">Available</option>
+          <option value="Booked">Booked</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" @click="closeRoomEditModal">Close</button>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+  </div>
+</form>
+
+      </div>
+    </div>
+  </div>
+  <div v-if="successMessage" class="alert alert-success" role="alert">
+    {{ successMessage }}
+  </div>
+</div>
+
       <div class="col-12">
         <div class="modal" :class="{ 'show': addRoomModalVisible }">
           <div class="modal-dialog modal-lg">
@@ -364,7 +383,7 @@
                     <td>{{ book.adult }}</td>
                     <td>{{ book.child }}</td>
                     <td>{{ book.specialRequest }}</td>
-                    <td>{{ book.room_id }}</td>
+                    <td>{{ book.room_name }}</td>
                     <td>{{ book.booking_status }}</td>
                     <td>{{ book.payment_method }}</td>
 
@@ -377,6 +396,7 @@
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                           <a class="dropdown-item" @click="markAsPaid(book.book_id)">Paid</a>
                           <a class="dropdown-item" @click="acceptBooking(book.book_id)">Confirm</a>
+                          <a class="dropdown-item" @click="declineBooking(book.book_id)">Decline Booking</a>
                         </div>
                       </div>
                     </td>
@@ -440,17 +460,14 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                       <a class="dropdown-item" @click="markOrderPaid(order.order_id)">Mark as Paid</a>
                       <a class="dropdown-item" @click="confirmOrder(order.order_id)">Confirm Order</a>
+                      <a class="dropdown-item" @click="declineOrder(order.order_id)">Decline Order</a>
+
                     </div>
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
-
-
-
-
-          
           <!-- Loading Indicator -->
           <div v-if="loading" class="text-center mt-3">
             <div class="spinner-border" role="status">
@@ -462,20 +479,6 @@
             {{ successMessage }}
           </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       </div>
     </div>
   </div>
@@ -557,6 +560,42 @@ export default {
   },
 
   methods: {
+    async declineOrder(orderId) {
+            try {
+                const response = await axios.post(`/api/decline-order/${orderId}`);
+
+                if (response.status === 200) {
+                    this.showSuccessNotification(`Order ${orderId} Declined`);
+                    this.fetchOrdersForAllUsers();  
+                    this.getInfo();
+
+                    this.$emit('data-saved');
+                } else {
+                    console.error('Failed to decline order:', response.data.message);
+                }
+            } catch (error) {
+                console.error('Error declining order:', error);
+            }
+        },
+    
+    async declineBooking(booking_id) {
+  try {
+    const response = await axios.post(`/api/decline-booking/${booking_id}`);
+
+    if (response.status === 200) {
+      this.showSuccessNotification(`Booking ${booking_id} Declined`);
+      this.getbook();
+      this.getRoom();
+
+      this.$emit('data-saved');
+    } else {
+      console.error('Failed to decline booking:', response.data.message);
+    }
+  } catch (error) {
+    console.error('Error declining booking:', error);
+  }
+},
+
     fetchOrdersForAllUsers() {
   this.loading = true;
   axios.get(`/api/user-orders/`)
@@ -605,29 +644,30 @@ markOrderPaid(orderId) {
       this.editRoomModalVisible = false;
     },
 
-    async saveRoomEdit() {
-      try {
-        const data = {
-          room_name: this.editedRoom.room_name,
-          price: this.editedRoom.price,
-          bed: this.editedRoom.bed,
-          bath: this.editedRoom.bath,
-          description: this.editedRoom.description,
-        };
+async saveRoomEdit() {
+  try {
+    const data = {
+      room_name: this.editedRoom.room_name,
+      price: this.editedRoom.price,
+      bed: this.editedRoom.bed,
+      bath: this.editedRoom.bath,
+      description: this.editedRoom.description,
+      room_status: this.editedRoom.room_status, // Add room_status to the data object
+    };
 
-        const apiUrl = `/updateRoom/${this.editedRoom.room_id}`;
-        const response = await axios.put(apiUrl, data);
+    const apiUrl = `/updateRoom/${this.editedRoom.room_id}`;
+    const response = await axios.put(apiUrl, data);
 
-        console.log('Room updated successfully:', response.data);
-        this.closeRoomEditModal();
-        this.showSuccessNotification("Room Updated Successfully");
-        this.getRoom();
+    console.log('Room updated successfully:', response.data);
+    this.closeRoomEditModal();
+    this.showSuccessNotification("Room Updated Successfully");
+    this.getRoom();
 
-      } catch (error) {
-        console.error('Error updating room:', error);
-        this.showErrorNotification("Failed to update room");
-      }
-    },
+  } catch (error) {
+    console.error('Error updating room:', error);
+    this.showErrorNotification("Failed to update room");
+  }
+},
 
 
 

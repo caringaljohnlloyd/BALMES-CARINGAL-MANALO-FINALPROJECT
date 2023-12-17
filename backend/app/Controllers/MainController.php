@@ -196,10 +196,12 @@ public function getStaff()
             ->join('user', 'user.id = booking.id') 
             ->join('room', 'room.room_id = booking.room_id')
             ->where('booking.booking_status !=', 'paid') // Exclude rows where status is 'paid'
+            ->where('booking.booking_status !=', 'declined') // Exclude rows where status is 'declined'
             ->findAll();
     
-        return $this->respond($result, 200);
+        return $this->respond($result, 200);    
     }
+    
     public function acceptBooking($booking_id)
     {
         $roomModel = new RoomModel();
@@ -295,6 +297,38 @@ public function getStaff()
             return $this->respond(['message' => 'Booking failed'], 500);
         }
     }  
+    public function declineBooking($booking_id)
+    {
+        $roomModel = new RoomModel();
+        $bookingModel = new BookingModel();
+    
+        $booking = $bookingModel->find($booking_id);
+    
+        if ($booking) {
+            // Check if the booking status is 'pending'
+            if ($booking['booking_status'] === 'pending') {
+                // Update the booking status to 'declined'
+                $updatedBooking = $bookingModel->update($booking['book_id'], ['booking_status' => 'declined']);
+    
+                if ($updatedBooking) {
+                    // Optional: Update the room status or perform any other necessary actions
+                    $updatedRoom = $roomModel->update($booking['room_id'], ['room_status' => 'booked']);
+    
+                    // Return the response
+                    return $this->respond(['message' => 'Booking declined successfully', 'booking_id' => $booking['book_id']], 200);
+                } else {
+                    return $this->respond(['message' => 'Failed to decline booking'], 500);
+                }
+            } else {
+                return $this->respond(['message' => 'Cannot decline booking with the current status'], 400);
+            }
+        } else {
+            return $this->respond(['message' => 'Booking not found'], 404);
+        }
+    }
+    
+    
+
     public function getDataShop()
     {
         $main = new ShopModel();
@@ -642,7 +676,24 @@ public function getStaff()
             return $this->response->setJSON(['message' => 'Invalid order or order is not confirmed'], 400);
         }
     }
-    
+    public function declineOrder($orderId)
+{
+    $ordersModel = new OrdersModel();
+
+    $order = $ordersModel->find($orderId);
+
+    if ($order && $order['order_status'] === 'pending') {
+        // Update the order status to 'declined'
+        $ordersModel->update($orderId, ['order_status' => 'declined']);
+
+        // Optional: You can perform additional actions specific to declining orders here
+
+        return $this->response->setJSON(['message' => 'Order declined successfully']);
+    } else {
+        return $this->response->setJSON(['message' => 'Invalid order or order is not pending'], 400);
+    }
+}
+
     
 public function confirmOrder($orderId)
 {
@@ -793,6 +844,7 @@ public function updateRoom($room_id = null)
         'bed' => $request->getVar('bed') ?? $existingData['bed'],
         'bath' => $request->getVar('bath') ?? $existingData['bath'],
         'description' => $request->getVar('description') ?? $existingData['description'],
+        'room_status' => $request->getVar('room_status') ?? $existingData['room_status'],
     ];
 
     try {
@@ -806,6 +858,7 @@ public function updateRoom($room_id = null)
         return $this->respond(["message" => "Failed to update data: " . $e->getMessage()], 500);
     }
 }
+
 public function handleEditImageUpload($image, $imageName)
 {
     $uploadPath = 'C:/laragon/www/BALMES-CARINGAL-MANALO-FINALPROJECT/frontend/src/assets/img';
@@ -1018,11 +1071,84 @@ public function deleteShop($shop_id = null)
             ->join('shop', 'shop.shop_id = order_list.shop_id')
             ->join('user', 'user.id = orders.id') 
             ->where('orders.order_status !=', 'paid') 
+            ->where('orders.order_status !=', 'declined') 
+
             ->findAll();
         
         return $this->response->setJSON(['orders' => $orders]);
     }
+
+
     
+    public function checkoutpos()
+    {
+        $this->invoice = new InvoiceModel();
+        $this->orderitems = new OrderListModel();
+        $this->orders = new OrderSModel();
+        $this->cartModel = new CartModel(); // Add CartModel
+    
+        $json = $this->request->getJSON();
+        $id = $json->id;
+    
+        foreach ($json->items as $item) {
+            $shopModel = new ShopModel();
+            $product = $shopModel->find($item->shop_id);
+    
+            if (!$product || $product['prod_quantity'] < $item->quantity) {
+                return $this->respond(['message' => 'Insufficient stock for one or more items'], 400);
+            }
+        }
+    
+        $order = [
+            'id' => $id,
+            'order_status' => 'paid',
+            'total_price' => $json->total_price,
+        ];
+    
+        $this->orders->save($order);
+    
+        $order_id = $this->orders->insertID();
+    
+        foreach ($json->items as $item) {
+            $orderitem = [
+                'id' => $id,
+                'shop_id' => $item->shop_id,
+                'quantity' => $item->quantity,
+                'total_price' => $item->total_price,
+                'order_id' => $order_id,
+            ];
+    
+            $this->orderitems->save($orderitem);
+    
+            $product = $shopModel->find($item->shop_id);
+    
+            if ($product) {
+                $newQuantity = $product['prod_quantity'] - $item->quantity;
+                $shopModel->update($item->shop_id, ['prod_quantity' => $newQuantity]);
+    
+                $auditModel = new AuditModel();
+                $auditData = [
+                    'shop_id' => $product['shop_id'],
+                    'old_quantity' => $product['prod_quantity'],
+                    'new_quantity' => $newQuantity,
+                    'type' => 'sold',
+                ];
+                $auditModel->save($auditData);
+            }
+        }
+    
+        $inv = [
+            'id' => $id,
+            'order_id' => $order_id,
+        ];
+    
+        $this->invoice->save($inv);    
+        if ($this->orders->affectedRows() > 0 && $this->orderitems->affectedRows() > 0 && $this->invoice->affectedRows() > 0) {
+            return $this->respond(['message' => 'Checkout successful'], 200);
+        } else {
+            return $this->respond(['message' => 'Checkout failed'], 500);
+        }
+    }
     
 }
 

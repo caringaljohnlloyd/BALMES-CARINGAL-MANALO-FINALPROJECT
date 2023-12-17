@@ -69,13 +69,29 @@
                 <router-link to="/contact" class="nav-item nav-link"
                   :class="{ active: $route.path === '/contact' }">Contact</router-link>
                   <div class="col-lg-5 px-5 text-end d-flex align-items-center justify-content-end">
+                    <div class="dropdown">
+            <button class="btn btn-link text-primary me-3" @click="showNotifications = !showNotifications">
+              <i class="fa fa-bell"></i>
+              <!-- Optionally, you can display the number of notifications -->
+              <span v-if="notifications.length" class="badge bg-danger">{{ notifications.length }}</span>
+            </button>
+            <div v-show="showNotifications" class="dropdown-menu" aria-labelledby="notificationDropdown">
+              <!-- Display notifications here -->
+              <a v-for="(notification, index) in notifications" :key="index" class="dropdown-item">
+                {{ notification.message }}
+              </a>
+              <div v-if="!notifications.length" class="dropdown-item">No new notifications</div>
+            </div>
+          </div>
           <router-link to="/shopcart" class="text-primary me-3">
             <i class="fa fa-shopping-cart"></i>
+            
           </router-link>
           <button @click="logout" class="btn btn-primary logout-logo-btn">
             <i class="fas fa-power-off logout-icon"></i>
             Logout
           </button>
+
         </div>
       </div>
       </div>
@@ -98,6 +114,7 @@
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
   </div>
   <router-view />
+  
 </template>
 
 <style>
@@ -151,6 +168,8 @@ export default {
       data: [],
       showData: false,
       showNoMatchMessage: false,
+      notifications: [], // Array to store notifications
+      showNotifications: false, // Flag to control the visibility of the notification dropdown
     };
   },
   methods: {
@@ -180,6 +199,14 @@ export default {
         console.error(error);
       }
     },
+    async fetchNotifications() {
+      try {
+        const response = await axios.get('/api/notifications'); // Replace with your actual endpoint
+        this.notifications = response.data;
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    },
     closeDataList(event) {
       const appElement = this.$refs.appRef;
       if (appElement && !appElement.contains(event.target)) {
@@ -190,6 +217,7 @@ export default {
     },
   },
   mounted() {
+    this.fetchNotifications(); // Fetch notifications when the component is mounted
     document.addEventListener('click', this.closeDataList);
   },
   beforeUnmount() {
@@ -197,3 +225,4 @@ export default {
   },
 };
 </script>
+

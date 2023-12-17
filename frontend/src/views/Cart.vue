@@ -86,12 +86,12 @@
       <tr v-for="cartId in checkedItems" :key="cartId">
         
         <td>{{ getInfo(getCartItem(cartId)).prod_name }}</td>
-        <td>${{ getPrice(getCartItem(cartId)).prod_price }}</td>
+        <td>Php.{{ getPrice(getCartItem(cartId)).prod_price }}</td>
       </tr>
     </tbody>
   </table>
   <div>
-          <h4>Total:</h4> <span class="text-medium">${{ calculateSubtotal() }}</span>
+          <h4>Total:</h4> <span class="text-medium">Php.{{ calculateSubtotal() }}</span>
         </div>
       </div>
       <div class="column checkout-button-section">
@@ -128,9 +128,9 @@
       <tr v-for="product in checkedOutProducts" :key="product.cart_id">
         
         <td>{{ getInfo(product).prod_name }}</td>
-        <td>${{ getPrice(product).prod_price }}</td>
+        <td>Php.{{ getPrice(product).prod_price }}</td>
         <td>{{ product.quantity }}</td>
-        <td>${{ getTotal(product) }}</td>
+        <td>Php.{{ getTotal(product) }}</td>
       </tr>
     </tbody>
   </table>

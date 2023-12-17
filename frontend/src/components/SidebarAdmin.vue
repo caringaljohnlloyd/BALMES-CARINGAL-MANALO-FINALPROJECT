@@ -29,7 +29,7 @@
 
       <li :class="{ active: isActive('/teamadmin') }">
         <router-link class="sidenav-item-link" to="/teamadmin">
-          <i class="mdi mdi-wechat"></i>
+          <i class="mdi mdi-account-group-outline"></i>
           <span class="nav-text">Team</span>
         </router-link>
       </li>
@@ -41,7 +41,7 @@
       </li>
       <li :class="{ active: isActive('/pos') }">
         <router-link class="sidenav-item-link" to="/pos">
-          <i class="mdi mdi-account"></i>
+          <i class="mdi mdi-point-of-sale"></i>
           <span class="nav-text">POS</span>
         </router-link>
       </li>

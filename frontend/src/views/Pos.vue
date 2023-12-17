@@ -4,246 +4,222 @@
     <HeaderAdmin />
   </div>
 
-        <!-- Table Product -->
-        <div class="container-fluid">
-
-<div class="row">
-  <div class="col-md-3">
-    <SidebarAdmin />
-  </div>
-  <div class="col-md-9"> <!-- Adjusted the column width -->
+  <!-- Table Product -->
+  <div class="container-fluid">
     <div class="row">
-              
-              <h2>POS</h2>
-              
-              <div class="row g-4">
-				
-				<div v-for="shop in shop" class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-					<div class="room-item shadow rounded overflow-hidden">
-						<div class="position-relative">
-							<img class="img-fluid menu" style="width: 200%; max-width: 500px; height: 330px;"
-							:src="require('@/assets/img/' + shop.prod_img)" alt="" />
-							<small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">
-								Php. {{ shop.prod_price }}
-							</small>
-						</div>
-						<div class="p-4 mt-2">
-							<div class="d-flex justify-content-between mb-3">
-								<h5 class="mb-0 text-dark">
-									{{ shop.prod_name }}
-								</h5>
-								<div class="ps-2">
-									<star-rating :initialRating="shop.rating" @rating-selected="updateRating(shop.shop_id, $event)"></star-rating>
-								</div>
-							</div>
-							<div class="d-flex mb-3">
-								<small class="border-end me-3 pe-3">
-									Quantity: {{ shop.prod_quantity }}
-								</small>
-							</div>
-							<p class="text-body mb-3">
-								{{ shop.prod_desc }}
-							</p>
-							<div class="d-flex justify-content-between">
-								<div class="input-group">
-  <input type="number" class="form-control text-center" v-model="selectedQuantity" min="1">
-</div>
-<button class="btn text-primary btn-lg-square rounded-circle mx-2" @click="addCart(shop.shop_id)">
-  <i class="fa fa-shopping-cart">
-    Add to Cart
-  </i>
-</button>
-</div>
-					</div>
-				</div>
-			</div>
-			<div v-if="successMessage" class="alert alert-primary mt-3" role="alert">
-				{{ successMessage }}
-			</div>
-		</div>
+      <div class="col-md-3">
+        <SidebarAdmin />
+      </div>
+      <div class="col-md-9">
+        <!-- Adjusted the column width -->
+        <div class="row">
+          <h2>POS</h2>
 
-
-
-
-
-
-
-  <div class="container-fluid padding-bottom-3x mb-1">
-      <Notification v-if="deleteSuccess" :show="deleteSuccess" type="success" message="Deleted successfully!" />
-
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th class="text-center">Product Name</th>
-              <th class="text-center">Quantity</th>
-              <th class="text-center">Price</th>
-              <th class="text-center">Total Price</th>
-              <th class="text-center">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="cart in cart" :key="cart.shop_id">
-              <td class="align-middle">
-                <div class="product-item">
-                  <div class="custom-control custom-checkbox" style="float: left; margin-right: 10px; margin-top: 10px;">
-                    <input type="checkbox" :id="'checkbox_' + cart.cart_id" v-model="checkedItems" :value="cart.cart_id"
-                      @click="check(cart.cart_id)">
-                    <label class="custom-control-label" :for="'checkbox' + cart.shop_id"></label>
+          <div class="row g-4">
+            <div v-for="shop in shop" class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+              <div class="room-item shadow rounded overflow-hidden">
+                <div class="position-relative">
+                  <img class="img-fluid menu" style="width: 200%; max-width: 500px; height: 330px"
+                    :src="require('@/assets/img/' + shop.prod_img)" alt="" />
+                  <small
+                    class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">
+                    Php. {{ shop.prod_price }}
+                  </small>
+                </div>
+                <div class="p-4 mt-2">
+                  <div class="d-flex justify-content-between mb-3">
+                    <h5 class="mb-0 text-dark">
+                      {{ shop.prod_name }}
+                    </h5>
+                    <div class="ps-2">
+                      <star-rating :initialRating="shop.rating"
+                        @rating-selected="updateRating(shop.shop_id, $event)"></star-rating>
+                    </div>
                   </div>
-                  <a class=""><img class="img-fluid menu"
-                      style="width: 100%; max-width: 250px; height: 200px; margin-top: 5px;"
-                      :src="require('@/assets/img/' + getImg(cart).prod_img)" alt="Product"></a>
-                  <div class="product-info">
-                    <h4 class="product-title">{{ getInfo(cart).prod_name }}</h4>
+                  <div class="d-flex mb-3">
+                    <small class="border-end me-3 pe-3">
+                      Quantity: {{ shop.prod_quantity }}
+                    </small>
+                  </div>
+                  <p class="text-body mb-3">
+                    {{ shop.prod_desc }}
+                  </p>
+                  <div class="d-flex justify-content-between">
+                    <div class="input-group">
+                      <input type="number" class="form-control text-center" v-model="selectedQuantity" min="1" />
+                    </div>
+                    <button class="btn text-primary btn-lg-square rounded-circle mx-2" @click="addCart(shop.shop_id)">
+                      <i class="fa fa-shopping-cart"> Add to Cart </i>
+                    </button>
                   </div>
                 </div>
-              </td>
-
-
-              <td class="align-middle text-center">
-                <div class="count-input">
-                  <button @click="updateQuantity(cart, 'decrement')" class="btn btn-primary btn-sm rounded-circle"
-                    :disabled="cart.quantity <= 1">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <span class="quantity">{{ cart.quantity }}</span>
-                  <button @click="updateQuantity(cart, 'increment')" class="btn btn-primary btn-sm rounded-circle"
-                    :disabled="cart.quantity >= getMaxQuantity(cart)">
-                    <i class="fas fa-plus"></i>
-                  </button>
-                </div>
-              </td>
-
-
-              <td class=" align-middle text-center text-lg text-medium">{{ getPrice(cart).prod_price }}</td>
-              <td class="align-middle text-center text-lg text-medium">{{ getTotal(cart) }}</td>
-              <td class="align-middle text-center">
-                <button @click="deleteCart(cart.cart_id)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="floating-container">
-        <div class="container">
-          <div class="shopping-cart-footer">
-            <div class="column coupon-section">
-              <form class="coupon-form" method="post">
-                <input class="form-control form-control-sm" type="text" placeholder="Coupon code" required>
-                <br>
-                <div>
-                  <button class="btn btn-outline-primary btn-sm" type="submit">Apply Coupon</button>
-                </div>
-              </form>
-            </div>
-<!-- invoice section-->
-          
-<div class="column text-lg invoice-section sticky-column">
-              <h4>Products to Pay:</h4>
-              <table class="table">
-    <thead>
-      <tr>
-        <th>Product Name</th>
-        <th>Price</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="cartId in checkedItems" :key="cartId">
-        
-        <td>{{ getInfo(getCartItem(cartId)).prod_name }}</td>
-        <td>${{ getPrice(getCartItem(cartId)).prod_price }}</td>
-      </tr>
-    </tbody>
-  </table>
-  <div>
-          <h4>Total:</h4> <span class="text-medium">${{ calculateSubtotal() }}</span>
-        </div>
-      </div>
-      <div class="column checkout-button-section">
-              <div class="shopping-cart-footer">
-                <div class="column">
-                  <a class="btn btn-dark" @click="checkout">Proceed to Checkout</a>
-                  
-                </div>
-  
-
               </div>
             </div>
+            <div v-if="successMessage" class="alert alert-primary mt-3" role="alert">
+              {{ successMessage }}
+            </div>
+          </div>
+          <div class="container-fluid padding-bottom-3x mb-1">
+            <Notification v-if="deleteSuccess" :show="deleteSuccess" type="success" message="Deleted successfully!" />
+
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="text-center">Product Name</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Total Price</th>
+                    <th class="text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="cart in cart" :key="cart.shop_id">
+                    <td class="align-middle">
+                      <div class="product-item">
+                        <div class="custom-control custom-checkbox" style="
+                            float: left;
+                            margin-right: 10px;
+                            margin-top: 10px;
+                          ">
+                          <input type="checkbox" :id="'checkbox_' + cart.cart_id" v-model="checkedItems"
+                            :value="cart.cart_id" @click="check(cart.cart_id)" />
+                          <label class="custom-control-label" :for="'checkbox' + cart.shop_id"></label>
+                        </div>
+                        <a class=""><img class="img-fluid menu" style="
+                              width: 100%;
+                              max-width: 250px;
+                              height: 200px;
+                              margin-top: 5px;
+                            " :src="require('@/assets/img/' + getImg(cart).prod_img)
+                              " alt="Product" /></a>
+                        <div class="product-info">
+                          <h4 class="product-title">
+                            {{ getInfo(cart).prod_name }}
+                          </h4>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td class="align-middle text-center">
+                      <div class="count-input">
+                        <button @click="updateQuantity(cart, 'decrement')" class="btn btn-primary btn-sm rounded-circle"
+                          :disabled="cart.quantity <= 1">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                        <span class="quantity">{{ cart.quantity }}</span>
+                        <button @click="updateQuantity(cart, 'increment')" class="btn btn-primary btn-sm rounded-circle"
+                          :disabled="cart.quantity >= getMaxQuantity(cart)">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                    </td>
+
+                    <td class="align-middle text-center text-lg text-medium">
+                      {{ getPrice(cart).prod_price }}
+                    </td>
+                    <td class="align-middle text-center text-lg text-medium">
+                      {{ getTotal(cart) }}
+                    </td>
+                    <td class="align-middle text-center">
+                      <button @click="deleteCart(cart.cart_id)" class="btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="floating-container">
+              <div class="container">
+                <div class="shopping-cart-footer">
+                  <div class="column text-lg invoice-section sticky-column">
+                    <h4>Products to Pay:</h4>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Product Name</th>
+                          <th>Price</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="cartId in checkedItems" :key="cartId">
+                          <td>{{ getInfo(getCartItem(cartId)).prod_name }}</td>
+                          <td>
+                            Php.{{ getPrice(getCartItem(cartId)).prod_price }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div>
+                      <h4>Total:</h4>
+                      <span class="text-medium">Php.{{ calculateSubtotal() }}</span>
+                    </div>
+                  </div>
+                  <div class="column checkout-button-section">
+                    <div class="shopping-cart-footer">
+                      <div class="column">
+                        <a class="btn btn-dark" @click="checkout">Proceed to Checkout</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="column checkout-products-section">
+              <h4>Checkout Products:</h4>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="text-center">Product Name</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Total Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="product in checkedOutProducts" :key="product.cart_id">
+                    <td>{{ getInfo(product).prod_name }}</td>
+                    <td>Php.{{ getPrice(product).prod_price }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>Php.{{ getTotal(product) }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <Notification v-if="insufficientStockError" :show="insufficientStockError" type="error"
+              message="Insufficient stock for one or more items" />
+            <Notification v-if="notification.show" :show="notification.show" :type="notification.type"
+              :message="notification.message" />
+
+            <Notification v-if="checkoutSuccess" :show="checkoutSuccess" type="success" message="Checkout successful!" />
+            <Notification v-if="checkoutError" :show="checkoutError" type="error"
+              message="Please select items before proceeding with the checkout." />
           </div>
         </div>
       </div>
-
-
-
-
-
-
-      <div class="column checkout-products-section">
-  <h4>Checkout Products:</h4>
-  <table class="table">
-    <thead>
-            <tr>
-              <th class="text-center">Product Name</th>
-              <th class="text-center">Quantity</th>
-              <th class="text-center">Price</th>
-              <th class="text-center">Total Price</th>
-            </tr>
-          </thead>
-    <tbody>
-      <tr v-for="product in checkedOutProducts" :key="product.cart_id">
-        
-        <td>{{ getInfo(product).prod_name }}</td>
-        <td>${{ getPrice(product).prod_price }}</td>
-        <td>{{ product.quantity }}</td>
-        <td>${{ getTotal(product) }}</td>
-      </tr>
-    </tbody>
-  </table>
-
-</div>
-
-
-<br>
-<br>
-  <br>
-  <br>
-  <br>
-  <Notification v-if="insufficientStockError" :show="insufficientStockError" type="error" message="Insufficient stock for one or more items" />
-  <Notification v-if="notification.show" :show="notification.show" :type="notification.type" :message="notification.message" />
-
-  <Notification v-if="checkoutSuccess" :show="checkoutSuccess" type="success" message="Checkout successful!" />
-  <Notification v-if="checkoutError" :show="checkoutError" type="error" message="Please select items before proceeding with the checkout." />
-
-</div>
-</div>
-	</div>
-      </div>
     </div>
-    <Notification
-  :show="notification.show"
-  :type="notification.type"
-  :message="notification.message"
-/>
-<EndAdmin />
+  </div>
+  <Notification :show="notification.show" :type="notification.type" :message="notification.message" />
+  <EndAdmin />
 </template>
-<style scoped>
-	@import '@/assets/css/bootstrap.min.css'; @import '@/assets/css/style.css';
-	.room { background-image: url('~@/assets/img/shop.jpg'); background-size:
-	cover; background-repeat: no-repeat; background-position: center center;
-	width: 100%; height: 338px; }
-</style>
 
 <script>
-import axios from 'axios';
-import Notification from '@/components/Notification.vue';
-import TopAdmin from '@/components/TopAdmin.vue';
-import HeaderAdmin from '@/components/HeaderAdmin.vue';
-import EndAdmin from '@/components/EndAdmin.vue';
-import SidebarAdmin from '@/components/SidebarAdmin.vue';
+import axios from "axios";
+import Notification from "@/components/Notification.vue";
+import TopAdmin from "@/components/TopAdmin.vue";
+import HeaderAdmin from "@/components/HeaderAdmin.vue";
+import EndAdmin from "@/components/EndAdmin.vue";
+import SidebarAdmin from "@/components/SidebarAdmin.vue";
 
 export default {
-
   components: {
     TopAdmin,
     HeaderAdmin,
@@ -252,11 +228,11 @@ export default {
     SidebarAdmin,
   },
   data() {
-			return {
-        cartCheckedOutIds: [],
+    return {
+      cartCheckedOutIds: [],
       checkedItems: [],
-    checkedOutProducts: [],
-       cart: [],
+      checkedOutProducts: [],
+      cart: [],
       deleteSuccess: false,
       prod_name: [],
       prod_price: [],
@@ -265,29 +241,29 @@ export default {
       checkedItems: [],
       checkoutSuccess: false,
       checkoutError: false,
-      insufficientStockError: false, 
-				shop: [],
-				name: [], 
-				quantity: 1,
-				selectedQuantity: 1, // default quantity
-				notification: {
-      show: false,
-      type: "", // "success" or "error"
-      message: "",
-    },
-			}
-		},
-		mounted() {
-      this.getCart();
+      insufficientStockError: false,
+      shop: [],
+      name: [],
+      quantity: 1,
+      selectedQuantity: 1, // default quantity
+      notification: {
+        show: false,
+        type: "", // "success" or "error"
+        message: "",
+      },
+    };
+  },
+  mounted() {
+    this.getCart();
     this.getInfo();
     this.getPrice();
     this.getImg();
-			this.getShop();
-		},
-		methods: {
-      getCartItem(cartId) {
-    return this.cart.find(cart => cart.cart_id === cartId) || {};
+    this.getShop();
   },
+  methods: {
+    getCartItem(cartId) {
+      return this.cart.find((cart) => cart.cart_id === cartId) || {};
+    },
     async getCart() {
       const id = sessionStorage.getItem("id");
       try {
@@ -297,7 +273,7 @@ export default {
           axios.get("/getShop"),
         ]);
 
-        this.cart = prod.data.map(item => ({
+        this.cart = prod.data.map((item) => ({
           ...item,
           selected: false,
         }));
@@ -312,27 +288,30 @@ export default {
     },
 
     getInfo(prod) {
-  const shop = this.prod_name.find(shop => shop.shop_id === prod.shop_id) || {};
-  console.log(`Product Name: ${shop.prod_name}, Price: ${shop.prod_price}`);
-  return shop;
-},
+      const shop =
+        this.prod_name.find((shop) => shop.shop_id === prod.shop_id) || {};
+      console.log(`Product Name: ${shop.prod_name}, Price: ${shop.prod_price}`);
+      return shop;
+    },
 
     getPrice(prod) {
-      return this.prod_price.find(shop => shop.shop_id === prod.shop_id) || {};
-
+      return (
+        this.prod_price.find((shop) => shop.shop_id === prod.shop_id) || {}
+      );
     },
     getImg(prod) {
-      return this.prod_img.find(shop => shop.shop_id === prod.shop_id) || {};
-
+      return this.prod_img.find((shop) => shop.shop_id === prod.shop_id) || {};
     },
     async deleteCart(delcart) {
-      const confirmResult = await new Promise(resolve => {
-        const confirmDialog = window.confirm("Do you want to DELETE this item?");
+      const confirmResult = await new Promise((resolve) => {
+        const confirmDialog = window.confirm(
+          "Do you want to DELETE this item?"
+        );
         resolve(confirmDialog);
         this.deleteSuccess = true;
-      setTimeout(() => {
-        this.deleteSuccess = false;
-      }, 2000);
+        setTimeout(() => {
+          this.deleteSuccess = false;
+        }, 2000);
       });
 
       if (confirmResult) {
@@ -341,7 +320,7 @@ export default {
             cart_id: delcart,
           });
 
-          this.cart = this.cart.filter(item => item.cart_id !== delcart);
+          this.cart = this.cart.filter((item) => item.cart_id !== delcart);
           this.deleteSuccess = true;
           setTimeout(() => {
             this.deleteSuccess = false;
@@ -357,9 +336,9 @@ export default {
     },
 
     updateQuantity(cart, action) {
-      if (action === 'increment' && cart.quantity < this.getMaxQuantity(cart)) {
+      if (action === "increment" && cart.quantity < this.getMaxQuantity(cart)) {
         cart.quantity++;
-      } else if (action === 'decrement' && cart.quantity > 1) {
+      } else if (action === "decrement" && cart.quantity > 1) {
         cart.quantity--;
       }
 
@@ -369,14 +348,15 @@ export default {
       const item = this.getInfo(cart);
       const newTotal = (item.prod_price || 0) * cart.quantity;
 
-      axios.post("/updateCartQuantity", {
-        cart_id: cart.cart_id,
-        quantity: cart.quantity,
-      })
-        .then(response => {
+      axios
+        .post("/updateCartQuantity", {
+          cart_id: cart.cart_id,
+          quantity: cart.quantity,
+        })
+        .then((response) => {
           console.log(response.data);
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("Error updating quantity:", error);
         });
     },
@@ -386,228 +366,281 @@ export default {
     },
 
     calculateSubtotal() {
-  const subtotal = this.checkedItems.reduce((total, cartId) => {
-    const prod = this.cart.find(item => item.cart_id === cartId);
-    if (prod) {
-      const item = this.getInfo(prod);
-      const itemTotal = (item.prod_price || 0) * prod.quantity;
-      console.log(`Cart ID: ${cartId}, Product Name: ${item.prod_name}, Price: ${item.prod_price}, Item Total: ${itemTotal}`);
-      return total + itemTotal;
-    }
-    return total;
-  }, 0).toFixed(2);
+      const subtotal = this.checkedItems
+        .reduce((total, cartId) => {
+          const prod = this.cart.find((item) => item.cart_id === cartId);
+          if (prod) {
+            const item = this.getInfo(prod);
+            const itemTotal = (item.prod_price || 0) * prod.quantity;
+            console.log(
+              `Cart ID: ${cartId}, Product Name: ${item.prod_name}, Price: ${item.prod_price}, Item Total: ${itemTotal}`
+            );
+            return total + itemTotal;
+          }
+          return total;
+        }, 0)
+        .toFixed(2);
 
-  console.log('Selected Items:', this.checkedItems);
+      console.log("Selected Items:", this.checkedItems);
 
-  return subtotal;
-},
+      return subtotal;
+    },
 
+    async checkout() {
+      try {
+        const id = sessionStorage.getItem("id");
 
+        if (this.checkedItems.length === 0) {
+          console.warn("No items selected for checkout.");
+          this.checkoutError = true;
+          setTimeout(() => {
+            this.checkoutError = false;
+          }, 3000);
+          return;
+        }
 
-async checkout() {
-  try {
-    const id = sessionStorage.getItem("id");
+        const orderItems = this.checkedItems.map((cartId) => {
+          const cart = this.cart.find((cart) => cart.cart_id === cartId);
+          const shop_id = cart ? cart.shop_id : null;
 
-    if (this.checkedItems.length === 0) {
-      console.warn("No items selected for checkout.");
-      this.checkoutError = true;
-      setTimeout(() => {
-        this.checkoutError = false;
-      }, 3000);
-      return;
-    }
+          return {
+            shop_id: shop_id,
+            quantity: cart ? cart.quantity : 0,
+            total_price: this.getTotal(cart),
+          };
+        });
 
-    const orderItems = this.checkedItems.map(cartId => {
-      const cart = this.cart.find(cart => cart.cart_id === cartId);
-      const shop_id = cart ? cart.shop_id : null;
-
-      return {
-        shop_id: shop_id,
-        quantity: cart ? cart.quantity : 0,
-        total_price: this.getTotal(cart),
-      };
-    });
-
-    const orderData = {
-      id: id,
-      status: 'pending',
-      total_price: parseFloat(this.calculateSubtotal()),
-      items: orderItems,
-    };
-
-    const response = await axios.post('checkout', orderData);
-
-    if (response.status === 400) {
-      console.warn("Insufficient stock for one or more items");
-      this.notification = {
-        show: true,
-        type: 'error',
-        message: 'Insufficient stock for one or more items',
-      };
-      setTimeout(() => {
-        this.notification = {
-          show: false,
-          type: '',
-          message: '',
+        const orderData = {
+          id: id,
+          status: "pending",
+          total_price: parseFloat(this.calculateSubtotal()),
+          items: orderItems,
         };
-      }, 3000);
-      return;
-    }
 
-    if (response.status === 200) {
-      const invoice_id = response.data.invoice_id;
+        const response = await axios.post("checkout", orderData);
 
-   
-      const newlyCheckedOutProducts = this.cart.filter(cart => this.checkedItems.includes(cart.cart_id));
+        if (response.status === 400) {
+          console.warn("Insufficient stock for one or more items");
+          this.notification = {
+            show: true,
+            type: "error",
+            message: "Insufficient stock for one or more items",
+          };
+          setTimeout(() => {
+            this.notification = {
+              show: false,
+              type: "",
+              message: "",
+            };
+          }, 3000);
+          return;
+        }
 
-    
-      this.checkedOutProducts.push(...newlyCheckedOutProducts);
+        if (response.status === 200) {
+          const invoice_id = response.data.invoice_id;
 
-   
-      this.cart = this.cart.filter(cart => !this.checkedItems.includes(cart.cart_id));
+          const newlyCheckedOutProducts = this.cart.filter((cart) =>
+            this.checkedItems.includes(cart.cart_id)
+          );
 
-      this.checkoutSuccess = true;
-      setTimeout(() => {
-        this.checkoutSuccess = false;
-        this.checkedItems = []; 
-       
-      }, 2000);
-    } else {
-      console.error('Checkout failed:', response.data.message);
-    }
-  } catch (error) {
-    console.error('Checkout Error:', error);
-  }
-},
+          this.checkedOutProducts.push(...newlyCheckedOutProducts);
 
+          this.cart = this.cart.filter(
+            (cart) => !this.checkedItems.includes(cart.cart_id)
+          );
 
+          this.checkoutSuccess = true;
+          setTimeout(() => {
+            this.checkoutSuccess = false;
+            this.checkedItems = [];
+          }, 2000);
+        } else {
+          console.error("Checkout failed:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Checkout Error:", error);
+      }
+    },
 
+    check(cartId) {
+      const index = this.checkedItems.indexOf(cartId);
 
-
-
-check(cartId) {
-  const index = this.checkedItems.indexOf(cartId);
-
-  if (index === -1) {
-    this.checkedItems = [...this.checkedItems, cartId];
-  } else {
-    this.checkedItems = this.checkedItems.filter(item => item !== cartId);
-  }
-  console.log('Selected Items:', this.checkedItems);
-},
-  
+      if (index === -1) {
+        this.checkedItems = [...this.checkedItems, cartId];
+      } else {
+        this.checkedItems = this.checkedItems.filter((item) => item !== cartId);
+      }
+      console.log("Selected Items:", this.checkedItems);
+    },
 
     getcheckedItems() {
-      return this.cart.filter(item => item.selected);
+      return this.cart.filter((item) => item.selected);
     },
-			updateRating(shop_id, rating) {
+    updateRating(shop_id, rating) {
       this.submitRatingToBackend(shop_id, rating);
     },
-	updateQuantity(amount) {
-    // Update quantity based on the plus or minus button clicked
-    this.quantity += amount;
-    // Ensure quantity is at least 1
-    if (this.quantity < 1) {
-      this.quantity = 1;
-    }
-  },
+    updateQuantity(amount) {
+      // Update quantity based on the plus or minus button clicked
+      this.quantity += amount;
+      // Ensure quantity is at least 1
+      if (this.quantity < 1) {
+        this.quantity = 1;
+      }
+    },
     async submitRatingToBackend(shop_id, rating) {
       try {
-        const response = await axios.post("/submit-rating", { shop_id, rating });
+        const response = await axios.post("/submit-rating", {
+          shop_id,
+          rating,
+        });
         console.log(response.data);
       } catch (error) {
         console.error(error);
       }
-	},
-			async getFeed() {
-				const[g, n] = await Promise.all([axios.get("/getFeedback"), axios.get("/getData")]);
-				this.feed = g.data;
-				this.name = n.data;
-			},
-			getName(g) {
-				return this.name.find(n => n.id === g.id) || {};
-			},
-			async getRoom() {
-				const r = await axios.get("/getRoom");
-				this.room = r.data;
-			},
-			async getShop() {
-				const s = await axios.get("/getShop");
-				this.shop = s.data;
-			},
-			updateQuantity(product, increment) {
-    product.selectedQuantity = (product.selectedQuantity || 0) + increment;
+    },
+    async getFeed() {
+      const [g, n] = await Promise.all([
+        axios.get("/getFeedback"),
+        axios.get("/getData"),
+      ]);
+      this.feed = g.data;
+      this.name = n.data;
+    },
+    getName(g) {
+      return this.name.find((n) => n.id === g.id) || {};
+    },
+    async getRoom() {
+      const r = await axios.get("/getRoom");
+      this.room = r.data;
+    },
+    async getShop() {
+      const s = await axios.get("/getShop");
+      this.shop = s.data;
+    },
+    updateQuantity(product, increment) {
+      product.selectedQuantity = (product.selectedQuantity || 0) + increment;
 
-    if (product.selectedQuantity < 0) {
-      product.selectedQuantity = 0;
-    }
-  },
+      if (product.selectedQuantity < 0) {
+        product.selectedQuantity = 0;
+      }
+    },
 
-  async addCart(shop_id, quantity) {
-  try {
-    const id = sessionStorage.getItem("id");
-    const product = this.shop.find(item => item.shop_id === shop_id);
-	const quantity = this.selectedQuantity; 
+    async addCart(shop_id, quantity) {
+      try {
+        const id = sessionStorage.getItem("id");
+        const product = this.shop.find((item) => item.shop_id === shop_id);
+        const quantity = this.selectedQuantity;
 
-    if (product.prod_quantity >= quantity) {
-      const response = await axios.post("getCart", {
-        shop_id: shop_id,
-        id: id,
-        quantity: quantity, 
-      });
+        if (product.prod_quantity >= quantity) {
+          const response = await axios.post("getCart", {
+            shop_id: shop_id,
+            id: id,
+            quantity: quantity,
+          });
 
-	  this.showSuccessNotification("Product added to cart successfully");
+          this.showSuccessNotification("Product added to cart successfully");
 
+          setTimeout(() => {
+            this.successMessage = "";
+          }, 2000);
+        } else {
+          this.showErrorNotification("Product is out of stock");
+        }
+      } catch (error) {
+        console.error("Error adding to cart", error);
+      }
+    },
+    showSuccessNotification(message) {
+      this.notification = {
+        show: true,
+        type: "success",
+        message: message,
+      };
 
       setTimeout(() => {
-        this.successMessage = "";
+        this.notification.show = false;
       }, 2000);
-    } else {
-        this.showErrorNotification("Product is out of stock");
-    }
-  } catch (error) {
-    console.error("Error adding to cart", error);
-  }
-},  showSuccessNotification(message) {
-    this.notification = {
-      show: true,
-      type: "success",
-      message: message,
-    };
+    },
+    showErrorNotification(message) {
+      this.notification = {
+        show: true,
+        type: "error",
+        message: message,
+      };
 
-    setTimeout(() => {
-      this.notification.show = false;
-    }, 2000);
-  },
-  showErrorNotification(message) {
-    this.notification = {
-      show: true,
-      type: "error",
-      message: message,
-    };
+      setTimeout(() => {
+        this.notification.show = false;
+      }, 2000);
+    },
+    async checkout() {
+      try {
+        const id = sessionStorage.getItem("id");
 
-    setTimeout(() => {
-      this.notification.show = false;
-    }, 2000);
-  },
-async checkout() {
-        const confirmed = window.confirm("Proceed to checkout?");
-        if (confirmed) {
-            try {
-                const response = await axios.post("/checkout", {
-                    id: sessionStorage.getItem("id"),
-                    cart: this.cart,
-                    payment_method: 'your_payment_method',
-                });
-
-                console.log(response.data);
-
-            } catch (error) {
-                console.error("Error during checkout:", error);
-            }
+        if (this.checkedItems.length === 0) {
+          console.warn("No items selected for checkout.");
+          this.checkoutError = true;
+          setTimeout(() => {
+            this.checkoutError = false;
+          }, 3000);
+          return;
         }
-	}
-		}
+
+        const orderItems = this.checkedItems.map((cartId) => {
+          const cart = this.cart.find((cart) => cart.cart_id === cartId);
+          const shop_id = cart ? cart.shop_id : null;
+
+          return {
+            shop_id: shop_id,
+            quantity: cart ? cart.quantity : 0,
+            total_price: this.getTotal(cart),
+          };
+        });
+
+        const orderData = {
+          id: id,
+          status: "pending",
+          total_price: parseFloat(this.calculateSubtotal()),
+          items: orderItems,
+        };
+
+        const response = await axios.post("checkoutpos", orderData);
+
+        if (response.status === 400) {
+          console.warn("Insufficient stock for one or more items");
+          this.notification = {
+            show: true,
+            type: "error",
+            message: "Insufficient stock for one or more items",
+          };
+          setTimeout(() => {
+            this.notification = {
+              show: false,
+              type: "",
+              message: "",
+            };
+          }, 3000);
+          return;
+        }
+
+        if (response.status === 200) {
+          const invoice_id = response.data.invoice_id;
+          this.checkoutSuccess = true;
+          setTimeout(() => {
+            this.checkoutSuccess = false;
+            this.cart = this.cart.filter(
+              (cart) => !this.checkedItems.includes(cart.cart_id)
+            );
+            this.checkedItems = [];
+            // this.$router.push({ name: 'invoice', params: { invoice_id: invoice_id } });
+          }, 2000);
+        } else {
+          console.error("Checkout failed:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Checkout Error:", error);
+      }
+    },
+  },
 };
 </script>
 

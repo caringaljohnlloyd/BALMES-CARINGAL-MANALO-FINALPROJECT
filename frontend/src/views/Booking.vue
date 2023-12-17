@@ -134,7 +134,6 @@
           placeholder="Number of Child"
           v-model="child"
           class="form-control"
-          required
         />
       </div>
     </div>

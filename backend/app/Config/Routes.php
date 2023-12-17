@@ -51,17 +51,15 @@ $routes->delete('/deleteShop/(:num)', 'MainController::deleteShop/$1');
 $routes->delete('/deleteRoom/(:num)', 'MainController::deleteRoom/$1');
 $routes->post('/api/feedback/hide/(:num)', 'MainController::deleteFeedback/$1');
 $routes->post('/api/staffback/hide/(:num)', 'MainController::hideStaff/$1');
-
-
+$routes->post('/checkoutpos', 'MainController::checkoutpos');
 $routes->post('/saveRoom', 'MainController::saveRoom');
 $routes->get('/api/user-orders', 'MainController::getUserOrders');
 $routes->post('/api/mark-order-paid/(:num)', 'MainController::markOrderPaid/$1');
 $routes->post('/api/confirm-order/(:num)', 'MainController::confirmOrder/$1');
+$routes->post('/api/decline-booking/(:num)', 'MainController::declineBooking/$1');
+$routes->post('/api/decline-order/(:num)', 'MainController::declineOrder/$1');
 
 
-
-
-//di pa okay
 $routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {
     $routes->post('reset-password', 'MainController::resetPassword');
 });
