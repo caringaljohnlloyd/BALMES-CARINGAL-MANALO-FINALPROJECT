@@ -170,6 +170,7 @@ export default {
             return feed;
           });
           console.log('Feedback hidden successfully');
+          this.getFeed();
         } catch (error) {
           console.error('Error hiding feedback:', error);
         }

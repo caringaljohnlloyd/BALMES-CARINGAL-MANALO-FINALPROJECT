@@ -251,9 +251,7 @@
       <div class="form-group">
         <label for="price">Room Price</label>
         <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">$</span>
-          </div>
+         
           <input type="number" class="form-control" placeholder="Price" v-model="editedRoom.price">
         </div>
       </div>

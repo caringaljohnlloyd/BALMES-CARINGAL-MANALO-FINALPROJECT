@@ -337,7 +337,6 @@ export default {
       numberOfClients: 0,
       numberOfRooms: 0,
       numberOfStaffs: 0,
-      pool: [],
       room:[],
       name: [],
       user:[],
@@ -352,7 +351,6 @@ export default {
 
   mounted() {
     this.getFeed();
-    this.getPool();
     this.getData();
     this.getName();
     this.getUser();
@@ -386,10 +384,6 @@ export default {
 
     getName(g) {
       return this.name.find((n) => n.id === g.id) || {};
-    },
-    async getPool() {
-      const p = await axios.get("/getPool");
-      this.pool = p.data;
     },
     async getData() {
       const response = await axios.get("/getData");

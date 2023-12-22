@@ -58,6 +58,7 @@ $routes->post('/api/mark-order-paid/(:num)', 'MainController::markOrderPaid/$1')
 $routes->post('/api/confirm-order/(:num)', 'MainController::confirmOrder/$1');
 $routes->post('/api/decline-booking/(:num)', 'MainController::declineBooking/$1');
 $routes->post('/api/decline-order/(:num)', 'MainController::declineOrder/$1');
+$routes->get('getNotif', 'MainController::getNotifications');
 
 
 $routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {

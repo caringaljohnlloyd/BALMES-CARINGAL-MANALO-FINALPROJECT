@@ -12,7 +12,7 @@ class OrdersModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id','order_status','created_at','updated_at','total_price'];
+    protected $allowedFields    = ['id','order_status','created_at','updated_at','total_price','order_payment_method'];
 
     // Dates
     protected $useTimestamps = false;

@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class BookingModel extends Model
+class NotificationModel extends Model
 {
-    protected $table            = 'booking';
-    protected $primaryKey       = 'book_id';
+    protected $table            = 'notifications';
+    protected $primaryKey       = 'notification_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id','checkin','checkout','adult','child','specialRequest','room_id','booking_status','payment_method','message'];
+    protected $allowedFields    = ['id','notification_type','message','created_at'];
 
     // Dates
     protected $useTimestamps = false;

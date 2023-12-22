@@ -188,19 +188,21 @@ public function getStaff()
         $data = $main->findAll();
         return $this->respond($data, 200);
     }
-    public function getbook()
-    {
-        $bookingModel = new BookingModel();
-        $result = $bookingModel
-            ->select('booking.*, user.*, room.*')
-            ->join('user', 'user.id = booking.id') 
-            ->join('room', 'room.room_id = booking.room_id')
-            ->where('booking.booking_status !=', 'paid') // Exclude rows where status is 'paid'
-            ->where('booking.booking_status !=', 'declined') // Exclude rows where status is 'declined'
-            ->findAll();
+   public function getBook()
+{
+    $bookingModel = new BookingModel();
     
-        return $this->respond($result, 200);    
-    }
+    $result = $bookingModel
+        ->select('booking.*, user.*, room.*')
+        ->join('user', 'user.id = booking.id') // Assuming 'user_id' is the foreign key in the 'booking' table
+        ->join('room', 'room.room_id = booking.room_id')
+        ->where('booking.booking_status !=', 'paid')
+        ->where('booking.booking_status !=', 'declined')
+        ->findAll();
+
+    return $this->respond($result, 200);
+}
+
     
     public function acceptBooking($booking_id)
     {
@@ -274,19 +276,19 @@ public function getStaff()
             'payment_method' => $json->payment_method,
         ];
     
+        // Check if the total persons exceed bed capacity
+        $totalPersons = ceil($json->adult / 2) + ceil($json->child / 2); // 2 adults or 2 children or both for 1 bed
+        $bedCapacity = $booked['bed'];
+    
+        if ($totalPersons > $bedCapacity) {
+            return $this->respond(['message' => 'Booking failed. Exceeds bed capacity.'], 400);
+        }
+    
         $booking = new BookingModel();
         $r = $booking->save($data);
     
         if ($r) {
-            $totalPersons = $json->adult + $json->child;
-    
-            $bedCapacity = $booked['bed'];
-    
-            if ($totalPersons <= $bedCapacity) {
-                $bookedr = $this->room->update($booked['room_id'], ['room_status' => 'pending']);
-            } else {
-                return $this->respond(['message' => 'Booking failed. Exceeds bed capacity.'], 400);
-            }
+            $bookedr = $this->room->update($booked['room_id'], ['room_status' => 'pending']);
     
             if ($bookedr) {
                 return $this->respond(['message' => 'Booked successfully', 'booking' => $r, 'room' => $booked], 200);
@@ -296,7 +298,10 @@ public function getStaff()
         } else {
             return $this->respond(['message' => 'Booking failed'], 500);
         }
-    }  
+    }
+    
+    
+    
     public function declineBooking($booking_id)
     {
         $roomModel = new RoomModel();
@@ -307,8 +312,10 @@ public function getStaff()
         if ($booking) {
             // Check if the booking status is 'pending'
             if ($booking['booking_status'] === 'pending') {
-                // Update the booking status to 'declined'
-                $updatedBooking = $bookingModel->update($booking['book_id'], ['booking_status' => 'declined']);
+                // Update the booking status to 'declined' and add a message
+                $updatedBooking = $bookingModel->update($booking['book_id'], [
+                    'booking_status' => 'declined',
+                    'message' => 'Booking declined.']);
     
                 if ($updatedBooking) {
                     // Optional: Update the room status or perform any other necessary actions
@@ -326,6 +333,7 @@ public function getStaff()
             return $this->respond(['message' => 'Booking not found'], 404);
         }
     }
+    
     
     
 
@@ -607,6 +615,7 @@ public function getStaff()
             'id' => $id,
             'order_status' => 'pending',
             'total_price' => $json->total_price,
+            'order_payment_method' =>$json->order_payment_method
         ];
     
         $this->orders->save($order);

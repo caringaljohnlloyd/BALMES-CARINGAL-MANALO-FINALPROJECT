@@ -62,15 +62,7 @@
       <div class="floating-container">
         <div class="container">
           <div class="shopping-cart-footer">
-            <div class="column coupon-section">
-              <form class="coupon-form" method="post">
-                <input class="form-control form-control-sm" type="text" placeholder="Coupon code" required>
-                <br>
-                <div>
-                  <button class="btn btn-outline-primary btn-sm" type="submit">Apply Coupon</button>
-                </div>
-              </form>
-            </div>
+           
 <!-- invoice section-->
           
 <div class="column text-lg invoice-section sticky-column">
@@ -97,6 +89,27 @@
       <div class="column checkout-button-section">
               <div class="shopping-cart-footer">
                 <div class="column">
+                  <div class="payment-form">
+      <h4>Select Payment Method:</h4>
+      <div>
+        <label>
+          <input type="radio" v-model="paymentMethod" value="credit_card">
+          Credit Card
+        </label>
+      </div>
+      <div>
+        <label>
+          <input type="radio" v-model="paymentMethod" value="paypal">
+          PayPal
+        </label>
+      </div>
+      <div>
+        <label>
+          <input type="radio" v-model="paymentMethod" value="cash">
+          Cash
+        </label>
+      </div>
+      
                   <a class="btn btn-dark" @click="checkout">Proceed to Checkout</a>
                   
                 </div>
@@ -119,8 +132,8 @@
     <thead>
             <tr>
               <th class="text-center">Product Name</th>
-              <th class="text-center">Quantity</th>
               <th class="text-center">Price</th>
+              <th class="text-center">Quantity</th>
               <th class="text-center">Total Price</th>
             </tr>
           </thead>
@@ -153,6 +166,7 @@
   <spinner />
 </div>
 </div>
+</div>
 
 </template>
 
@@ -175,6 +189,7 @@ export default {
   },
   data() {
     return {
+      paymentMethod: null, // Add the payment method you want to capture
       cartCheckedOutIds: [],
       checkedItems: [],
     checkedOutProducts: [],
@@ -205,6 +220,9 @@ export default {
 
   },
   methods: {
+    handlePaymentSelection(paymentMethod) {
+      this.paymentMethod = paymentMethod;
+    },
     getCartItem(cartId) {
     return this.cart.find(cart => cart.cart_id === cartId) || {};
   },
@@ -323,7 +341,6 @@ export default {
 },
 
 
-
 async checkout() {
   try {
     const id = sessionStorage.getItem("id");
@@ -333,6 +350,23 @@ async checkout() {
       this.checkoutError = true;
       setTimeout(() => {
         this.checkoutError = false;
+      }, 3000);
+      return;
+    }
+
+    if (!this.paymentMethod) {
+      console.warn("Please select a payment method.");
+      this.notification = {
+        show: true,
+        type: 'error',
+        message: 'Please select a payment method.',
+      };
+      setTimeout(() => {
+        this.notification = {
+          show: false,
+          type: '',
+          message: '',
+        };
       }, 3000);
       return;
     }
@@ -353,6 +387,7 @@ async checkout() {
       status: 'pending',
       total_price: parseFloat(this.calculateSubtotal()),
       items: orderItems,
+      order_payment_method: this.paymentMethod, 
     };
 
     const response = await axios.post('checkout', orderData);
@@ -377,20 +412,16 @@ async checkout() {
     if (response.status === 200) {
       const invoice_id = response.data.invoice_id;
 
-   
       const newlyCheckedOutProducts = this.cart.filter(cart => this.checkedItems.includes(cart.cart_id));
 
-    
       this.checkedOutProducts.push(...newlyCheckedOutProducts);
 
-   
       this.cart = this.cart.filter(cart => !this.checkedItems.includes(cart.cart_id));
 
       this.checkoutSuccess = true;
       setTimeout(() => {
         this.checkoutSuccess = false;
         this.checkedItems = []; 
-       
       }, 2000);
     } else {
       console.error('Checkout failed:', response.data.message);
@@ -399,6 +430,7 @@ async checkout() {
     console.error('Checkout Error:', error);
   }
 },
+
 
 
 
